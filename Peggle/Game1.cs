@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -16,8 +17,9 @@ namespace Peggle
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
+        internal static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
 
         public Game1()
         {
@@ -34,6 +36,7 @@ namespace Peggle
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Components.Add(new Shooter(this, Color.Red, new Rectangle(360, 0, 80, 20)));
 
             base.Initialize();
         }
@@ -66,6 +69,8 @@ namespace Peggle
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+            Debug.WriteLine(graphics.GraphicsDevice.Viewport.Height);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
