@@ -18,6 +18,8 @@ namespace Peggle
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         internal static GraphicsDeviceManager graphics;
+        internal static ContentManager cm;
+        public static List<Entity> entities { private set; get; }
         SpriteBatch spriteBatch;
 
 
@@ -25,6 +27,7 @@ namespace Peggle
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            cm = Content;
         }
 
         /// <summary>
@@ -35,8 +38,12 @@ namespace Peggle
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            entities = new List<Entity>();
+
             Components.Add(new Shooter(this, Color.Red, new Rectangle(360, 0, 80, 20), PlayerInput.getInstance()));
+
+            addGameComponent(new Ball(this, new Location(10,10,10,10)));
+           
 
             base.Initialize();
         }
@@ -86,11 +93,31 @@ namespace Peggle
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        public void addGameComponent(GameComponent gameComponent)
+        {
+            Components.Add(gameComponent);
+
+            if (gameComponent is Entity)
+            {
+                entities.Add((Entity)gameComponent);
+            }
+        }
+
+        public void removeGameComponent(GameComponent gameComponent)
+        {
+            Components.Remove(gameComponent);
+
+            if (gameComponent is Entity)
+            {
+                entities.Remove((Entity)gameComponent);
+            }
         }
     }
 }

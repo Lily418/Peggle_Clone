@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    struct Location
+    public struct Location
     {
-        float x;
-        float y;
-        float width;
-        float height;
-        float angle;
+        public float x { private set; get; }
+        public float y { private set; get; }
+        public float width { private set; get; }
+        public float height { private set; get; }
+        public float angle { private set; get; }
 
-        public Location(float x, float y, float height, float width)
+        //Calling the this() constructor initializes the fields so they can be assigned
+        public Location(float x, float y, float height, float width) : this()
         {
             this.x = x;
             this.y = y;
@@ -25,6 +27,11 @@ namespace Peggle
         public Location(float x, float y, float height, float width, float angle) : this(x,y,height,width)
         {
             this.angle = angle;
+        }
+
+        public Rectangle asRectangle()
+        {
+            return new Rectangle((int)x, (int)y, (int)width, (int)height);
         }
 
     }

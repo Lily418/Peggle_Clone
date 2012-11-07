@@ -6,8 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Peggle
 {
-    interface Entity
+    public interface Entity
     {
-        List<Location> getLocations();
+        Location getLocation();
     }
 }
