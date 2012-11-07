@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -12,16 +13,23 @@ namespace Peggle
         float aimingAngle = 0;
         Color color;
         Rectangle basePosition;
+        IShooterController shooterController;
 
-        public Shooter(Game game, Color color, Rectangle basePosition) : base(game)
+        public Shooter(Game game, Color color, Rectangle basePosition, IShooterController controller) : base(game)
         {
             this.basePosition = basePosition;
             this.color = color;
+            this.shooterController = controller;
         }
 
         public override void Update(GameTime gameTime)
         {
-            aimingAngle -= 0.02f;
+            ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime.TotalGameTime);
+            aimingAngle += nextInstruction.movementDirection;
+
+            aimingAngle = MathHelper.Clamp(aimingAngle, -1.2f, 1.2f);
+
+
         }
 
         public override void Draw(GameTime gameTime)
@@ -35,8 +43,10 @@ namespace Peggle
 
             int pipeWidth = basePosition.Width / 4;
             int pipeHeight = basePosition.Height * 4;
-            Rectangle pipePosition = new Rectangle(basePosition.Center.X - (pipeWidth/2), basePosition.Y, pipeWidth, pipeHeight);
-            sb.Draw(draw.dummyTexture, pipePosition, null, color, aimingAngle, new Vector2(0, 0), SpriteEffects.None, 0);
+            Rectangle pipePosition = new Rectangle(basePosition.Center.X, basePosition.Y, pipeWidth, pipeHeight);
+            sb.Draw(draw.dummyTexture, pipePosition, null, color, aimingAngle, new Vector2(0.5f, 0), SpriteEffects.None, 0);
+
+
 
             sb.End();
 

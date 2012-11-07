@@ -9,7 +9,7 @@ namespace Peggle
 {
     static class EventHanders
     {
-        public static EventHandler<PlayerInputArgs> playerInput;
+        //public static EventHandler<PlayerInputArgs> playerInput;
 
         public static void raiseEvent(EventArgs e, EventType type)
         {
@@ -17,14 +17,14 @@ namespace Peggle
             {
                 switch (type)
                 {
-                    case EventType.PlayerInput:
+                    //case EventType.PlayerInput:
 
-                        if (playerInput != null)
-                        {
-                            playerInput("EventHandler", (PlayerInputArgs)e);
-                        }
+                        //if (playerInput != null)
+                        //{
+                            //playerInput("EventHandler", (PlayerInputArgs)e);
+                        //}
 
-                        break;
+                        //break;
                 }
             }
             catch (InvalidCastException)

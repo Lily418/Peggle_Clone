@@ -6,8 +6,8 @@ using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    class LevelLoader
+    interface IShooterController
     {
-
+        ShooterInstructions getShooterInstructions(TimeSpan elapsedTime);
     }
 }

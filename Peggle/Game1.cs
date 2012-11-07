@@ -36,7 +36,7 @@ namespace Peggle
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Components.Add(new Shooter(this, Color.Red, new Rectangle(360, 0, 80, 20)));
+            Components.Add(new Shooter(this, Color.Red, new Rectangle(360, 0, 80, 20), PlayerInput.getInstance()));
 
             base.Initialize();
         }
@@ -70,7 +70,7 @@ namespace Peggle
         protected override void Update(GameTime gameTime)
         {
 
-            Debug.WriteLine(graphics.GraphicsDevice.Viewport.Height);
+            //Debug.WriteLine(graphics.GraphicsDevice.Viewport.Height);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
