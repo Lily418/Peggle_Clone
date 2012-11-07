@@ -6,32 +6,33 @@ using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    public struct Location
+    public class Location
     {
-        public float x { private set; get; }
-        public float y { private set; get; }
-        public float width { private set; get; }
-        public float height { private set; get; }
-        public float angle { private set; get; }
+        public Vector2 topLeft { set; get; }
+        public float width {set; get; }
+        public float height {set; get; }
+        public float angle {set; get; }
+        public float X { get {return topLeft.X; } }
+        public float Y { get { return topLeft.Y; } }
 
-        //Calling the this() constructor initializes the fields so they can be assigned
-        public Location(float x, float y, float height, float width) : this()
+
+
+        public Location(Vector2 location, float height, float width)
         {
-            this.x = x;
-            this.y = y;
+            this.topLeft = location;
             this.width = width;
             this.height = height;
             this.angle = 0;
         }
 
-        public Location(float x, float y, float height, float width, float angle) : this(x,y,height,width)
+        public Location(Vector2 location, float height, float width, float angle) : this(location,height,width)
         {
             this.angle = angle;
         }
 
         public Rectangle asRectangle()
         {
-            return new Rectangle((int)x, (int)y, (int)width, (int)height);
+            return new Rectangle((int)X, (int)Y, (int)width, (int)height);
         }
 
     }

@@ -42,7 +42,9 @@ namespace Peggle
 
             Components.Add(new Shooter(this, Color.Red, new Rectangle(360, 0, 80, 20), PlayerInput.getInstance()));
 
-            addGameComponent(new Ball(this, new Location(10,10,10,10)));
+            //addGameComponent(new Ball(this, new Location(new Vector2(400,10),10,10), MathHelper.PiOver4));
+
+            Components.Add(new PhysicsProcessing(this));
            
 
             base.Initialize();
@@ -77,12 +79,12 @@ namespace Peggle
         protected override void Update(GameTime gameTime)
         {
 
-            //Debug.WriteLine(graphics.GraphicsDevice.Viewport.Height);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
             // TODO: Add your update logic here
+
 
             base.Update(gameTime);
         }

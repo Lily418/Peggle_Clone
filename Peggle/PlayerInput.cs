@@ -43,12 +43,18 @@ namespace Peggle
                     shooterMovement -= 0.05f;
                 }
 
-                if (currentKeyboardState.IsKeyDown(Keys.Space))
+                if (currentKeyboardState.IsKeyDown(Keys.S))
                 {
                     shooterMovement /= 5.0f;
                 }
 
-                shooterInstructions = new ShooterInstructions(shooterMovement);
+                bool fireBall = false;
+                if(currentKeyboardState.IsKeyDown(Keys.Space))
+                {
+                    fireBall = true;
+                }
+
+                shooterInstructions = new ShooterInstructions(shooterMovement, fireBall);
                 inputLastUpdated = currentElapsedTime;
 
                 

@@ -4,18 +4,22 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Peggle
 {
-    class Ball : DrawableGameComponent, IPhysicsData
+    class Ball : DrawableGameComponent, IEntityPhysics
     {
         static Texture2D texture;
         Color color;
-        Location currentLocation;
+        public Location location { get; set; }
 
-        public Ball(Game game, Location startingLocation) : base (game)
+        public Vector2 velocity { get; set; }
+        public float maxSpeed { get; set; }
+
+        public Ball(Game game, Location startingLocation, float angle) : base (game)
         {
-            currentLocation = startingLocation;
+            location = startingLocation;
             color = RandomHelper.randomColor();
 
             if (texture == null)
@@ -24,12 +28,13 @@ namespace Peggle
                 texture = drawHelper.circleTexture;
             }
 
-        }
+            velocity = new PolarCoordinate(20.0f, angle).toCartesian();
+
+            maxSpeed = 10;
+
+            
 
 
-        public Location getLocation()
-        {
-            return currentLocation;
         }
 
         public override void Draw(GameTime gameTime)
@@ -38,7 +43,7 @@ namespace Peggle
             SpriteBatch sb = drawHelper.sb;
 
             sb.Begin();
-            sb.Draw(texture, currentLocation.asRectangle(), color);
+            sb.Draw(texture, location.asRectangle(), color);
             sb.End();
         }
     }

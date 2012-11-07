@@ -8,6 +8,6 @@ namespace Peggle
 {
     public interface Entity
     {
-        Location getLocation();
+        Location location { get; set; }
     }
 }
