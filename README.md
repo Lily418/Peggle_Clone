@@ -1,4 +1,4 @@
 Peggle_Clone
 ============
 
-A Peggle Clone I am create as a work-sample.
+A Peggle Clone I am creating as a work-sample.
