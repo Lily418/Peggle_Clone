@@ -43,16 +43,13 @@ namespace Peggle
                 if (nextInstruction.fireBall)
                 {
                     float angle = aimingAngle;
-
-
-                    Debug.WriteLine(angle );
                     ball = new Ball((Game)game, calculateBallStartingLocation(), angle);
                     game.addGameComponent(ball);
                 }
             }
 
             //DEBUG CODE
-            else if (!Game1.graphics.GraphicsDevice.Viewport.Bounds.Contains(ball.location.topLeft.toPoint()))
+            else if (Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < ball.location.topLeft.toPoint().Y)
             {
                 game.removeGameComponent(ball);
                 ball = null;

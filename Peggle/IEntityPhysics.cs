@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    interface IEntityPhysics : Entity
+    public interface IEntityPhysics : Entity
     {
         Vector2 velocity { get; set; }
         float maxSpeed { get; set; }

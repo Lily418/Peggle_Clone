@@ -14,6 +14,8 @@ namespace Peggle
         public float angle {set; get; }
         public float X { get {return topLeft.X; } }
         public float Y { get { return topLeft.Y; } }
+        public float Left { get { return X; } }
+        public float Right { get { return X + width; } }
 
 
 

@@ -9,7 +9,7 @@ namespace Peggle
 {
     static class EventHanders
     {
-        //public static EventHandler<PlayerInputArgs> playerInput;
+        public static EventHandler<CollisionArgs> collision;
 
         public static void raiseEvent(EventArgs e, EventType type)
         {
@@ -17,14 +17,14 @@ namespace Peggle
             {
                 switch (type)
                 {
-                    //case EventType.PlayerInput:
+                    case EventType.Collision:
 
-                        //if (playerInput != null)
-                        //{
-                            //playerInput("EventHandler", (PlayerInputArgs)e);
-                        //}
+                        if (collision != null)
+                        {
+                            collision("EventHandler", (CollisionArgs)e);
+                        }
 
-                        //break;
+                        break;
                 }
             }
             catch (InvalidCastException)
@@ -33,9 +33,11 @@ namespace Peggle
             }
         }
 
-        public enum EventType
-        {
-            PlayerInput
-        }
+
+    }
+
+    public enum EventType
+    {
+        Collision
     }
 }

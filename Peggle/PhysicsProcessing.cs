@@ -9,7 +9,7 @@ namespace Peggle
 {
     class PhysicsProcessing : GameComponent
     {
-        Vector2 gravity = new Vector2(0, 1f);
+        Vector2 gravity = new Vector2(0, 0.2f);
 
         public PhysicsProcessing(Game game)
             : base(game)
@@ -23,31 +23,19 @@ namespace Peggle
 
 
                 //Gravity
-                //moveableEntity.velocity = Vector2.Add(moveableEntity.velocity, gravity);
-
-                //Friction
-                //moveableEntity.velocity = moveableEntity.velocity.shorten(moveableEntity.velocity.Length() - 0.0001f);
+                moveableEntity.velocity = Vector2.Add(moveableEntity.velocity, gravity);
                 
                 //Limit max speed
                 moveableEntity.velocity = moveableEntity.velocity.shorten(moveableEntity.maxSpeed);
-
-               
-
-
-
-
-
-
-
-
-                
-
-
 
                 moveableEntity.location.topLeft += moveableEntity.velocity;
 
                
             }
+
+            CollisionDetection.checkCollisions();
+
+
         }
 
     }

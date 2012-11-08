@@ -45,6 +45,7 @@ namespace Peggle
             //addGameComponent(new Ball(this, new Location(new Vector2(400,10),10,10), MathHelper.PiOver4));
 
             Components.Add(new PhysicsProcessing(this));
+            Components.Add(new CollisionResolver(this));
            
 
             base.Initialize();

@@ -26,7 +26,6 @@ namespace Peggle
                     currentOrigin -= MathHelper.Pi;
                 }
 
-                Debug.WriteLine("Current Origin" + currentOrigin);
                 vector = new PolarCoordinate(maxLength, currentOrigin).toCartesian();
             }
 
