@@ -10,6 +10,7 @@ namespace Peggle
     static class EventHanders
     {
         public static EventHandler<CollisionArgs> collision;
+        public static EventHandler<BallFallenArgs> ballFallen;
 
         public static void raiseEvent(EventArgs e, EventType type)
         {
@@ -22,6 +23,13 @@ namespace Peggle
                         if (collision != null)
                         {
                             collision("EventHandler", (CollisionArgs)e);
+                        }
+
+                        break;
+                    case EventType.BallFallen:
+                        if (ballFallen != null)
+                        {
+                            ballFallen("EventHandler", (BallFallenArgs)e);
                         }
 
                         break;
@@ -38,6 +46,6 @@ namespace Peggle
 
     public enum EventType
     {
-        Collision
+        Collision, BallFallen
     }
 }

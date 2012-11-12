@@ -15,11 +15,11 @@ namespace Peggle
             {
                 if (moveableEntity.location.Left < 0)
                 {
-                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, float.PositiveInfinity, Vector2.Zero, 0), EventType.Collision);
+                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, 0), EventType.Collision);
                 }
                 else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
                 {
-                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, float.PositiveInfinity, Vector2.Zero, +MathHelper.Pi), EventType.Collision);
+                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, +MathHelper.Pi), EventType.Collision);
                 }
 
                 foreach (Entity otherEntity in Game1.entities.OfType<Entity>())
@@ -36,7 +36,7 @@ namespace Peggle
                             if (collision(movingEntityCircle, otherEntityCircle))
                             {
                                 float hitAngle = Math.Abs(MyMathHelper.angleBetween(movingEntityCircle.origin, otherEntityCircle.origin) + MathHelper.PiOver2);
-                                EventHanders.raiseEvent(new CollisionArgs(moveableEntity, float.PositiveInfinity, Vector2.Zero, hitAngle), EventType.Collision); 
+                                EventHanders.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, float.PositiveInfinity, Vector2.Zero, hitAngle), EventType.Collision); 
                             }
                         }
                         else
@@ -73,12 +73,15 @@ namespace Peggle
     public class CollisionArgs : EventArgs
     {
         public IEntityPhysics collidingObject { private set; get; }
+        //These variables are kept seperatly as they are not part of Entity interface, they are 'Made Up' by the collision detection system
         public float hitObjectWeight { private set; get; }
         public Vector2 hitObjectVelocity { private set; get; }
         public float hitObjectAngle { private set; get; }
+        public Entity hitObject { private set; get; }
 
-        public CollisionArgs(IEntityPhysics collidingObject, float hitObjectWeight, Vector2 hitObjectVelocity, float hitObjectAngle )
+        public CollisionArgs(IEntityPhysics collidingObject, Entity hitObject, float hitObjectWeight, Vector2 hitObjectVelocity, float hitObjectAngle)
         {
+            this.hitObject = hitObject;
             this.collidingObject = collidingObject;
             this.hitObjectWeight = hitObjectWeight;
             this.hitObjectVelocity = hitObjectVelocity;

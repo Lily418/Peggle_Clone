@@ -35,10 +35,6 @@ namespace Peggle
 
             aimingAngle = MathHelper.Clamp(aimingAngle, -1.2f, 1.2f);
 
-            if (ball != null)
-            {
-                Debug.WriteLine(ball.velocity);
-            }
 
             if (ball == null)
             {
