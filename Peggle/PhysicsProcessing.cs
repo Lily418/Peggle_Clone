@@ -9,7 +9,7 @@ namespace Peggle
 {
     class PhysicsProcessing : GameComponent
     {
-        Vector2 gravity = new Vector2(0, 0.2f);
+        Vector2 gravity = new Vector2(0, 0.5f);
 
         public PhysicsProcessing(Game game)
             : base(game)

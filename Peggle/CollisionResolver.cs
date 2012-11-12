@@ -25,8 +25,7 @@ namespace Peggle
 
             PolarCoordinate collidingObjectPolar = collidingObject.velocity.toPolar();
             float newOrigin = reflectAngle(collidingObjectPolar.origin, e.hitObjectAngle);
-
-            Debug.WriteLine(newOrigin);
+            float newRadius = collidingObjectPolar.radius / 10;
 
             collidingObject.velocity = new PolarCoordinate(collidingObjectPolar.radius, newOrigin).toCartesian();
 
@@ -37,34 +36,20 @@ namespace Peggle
             float reverseHitAngle = hitAngle - MathHelper.Pi;
 
 
-            float betweenHitAngle = angleBetween(collidingAngle, hitAngle);
-            float betweenReverseHitAngle = angleBetween(collidingAngle, reverseHitAngle);
+            float betweenHitAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
+            float betweenReverseHitAngle = MyMathHelper.angleBetween(collidingAngle, reverseHitAngle);
 
             if (betweenHitAngle < betweenReverseHitAngle)
             {
-                Debug.WriteLine("Between Hit Angle Smaller");
-                return hitAngle - MathHelper.PiOver2;
+                return hitAngle;
             }
             else
             {
-                Debug.WriteLine("Other Angle");
-                return hitAngle + MathHelper.PiOver2;
+                return reverseHitAngle;
             }
 
         }
 
-        private static float angleBetween(float a, float b)
-        {
-            //new Vector2( cos( angle ), sin ( angle ) )
-            
-            a = MathHelper.WrapAngle(a);
-            b = MathHelper.WrapAngle(b);
 
-            Vector2 vectorA = new Vector2((float)Math.Cos(a), (float)Math.Sin(a));
-            Vector2 vectorB = new Vector2((float)Math.Cos(b), (float)Math.Sin(b));
-
-            //angle_between = acos( Dot( A.normalized, B.normalized ) )
-            return (float)Math.Acos(Vector2.Dot(vectorA, vectorB));
-        }
     }
 }

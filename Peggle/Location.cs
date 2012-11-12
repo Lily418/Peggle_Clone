@@ -16,6 +16,7 @@ namespace Peggle
         public float Y { get { return topLeft.Y; } }
         public float Left { get { return X; } }
         public float Right { get { return X + width; } }
+        public Vector2 Center { get { return new Vector2(X + (width / 2), Y + (height / 2)); } }
 
 
 

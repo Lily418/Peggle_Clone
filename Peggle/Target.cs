@@ -6,17 +6,14 @@ using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    abstract class Target : DrawableGameComponent, Entity
+    abstract class Target : DrawableGameComponent
     {
+
+       
+
         protected Target(Game game)
             : base(game)
         {
-        }
-
-        public abstract Location location
-        {
-            get;
-            set;
         }
     }
 }

@@ -40,12 +40,14 @@ namespace Peggle
         {
             entities = new List<Entity>();
 
-            Components.Add(new Shooter(this, Color.Red, new Rectangle(360, 0, 80, 20), PlayerInput.getInstance()));
+            
 
             //addGameComponent(new Ball(this, new Location(new Vector2(400,10),10,10), MathHelper.PiOver4));
 
-            Components.Add(new PhysicsProcessing(this));
-            Components.Add(new CollisionResolver(this));
+            
+
+            Level level = LevelLoader.loadXML(this, @"Content\level.xml");
+            level.load();
            
 
             base.Initialize();
@@ -101,6 +103,11 @@ namespace Peggle
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        public void clearGameComponents()
+        {
+            Components.Clear();
         }
 
         public void addGameComponent(GameComponent gameComponent)

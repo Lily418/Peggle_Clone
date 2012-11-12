@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Peggle
 {
-    public interface Entity
+    public abstract class Shape
     {
-        Shape boundingBox();
+
     }
 }

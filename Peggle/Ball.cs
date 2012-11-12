@@ -28,10 +28,9 @@ namespace Peggle
                 texture = drawHelper.circleTexture;
             }
 
-            velocity = new PolarCoordinate(20.0f, angle).toCartesian();
+            velocity = new PolarCoordinate(10.0f, angle).toCartesian();
 
-            maxSpeed = 13;
-
+            maxSpeed = 12;
             
 
 
@@ -45,6 +44,11 @@ namespace Peggle
             sb.Begin();
             sb.Draw(texture, location.asRectangle(), color);
             sb.End();
+        }
+
+        public Shape boundingBox()
+        {
+            return Circle.circleFromLocation(location);
         }
     }
 }

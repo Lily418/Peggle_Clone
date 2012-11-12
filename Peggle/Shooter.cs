@@ -35,8 +35,10 @@ namespace Peggle
 
             aimingAngle = MathHelper.Clamp(aimingAngle, -1.2f, 1.2f);
 
-
-            
+            if (ball != null)
+            {
+                Debug.WriteLine(ball.velocity);
+            }
 
             if (ball == null)
             {
@@ -61,7 +63,7 @@ namespace Peggle
 
         private Location calculateBallStartingLocation()
         {
-            const int BALL_DIAMETER = 10;
+            const int BALL_DIAMETER = 20;
             Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Top) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, aimingAngle).toCartesian();
             return new Location(startingVector, BALL_DIAMETER, BALL_DIAMETER);
         }

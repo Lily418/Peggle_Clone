@@ -29,7 +29,7 @@ namespace Peggle
             }
             catch (InvalidCastException)
             {
-                Debug.WriteLine("Event Not Raised, Event: " + e.GetType() +" is not type " + type);
+                Debug.Assert(false, "Event Not Raised, Event: " + e.GetType() +" is not type " + type);
             }
         }
 
