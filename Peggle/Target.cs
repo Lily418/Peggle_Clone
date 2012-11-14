@@ -9,7 +9,7 @@ namespace Peggle
 {
     abstract class Target : DrawableGameComponent
     {
-        bool hit = false;
+        protected bool hit = false;
         protected Game1 game;
 
         protected Target(Game game)
@@ -32,8 +32,7 @@ namespace Peggle
         {
             if (hit)
             {
-                //DEBUG
-                //game.removeGameComponent(this);
+                game.removeGameComponent(this);
             }
         }
 

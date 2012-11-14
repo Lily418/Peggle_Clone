@@ -37,9 +37,10 @@ namespace Peggle
         {
             String positionString = element.Element(XName.Get("Position")).Value;
             String[] positionStringSplit = positionString.Split(',');
-
             Location location = new Location(new Vector2(positionStringSplit[0].toFloat(), positionStringSplit[1].toFloat()), positionStringSplit[2].toFloat(), positionStringSplit[3].toFloat());
-            return new CircularTarget(game, location);
+
+            bool countsTowardsLevelComplete = Convert.ToBoolean(element.Element(XName.Get("LevelCompleteTarget")).Value);
+            return new CircularTarget(game, location, countsTowardsLevelComplete);
 
         }
     }
