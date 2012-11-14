@@ -41,7 +41,13 @@ namespace Peggle
             {
                 if (nextInstruction.fireBall)
                 {
-                    float angle = aimingAngle;
+
+                    //An angle of 0 is facing down for the shooter but 0 is right in the physics system, correct this by adding halfPI
+                    //TODO:Consider rotating shooter recrangle
+                    float angle = aimingAngle + MathHelper.PiOver2;
+
+                     
+                    Debug.WriteLine("Angle: " + angle + "Aiming Angle:" + aimingAngle);
                     ball = new Ball((Game)game, calculateBallStartingLocation(), angle);
                     game.addGameComponent(ball);
                 }
@@ -54,7 +60,8 @@ namespace Peggle
         private Location calculateBallStartingLocation()
         {
             const int BALL_DIAMETER = 20;
-            Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Top) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, aimingAngle).toCartesian();
+            //Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Top) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, aimingAngle).toCartesian();
+            Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y);
             return new Location(startingVector, BALL_DIAMETER, BALL_DIAMETER);
         }
 

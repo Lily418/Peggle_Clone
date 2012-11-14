@@ -15,16 +15,9 @@ namespace Peggle
 
             if (vector.Length() > maxLength)
             {
-
                 
-
                 float currentOrigin = vector.toPolar().origin;
-
-                //Keeps angle in Shooter class consistant against velocity vectors
-                if (vector.X > 0)
-                {
-                    currentOrigin -= MathHelper.Pi;
-                }
+                Debug.WriteLine(currentOrigin);
 
                 vector = new PolarCoordinate(maxLength, currentOrigin).toCartesian();
             }
@@ -36,7 +29,13 @@ namespace Peggle
         {
 
             float r = (float)Math.Sqrt(Math.Pow(cartesian.X, 2) + Math.Pow(cartesian.Y, 2));
-            float origin = (float)Math.Atan(cartesian.Y / cartesian.X) + MathHelper.PiOver2;
+            float origin = (float)Math.Atan(cartesian.Y / cartesian.X);
+
+            //Corrects angle returned by Math.Atan
+            if (cartesian.X < 0)
+            {
+                origin += MathHelper.Pi;
+            }
 
 
             return new PolarCoordinate(r, origin);

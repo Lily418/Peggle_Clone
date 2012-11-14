@@ -9,7 +9,7 @@ namespace Peggle
 {
     class PhysicsProcessing : GameComponent
     {
-        Vector2 gravity = new Vector2(0, 0.005f);
+        Vector2 gravity = new Vector2(0, 0.05f);
 
         public PhysicsProcessing(Game game)
             : base(game)
@@ -27,6 +27,7 @@ namespace Peggle
 
 
                 //Gravity
+
                 moveableEntity.velocity = Vector2.Add(moveableEntity.velocity, gravity);
                 
                 //Limit max speed

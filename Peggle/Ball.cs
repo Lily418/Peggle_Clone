@@ -31,7 +31,7 @@ namespace Peggle
             velocity = new PolarCoordinate(10.0f, angle).toCartesian();
             
 
-            maxSpeed = 2;
+            maxSpeed = 5;
 
        
             

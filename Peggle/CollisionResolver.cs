@@ -32,8 +32,7 @@ namespace Peggle
 
         private static float reflectAngle(float collidingAngle, float hitAngle)
         {
-            Debug.WriteLine(collidingAngle);
-            return collidingAngle;
+            return collidingAngle - MathHelper.Pi;
             //float reverseHitAngle = hitAngle - MathHelper.Pi;
 
 

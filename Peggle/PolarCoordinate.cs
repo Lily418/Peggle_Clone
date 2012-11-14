@@ -20,8 +20,8 @@ namespace Peggle
 
         public Vector2 toCartesian()
         {
-            float x = (float)(radius * Math.Cos(origin + MathHelper.PiOver2));
-            float y = (float)(radius * Math.Sin(origin + MathHelper.PiOver2));
+            float x = (float)(radius * Math.Cos(origin));
+            float y = (float)(radius * Math.Sin(origin));
             return new Vector2(x, y);
         }
 
