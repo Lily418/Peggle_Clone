@@ -47,7 +47,6 @@ namespace Peggle
                     float angle = aimingAngle + MathHelper.PiOver2;
 
                      
-                    Debug.WriteLine("Angle: " + angle + "Aiming Angle:" + aimingAngle);
                     ball = new Ball((Game)game, calculateBallStartingLocation(), angle);
                     game.addGameComponent(ball);
                 }
@@ -89,6 +88,7 @@ namespace Peggle
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
+            Debug.WriteLine("BALL FALLEN");
             game.removeGameComponent(ball);
             ball = null;
         }

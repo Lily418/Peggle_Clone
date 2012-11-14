@@ -17,7 +17,6 @@ namespace Peggle
             {
                 
                 float currentOrigin = vector.toPolar().origin;
-                Debug.WriteLine(currentOrigin);
 
                 vector = new PolarCoordinate(maxLength, currentOrigin).toCartesian();
             }

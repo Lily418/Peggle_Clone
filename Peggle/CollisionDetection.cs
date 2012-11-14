@@ -35,7 +35,7 @@ namespace Peggle
                             Circle otherEntityCircle = (Circle)otherEntityBoundingBox;
                             if (collision(movingEntityCircle, otherEntityCircle))
                             {
-                                float hitAngle = Math.Abs(MyMathHelper.angleBetween(movingEntityCircle.origin, otherEntityCircle.origin));
+                                float hitAngle = Math.Abs(MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin));
                                 EventHanders.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, float.PositiveInfinity, Vector2.Zero, hitAngle), EventType.Collision);
                             }
                         }
