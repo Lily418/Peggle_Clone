@@ -24,39 +24,15 @@ namespace Peggle
             IEntityPhysics collidingObject = e.collidingObject;
 
             PolarCoordinate collidingObjectPolar = collidingObject.velocity.toPolar();
-            float newOrigin = reflectAngle(collidingObjectPolar.origin, e.hitObjectAngle);
+            float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
             float newRadius = collidingObjectPolar.radius / 1.1f;
             collidingObject.velocity = new PolarCoordinate(newRadius, newOrigin).toCartesian();
 
         }
 
-        private static float reflectAngle(float collidingAngle, float hitAngle)
+        private static float bounceAngle(float collidingAngle, float hitAngle)
         {
-            float reverseHitAngle = hitAngle - MathHelper.Pi;
-            float betweenHitAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
-            float betweenReverseHitAngle = MyMathHelper.angleBetween(collidingAngle, reverseHitAngle);
-
-
-            Debug.WriteLine("Colliding Angle: " + collidingAngle);
-            Debug.WriteLine("Hit Angle: " + hitAngle);
-            Debug.WriteLine("Reverse Hit Angle" + reverseHitAngle);
-            Debug.WriteLine("Between Hit Angle" + betweenHitAngle);
-            Debug.WriteLine("Between Reverse Hit Angle" + betweenReverseHitAngle);
-
-            ////Debugger.Break();
-
-            //if (collidingAngle > MathHelper.PiOver2)
-            //{
-            //    Debug.WriteLine("Colliding Angle more than PI");
-            //    return collidingAngle + hitAngle;
-            //}
-            //else
-            //{
-            //    Debug.WriteLine("Colliding Angle less than PI");
-            //    return collidingAngle - hitAngle;
-            //}
-
-            return hitAngle += MathHelper.Pi;
+            return hitAngle += MathHelper.Pi + RandomHelper.randomFloat(-MathHelper.Pi / 4, MathHelper.Pi / 4);
         }
 
 

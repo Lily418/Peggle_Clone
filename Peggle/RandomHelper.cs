@@ -31,6 +31,11 @@ namespace Peggle
             return (byte)random.Next(256);
         }
 
+        public static float randomFloat(float min, float max)
+        {
+            return (float)random.NextDouble() * (max - min) + min;
+        }
+
         
 
 

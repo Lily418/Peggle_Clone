@@ -15,11 +15,11 @@ namespace Peggle
             {
                 if (moveableEntity.location.Left < 0)
                 {
-                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, 0), EventType.Collision);
+                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, MathHelper.Pi), EventType.Collision);
                 }
                 else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
                 {
-                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, +MathHelper.Pi), EventType.Collision);
+                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, 0), EventType.Collision);
                 }
 
                 foreach (Entity otherEntity in Game1.entities.OfType<Entity>())
