@@ -29,11 +29,22 @@ namespace Peggle
             }
 
             velocity = new PolarCoordinate(10.0f, angle).toCartesian();
+            
 
-            maxSpeed = 12;
+            maxSpeed = 2;
+
+       
             
 
 
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.topLeft.toPoint().Y)
+            {
+                EventHanders.raiseEvent(new BallFallenArgs(), EventType.BallFallen);
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -45,6 +56,8 @@ namespace Peggle
             sb.Draw(texture, location.asRectangle(), color);
             sb.End();
         }
+
+
 
         public Shape boundingBox()
         {

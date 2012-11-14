@@ -25,28 +25,40 @@ namespace Peggle
 
             PolarCoordinate collidingObjectPolar = collidingObject.velocity.toPolar();
             float newOrigin = reflectAngle(collidingObjectPolar.origin, e.hitObjectAngle);
-            float newRadius = collidingObjectPolar.radius / 10;
-
-            collidingObject.velocity = new PolarCoordinate(collidingObjectPolar.radius, newOrigin).toCartesian();
+            float newRadius = collidingObjectPolar.radius;
+            collidingObject.velocity = new PolarCoordinate(newRadius, newOrigin).toCartesian();
 
         }
 
         private static float reflectAngle(float collidingAngle, float hitAngle)
         {
-            float reverseHitAngle = hitAngle - MathHelper.Pi;
+            Debug.WriteLine(collidingAngle);
+            return collidingAngle;
+            //float reverseHitAngle = hitAngle - MathHelper.Pi;
 
 
-            float betweenHitAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
-            float betweenReverseHitAngle = MyMathHelper.angleBetween(collidingAngle, reverseHitAngle);
+            //float betweenHitAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
+            //float betweenReverseHitAngle = MyMathHelper.angleBetween(collidingAngle, reverseHitAngle);
 
-            if (betweenHitAngle < betweenReverseHitAngle)
-            {
-                return hitAngle;
-            }
-            else
-            {
-                return reverseHitAngle;
-            }
+
+            //Debug.WriteLine("Colliding Angle: " + collidingAngle);
+            //Debug.WriteLine("Hit Angle: " + hitAngle);
+            //Debug.WriteLine("Reverse Hit Angle" + reverseHitAngle);
+            //Debug.WriteLine("Between Hit Angle" + betweenHitAngle);
+            //Debug.WriteLine("Between Reverse Hit Angle" + betweenReverseHitAngle);
+
+            ////Debugger.Break();
+
+            //if (collidingAngle > hitAngle)
+            //{
+            //    Debug.WriteLine("Not Reverse");
+            //    return collidingAngle + betweenHitAngle;
+            //}
+            //else
+            //{
+            //    Debug.WriteLine("Reverse");
+            //    return collidingAngle - betweenReverseHitAngle;
+            //}
 
         }
 

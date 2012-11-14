@@ -26,6 +26,7 @@ namespace Peggle
             this.color = color;
             this.shooterController = controller;
             this.game = (Game1)game;
+            EventHanders.ballFallen += ballFallenEventHandler;
         }
 
         public override void Update(GameTime gameTime)
@@ -46,13 +47,6 @@ namespace Peggle
                 }
             }
 
-            //DEBUG CODE
-            else if (Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < ball.location.topLeft.toPoint().Y)
-            {
-                game.removeGameComponent(ball);
-                ball = null;
-            }
-            //END DEBUG
 
 
         }
@@ -84,6 +78,12 @@ namespace Peggle
 
             
             
+        }
+
+        public void ballFallenEventHandler(object sender, BallFallenArgs e)
+        {
+            game.removeGameComponent(ball);
+            ball = null;
         }
 
 

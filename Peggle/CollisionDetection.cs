@@ -35,8 +35,8 @@ namespace Peggle
                             Circle otherEntityCircle = (Circle)otherEntityBoundingBox;
                             if (collision(movingEntityCircle, otherEntityCircle))
                             {
-                                float hitAngle = Math.Abs(MyMathHelper.angleBetween(movingEntityCircle.origin, otherEntityCircle.origin) + MathHelper.PiOver2);
-                                EventHanders.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, float.PositiveInfinity, Vector2.Zero, hitAngle), EventType.Collision); 
+                                float hitAngle = Math.Abs(MyMathHelper.angleBetween(movingEntityCircle.origin, otherEntityCircle.origin));
+                                EventHanders.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, float.PositiveInfinity, Vector2.Zero, hitAngle), EventType.Collision);
                             }
                         }
                         else
@@ -52,6 +52,7 @@ namespace Peggle
 
         static bool collision(Circle one, Circle two)
         {
+            
             float distance = Vector2.Distance(one.origin, two.origin);
 
             if (distance < one.radius + two.radius)

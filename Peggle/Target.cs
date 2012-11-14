@@ -22,7 +22,7 @@ namespace Peggle
 
         public void collisionEventHandler(object sender, CollisionArgs e)
         {
-            if (e.hitObject.Equals(this))
+            if (e.hitObject != null && e.hitObject.Equals(this))
             {
                 hit = true;
             }
@@ -32,7 +32,8 @@ namespace Peggle
         {
             if (hit)
             {
-                game.removeGameComponent(this);
+                //DEBUG
+                //game.removeGameComponent(this);
             }
         }
 
