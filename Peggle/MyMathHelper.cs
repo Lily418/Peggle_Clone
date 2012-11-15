@@ -27,5 +27,10 @@ namespace Peggle
         {
             return (float)Math.Atan2(a.Y - b.Y, a.X - b.X);
         }
+
+        public static float difference(float a, float b)
+        {
+            return Math.Abs(a - b);
+        }
     }
 }

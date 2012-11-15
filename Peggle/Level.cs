@@ -33,9 +33,17 @@ namespace Peggle
         public void load()
         {
             game.clearGameComponents();
-            game.addGameComponent(new Shooter(game, Color.Red, new Rectangle(360, 0, 80, 20), PlayerInput.getInstance()));
             game.addGameComponent(new PhysicsProcessing(game));
             game.addGameComponent(new CollisionResolver(game));
+
+            Queue<Shooter> shooters = new Queue<Shooter>();
+            Shooter playerShooter = new Shooter(game, Color.Red, new Rectangle(300, 0, 80, 20), PlayerInput.getInstance());
+            Shooter aiShooter = new Shooter(game, Color.Green, new Rectangle(420, 0, 80, 20), new AI());
+            shooters.Enqueue(playerShooter);
+            shooters.Enqueue(aiShooter);
+
+            game.addGameComponent(new TurnManager(game, shooters));
+
             addComponentList(circularTargets);
         }
 

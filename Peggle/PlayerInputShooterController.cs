@@ -25,7 +25,7 @@ namespace Peggle
             return instance;
         }
 
-        public ShooterInstructions getShooterInstructions(TimeSpan currentElapsedTime)
+        public ShooterInstructions getShooterInstructions(TimeSpan currentElapsedTime, Shooter shooter)
         {
             if (shooterInstructions == null || inputLastUpdated != currentElapsedTime)
             {

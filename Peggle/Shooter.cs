@@ -14,7 +14,7 @@ namespace Peggle
         const int PIPE_WIDTH_DIVISOR = 4;
 
         Game1 game;
-        float aimingAngle = 0;
+        public float aimingAngle { private set; get; } 
         Color color;
         Rectangle basePosition;
         IShooterController shooterController;
@@ -22,6 +22,7 @@ namespace Peggle
 
         public Shooter(Game game, Color color, Rectangle basePosition, IShooterController controller) : base(game)
         {
+            aimingAngle = 0;
             this.basePosition = basePosition;
             this.color = color;
             this.shooterController = controller;
@@ -29,9 +30,9 @@ namespace Peggle
             EventHanders.ballFallen += ballFallenEventHandler;
         }
 
-        public override void Update(GameTime gameTime)
+        public void processInput(GameTime gameTime)
         {
-            ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime.TotalGameTime);
+            ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime.TotalGameTime, this);
             aimingAngle += nextInstruction.movementDirection;
 
             aimingAngle = MathHelper.Clamp(aimingAngle, -1.2f, 1.2f);
@@ -88,7 +89,6 @@ namespace Peggle
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
-            Debug.WriteLine("BALL FALLEN");
             game.removeGameComponent(ball);
             ball = null;
         }
