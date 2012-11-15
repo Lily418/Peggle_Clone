@@ -32,7 +32,7 @@ namespace Peggle
 
         private static float bounceAngle(float collidingAngle, float hitAngle)
         {
-            return hitAngle += MathHelper.Pi + RandomHelper.randomFloat(-MathHelper.Pi / 4, MathHelper.Pi / 4);
+            return hitAngle += MathHelper.Pi/*+ RandomHelper.randomFloat(-MathHelper.Pi / 4, MathHelper.Pi / 4)*/;
         }
 
 

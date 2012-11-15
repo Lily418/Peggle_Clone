@@ -42,8 +42,12 @@ namespace Peggle
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
+            //Check ball is not a ball being simulated by the AI
+            if(!e.ball.isSimulation)
+            {
             shooterQueue.Enqueue(activeShooter);
             activeShooter = shooterQueue.Dequeue();
+            }
         }
     }
 }

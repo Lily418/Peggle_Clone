@@ -25,9 +25,9 @@ namespace Peggle
             return instance;
         }
 
-        public ShooterInstructions getShooterInstructions(TimeSpan currentElapsedTime, Shooter shooter)
+        public ShooterInstructions getShooterInstructions(GameTime gameTime, Shooter shooter)
         {
-            if (shooterInstructions == null || inputLastUpdated != currentElapsedTime)
+            if (shooterInstructions == null || inputLastUpdated != gameTime.TotalGameTime)
             {
                 KeyboardState currentKeyboardState = Keyboard.GetState();
 
@@ -55,7 +55,7 @@ namespace Peggle
                 }
 
                 shooterInstructions = new ShooterInstructions(shooterMovement, fireBall);
-                inputLastUpdated = currentElapsedTime;
+                inputLastUpdated = gameTime.TotalGameTime;
 
                 
             }

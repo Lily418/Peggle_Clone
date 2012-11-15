@@ -9,22 +9,31 @@ namespace Peggle
 {
     abstract class Target : DrawableGameComponent
     {
-        protected bool hit = false;
+        public bool hit { get; private set; }
+        public bool countsTowardsLevelProgress { get; private set; }
         protected Game1 game;
 
-        protected Target(Game game)
+        protected Target(Game game, bool countsTowardsLevelProgress)
             : base(game)
         {
+            this.game = (Game1)game;
+            this.hit = false;
+            this.countsTowardsLevelProgress = countsTowardsLevelProgress;
             EventHanders.collision  += collisionEventHandler;
             EventHanders.ballFallen += ballFallenEventHandler;
-            this.game = (Game1)game;
+            
         }
 
         public void collisionEventHandler(object sender, CollisionArgs e)
         {
-            if (e.hitObject != null && e.hitObject.Equals(this))
+            if (e.hitObject != null && e.hitObject.Equals(this) && e.collidingObject is Ball)
             {
-                hit = true;
+                Ball ball = (Ball)e.collidingObject;
+
+                if (!ball.isSimulation)
+                {
+                    hit = true;
+                }
             }
         }
 

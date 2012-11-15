@@ -32,7 +32,7 @@ namespace Peggle
 
         public void processInput(GameTime gameTime)
         {
-            ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime.TotalGameTime, this);
+            ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime, this);
             aimingAngle += nextInstruction.movementDirection;
 
             aimingAngle = MathHelper.Clamp(aimingAngle, -1.2f, 1.2f);
@@ -57,7 +57,7 @@ namespace Peggle
 
         }
 
-        private Location calculateBallStartingLocation()
+        public Location calculateBallStartingLocation()
         {
             const int BALL_DIAMETER = 20;
             //Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Top) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, aimingAngle).toCartesian();

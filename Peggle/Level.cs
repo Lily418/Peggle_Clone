@@ -11,6 +11,7 @@ namespace Peggle
         Game1 game;
 
         List<CircularTarget> circularTargets = new List<CircularTarget>();
+        public PhysicsProcessing physicsProcessor { private set; get; }
 
         public Level(Game1 game)
         {
@@ -33,12 +34,13 @@ namespace Peggle
         public void load()
         {
             game.clearGameComponents();
-            game.addGameComponent(new PhysicsProcessing(game));
+            physicsProcessor = new PhysicsProcessing(game);
+            game.addGameComponent(physicsProcessor);
             game.addGameComponent(new CollisionResolver(game));
 
             Queue<Shooter> shooters = new Queue<Shooter>();
             Shooter playerShooter = new Shooter(game, Color.Red, new Rectangle(300, 0, 80, 20), PlayerInput.getInstance());
-            Shooter aiShooter = new Shooter(game, Color.Green, new Rectangle(420, 0, 80, 20), new AI());
+            Shooter aiShooter = new Shooter(game, Color.Green, new Rectangle(420, 0, 80, 20), new AI(game));
             shooters.Enqueue(playerShooter);
             shooters.Enqueue(aiShooter);
 

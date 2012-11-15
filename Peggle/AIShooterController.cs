@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
@@ -10,15 +11,20 @@ namespace Peggle
     {
         float? targetPosition = null;
         const float MOVEMENT_SPEED = 0.1f;
-        
+        Game1 game;
 
-        public ShooterInstructions getShooterInstructions(TimeSpan currentElapsedTime, Shooter shooter)
+        public AI(Game game)
+        {
+            this.game = (Game1)game;
+        }
+
+        public ShooterInstructions getShooterInstructions(GameTime gameTime, Shooter shooter)
         {
             if (targetPosition == null)
             {
-                targetPosition = calculateTargetAngle();
+                targetPosition = calculateTargetAngle(gameTime, shooter);
 
-                Debug.Assert(targetPosition < 1.2f && targetPosition > -1.2f, "Target Angle must be between the clamp values impossed by the shooter class");
+                Debug.Assert(targetPosition <= 1.2f && targetPosition >= -1.2f, "Target Angle must be between the clamp values impossed by the shooter class");
             }
 
             if (shooter.aimingAngle == targetPosition)
@@ -49,10 +55,12 @@ namespace Peggle
         }
 
         
-        private float calculateTargetAngle()
+        private float calculateTargetAngle(GameTime currentElapsedTime, Shooter shooter)
         {
-            //SUPERAWESOME AI CODE HERE
-            return 1.2f;
+            ShootSimulator test = new ShootSimulator(game, currentElapsedTime, shooter, MathHelper.PiOver2);
+
+            Debug.WriteLine(test.actionValue);
+            return 0f;
         }
     }
 }

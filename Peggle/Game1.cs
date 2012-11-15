@@ -17,14 +17,17 @@ namespace Peggle
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        internal static Game1 game;
         internal static GraphicsDeviceManager graphics;
         internal static ContentManager cm;
+        internal Level currentLevel;
         public static List<Entity> entities { private set; get; }
         SpriteBatch spriteBatch;
 
 
         public Game1()
         {
+            game = this;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             cm = Content;
@@ -46,8 +49,8 @@ namespace Peggle
 
             
 
-            Level level = LevelLoader.loadXML(this, @"Content\level.xml");
-            level.load();
+            currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
+            currentLevel.load();
            
 
             base.Initialize();

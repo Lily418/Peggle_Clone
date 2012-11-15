@@ -10,13 +10,12 @@ namespace Peggle
     class CircularTarget : Target, Entity
     {
         Location location { get; set; }
-        bool countsTowardsLevelProgress;
+        
 
         public CircularTarget(Game game, Location location, bool countsTowardsLevelProgress)
-            : base(game)
+            : base(game, countsTowardsLevelProgress)
         {
             this.location = location;
-            this.countsTowardsLevelProgress = countsTowardsLevelProgress;
         }
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)

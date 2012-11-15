@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 
+
 namespace Peggle
 {
     class Ball : DrawableGameComponent, IEntityPhysics
@@ -16,8 +17,9 @@ namespace Peggle
 
         public Vector2 velocity { get; set; }
         public float maxSpeed { get; set; }
+        public bool isSimulation { get; private set; }
 
-        public Ball(Game game, Location startingLocation, float angle) : base (game)
+        public Ball(Game game, Location startingLocation, float angle, bool isSimulation = false) : base (game)
         {
             location = startingLocation;
             color = RandomHelper.randomColor();
@@ -29,22 +31,23 @@ namespace Peggle
             }
 
             velocity = new PolarCoordinate(10.0f, angle).toCartesian();
-            
 
             maxSpeed = 5;
 
-       
-            
-
-
+            this.isSimulation = isSimulation;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.topLeft.toPoint().Y)
+            if (ballFallen())
             {
-                EventHanders.raiseEvent(new BallFallenArgs(), EventType.BallFallen);
+                EventHanders.raiseEvent(new BallFallenArgs(this), EventType.BallFallen);
             }
+        }
+
+        public bool ballFallen()
+        {
+            return Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.topLeft.toPoint().Y ? true : false;
         }
 
         public override void Draw(GameTime gameTime)

@@ -9,6 +9,6 @@ namespace Peggle
     //Make abstract class which runs a function which asks for permission from shooter controller
     interface IShooterController
     {
-        ShooterInstructions getShooterInstructions(TimeSpan elapsedTime, Shooter shooter);
+        ShooterInstructions getShooterInstructions(GameTime gameTime, Shooter shooter);
     }
 }
