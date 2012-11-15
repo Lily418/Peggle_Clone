@@ -12,6 +12,7 @@ namespace Peggle
     {
         const int PIPE_HEIGHT_MULTIPLER = 4;
         const int PIPE_WIDTH_DIVISOR = 4;
+        public const float ROTATION_LIMIT = 1.2f;
 
         Game1 game;
         public float aimingAngle { private set; get; } 
@@ -32,27 +33,26 @@ namespace Peggle
 
         public void processInput(GameTime gameTime)
         {
-            ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime, this);
-            aimingAngle += nextInstruction.movementDirection;
-
-            aimingAngle = MathHelper.Clamp(aimingAngle, -1.2f, 1.2f);
-
+            
+          
 
             if (ball == null)
             {
+                ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime, this);
+                aimingAngle += nextInstruction.movementDirection;
+
+                aimingAngle = MathHelper.Clamp(aimingAngle, -ROTATION_LIMIT, ROTATION_LIMIT);
+
                 if (nextInstruction.fireBall)
                 {
 
                     //An angle of 0 is facing down for the shooter but 0 is right in the physics system, correct this by adding halfPI
                     //TODO:Consider rotating shooter recrangle
                     float angle = aimingAngle + MathHelper.PiOver2;
-
-                     
                     ball = new Ball((Game)game, calculateBallStartingLocation(), angle);
                     game.addGameComponent(ball);
                 }
             }
-
 
 
         }
@@ -67,6 +67,7 @@ namespace Peggle
 
         public override void Draw(GameTime gameTime)
         {
+            
             DrawHelper draw = DrawHelper.getInstance();
 
             SpriteBatch sb = draw.sb;

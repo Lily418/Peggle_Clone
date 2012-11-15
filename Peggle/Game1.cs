@@ -43,9 +43,6 @@ namespace Peggle
         {
             entities = new List<Entity>();
 
-            
-
-            //addGameComponent(new Ball(this, new Location(new Vector2(400,10),10,10), MathHelper.PiOver4));
 
             
 

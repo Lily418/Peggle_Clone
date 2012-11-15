@@ -39,7 +39,7 @@ namespace Peggle
 
         public override void Update(GameTime gameTime)
         {
-            if (ballFallen())
+            if (ballFallen() && !isSimulation)
             {
                 EventHanders.raiseEvent(new BallFallenArgs(this), EventType.BallFallen);
             }

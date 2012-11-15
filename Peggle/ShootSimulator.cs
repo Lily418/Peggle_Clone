@@ -41,7 +41,6 @@ namespace Peggle
 
         public void collisionEventHandler(object sender, CollisionArgs e)
         {
-            Debug.WriteLine(e.hitObject);
             if (e.collidingObject is Ball && e.collidingObject.Equals(simulatedBall))
             {
                 if (e.hitObject != null && e.hitObject is Target)
