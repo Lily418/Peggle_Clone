@@ -48,4 +48,36 @@ namespace Peggle
     {
         Collision, BallFallen
     }
+
+    class BallFallenArgs : EventArgs
+    {
+        public Ball ball { private set; get; }
+
+        public BallFallenArgs(Ball ball)
+        {
+            this.ball = ball;
+        }
+
+    }
+
+    public class CollisionArgs : EventArgs
+    {
+        public IEntityPhysics collidingObject { private set; get; }
+        //These variables are kept seperatly as they are not part of Entity interface, they are 'Made Up' by the collision detection system
+        public float hitObjectWeight { private set; get; }
+        public Vector2 hitObjectVelocity { private set; get; }
+        public float hitObjectAngle { private set; get; }
+        public Entity hitObject { private set; get; }
+        public float penetration { private set; get; }
+
+        public CollisionArgs(IEntityPhysics collidingObject, Entity hitObject, float hitObjectWeight, Vector2 hitObjectVelocity, float hitObjectAngle, float penetration)
+        {
+            this.hitObject = hitObject;
+            this.collidingObject = collidingObject;
+            this.hitObjectWeight = hitObjectWeight;
+            this.hitObjectVelocity = hitObjectVelocity;
+            this.hitObjectAngle = hitObjectAngle;
+            this.penetration = penetration;
+        }
+    }
 }

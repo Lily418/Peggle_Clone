@@ -18,8 +18,7 @@ namespace Peggle
         Game1 game;
         List<Target> targetsHit = new List<Target>();
 
-        //DEBUG
-        float aimAngle;
+
 
         public ShootSimulator(Game game, GameTime time, Shooter shooter, float aimAngle)
         {
@@ -30,8 +29,6 @@ namespace Peggle
             simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(fireAngle), fireAngle, true);
 
             this.game.addGameComponent(simulatedBall);
-            
-            this.aimAngle = aimAngle;
 
 
             while (!simulatedBall.ballFallen())
