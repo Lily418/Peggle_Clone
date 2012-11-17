@@ -46,7 +46,6 @@ namespace Peggle
                 if (currentKeyboardState.IsKeyDown(Keys.S))
                 {
                     shooterMovement /= 5.0f;
-                    Debug.WriteLine(shooterMovement);
                 }
 
                 bool fireBall = false;

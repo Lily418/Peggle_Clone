@@ -19,8 +19,8 @@ namespace Peggle
             this.game = (Game1)game;
             this.hit = false;
             this.countsTowardsLevelProgress = countsTowardsLevelProgress;
-            EventHanders.collision  += collisionEventHandler;
-            EventHanders.ballFallen += ballFallenEventHandler;
+            EventHandlers.collision  += collisionEventHandler;
+            EventHandlers.ballFallen += ballFallenEventHandler;
             
         }
 
@@ -42,6 +42,8 @@ namespace Peggle
             
             if (hit)
             {
+                EventHandlers.collision -= collisionEventHandler;
+                EventHandlers.ballFallen -= ballFallenEventHandler;
                 game.removeGameComponent(this);
             }
         }

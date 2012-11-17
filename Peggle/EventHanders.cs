@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Peggle
 {
-    static class EventHanders
+    static class EventHandlers
     {
         public static EventHandler<CollisionArgs> collision;
         public static EventHandler<BallFallenArgs> ballFallen;

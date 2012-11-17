@@ -15,11 +15,11 @@ namespace Peggle
             {
                 if (moveableEntity.location.Left < 0)
                 {
-                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, MathHelper.Pi), EventType.Collision);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, MathHelper.Pi, 0), EventType.Collision);
                 }
                 else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
                 {
-                    EventHanders.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, 0), EventType.Collision);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, 0, 0), EventType.Collision);
                 }
 
                 foreach (Entity otherEntity in Game1.game.getComponents().OfType<Entity>())
@@ -36,13 +36,10 @@ namespace Peggle
                             Circle otherEntityCircle = (Circle)otherEntityBoundingBox;
 
                             float penetration;
-                            if ((penetration =collision(movingEntityCircle, otherEntityCircle)) > 0)
+                            if ((penetration = collision(movingEntityCircle, otherEntityCircle)) > 0)
                             {
                                 float hitAngle = Math.Abs(MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin));
-                                ////Movement needed to stop circles overlapping
-                                //Vector2 initalResolveMovement = new PolarCoordinate(penetration, hitAngle + MathHelper.Pi).toCartesian();
-                                //moveableEntity.location.topLeft += initalResolveMovement;
-                                EventHanders.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, float.PositiveInfinity, Vector2.Zero, hitAngle), EventType.Collision);
+                                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, float.PositiveInfinity, Vector2.Zero, hitAngle, penetration), EventType.Collision);
                             }
                         }
                         else
@@ -85,14 +82,16 @@ namespace Peggle
         public Vector2 hitObjectVelocity { private set; get; }
         public float hitObjectAngle { private set; get; }
         public Entity hitObject { private set; get; }
+        public float penetration { private set; get; }
 
-        public CollisionArgs(IEntityPhysics collidingObject, Entity hitObject, float hitObjectWeight, Vector2 hitObjectVelocity, float hitObjectAngle)
+        public CollisionArgs(IEntityPhysics collidingObject, Entity hitObject, float hitObjectWeight, Vector2 hitObjectVelocity, float hitObjectAngle, float penetration)
         {
             this.hitObject = hitObject;
             this.collidingObject = collidingObject;
             this.hitObjectWeight = hitObjectWeight;
             this.hitObjectVelocity = hitObjectVelocity;
             this.hitObjectAngle = hitObjectAngle;
+            this.penetration = penetration;
         }
     }
 }

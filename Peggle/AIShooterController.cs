@@ -13,8 +13,11 @@ namespace Peggle
         const int NO_SHOTS_SIMULATED = 80;
 
         float? targetPosition = null;
-        const float MOVEMENT_SPEED = 0.1f;
+        const float MOVEMENT_SPEED = 0.02f;
         Game1 game;
+
+        TimeSpan AiWait = TimeSpan.FromSeconds(1);
+        TimeSpan currentWait = TimeSpan.Zero;
 
         public AI(Game game)
         {
@@ -26,20 +29,28 @@ namespace Peggle
             if (targetPosition == null)
             {
                 targetPosition = calculateTargetAngle(gameTime, shooter);
-
+                currentWait = AiWait;
                 Debug.Assert(targetPosition <= 1.2f && targetPosition >= -1.2f, "Target Angle must be between the clamp values impossed by the shooter class");
             }
 
             if (shooter.aimingAngle == targetPosition)
             {
-                targetPosition = null;
-                return new ShooterInstructions(0.0f, true);
+                if (currentWait > TimeSpan.Zero)
+                {
+                    currentWait -= gameTime.ElapsedGameTime;
+                    return new ShooterInstructions(0.0f, false);
+                }
+                else
+                {
+                    targetPosition = null;
+                    return new ShooterInstructions(0.0f, true);
+                }
             }
             else
             {
                 float difference = (float)targetPosition - shooter.aimingAngle;
 
-                if (difference < MOVEMENT_SPEED)
+                if (Math.Abs(difference) < MOVEMENT_SPEED)
                 {
                     return new ShooterInstructions(difference, false);
                 }
@@ -65,20 +76,12 @@ namespace Peggle
 
             float interval = (Shooter.ROTATION_LIMIT * 2) / NO_SHOTS_SIMULATED;
 
-            Debug.WriteLine(interval);
-
             for (float angle = -Shooter.ROTATION_LIMIT; angle < Shooter.ROTATION_LIMIT; angle += interval)
             {
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(game, currentElapsedTime, shooter, angle).actionValue, angle));
             }
 
-            Debug.WriteLine("Possible Shots");
-            for (int i = 0; i < possibleShots.count(); i++)
-            {
-                
-                Debug.Write("[" + possibleShots[i].Value + " " + possibleShots[i].Key + "]");
-            }
-
+            
             return possibleShots.last();
         }
     }

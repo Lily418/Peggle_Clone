@@ -14,7 +14,7 @@ namespace Peggle
 
         public TurnManager(Game game, Queue<Shooter> shooters) : base (game)
         {
-            EventHanders.ballFallen += ballFallenEventHandler;
+            EventHandlers.ballFallen += ballFallenEventHandler;
 
             shooterQueue = shooters;
 

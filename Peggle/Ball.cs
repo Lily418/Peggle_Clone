@@ -30,9 +30,9 @@ namespace Peggle
                 texture = drawHelper.circleTexture;
             }
 
-            velocity = new PolarCoordinate(10.0f, angle).toCartesian();
+            velocity = new PolarCoordinate(3.0f, angle).toCartesian();
 
-            maxSpeed = 6;
+            maxSpeed = 5;
 
             this.isSimulation = isSimulation;
         }
@@ -41,7 +41,7 @@ namespace Peggle
         {
             if (ballFallen() && !isSimulation)
             {
-                EventHanders.raiseEvent(new BallFallenArgs(this), EventType.BallFallen);
+                EventHandlers.raiseEvent(new BallFallenArgs(this), EventType.BallFallen);
             }
         }
 

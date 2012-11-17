@@ -28,7 +28,7 @@ namespace Peggle
             this.color = color;
             this.shooterController = controller;
             this.game = (Game1)game;
-            EventHanders.ballFallen += ballFallenEventHandler;
+            EventHandlers.ballFallen += ballFallenEventHandler;
         }
 
         public void processInput(GameTime gameTime)
@@ -62,7 +62,7 @@ namespace Peggle
         public Location calculateBallStartingLocation(float firingAngle)
         {
             const int BALL_DIAMETER = 20;
-            Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER - BALL_DIAMETER, firingAngle).toCartesian();
+            Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER - (BALL_DIAMETER / 2f), firingAngle).toCartesian();
             return new Location(startingVector, BALL_DIAMETER, BALL_DIAMETER);
         }
 

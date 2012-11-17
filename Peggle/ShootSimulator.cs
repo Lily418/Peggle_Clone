@@ -25,7 +25,7 @@ namespace Peggle
         {
             this.game = (Game1)game;
             actionValue = 0;
-            EventHanders.collision += collisionEventHandler;
+            EventHandlers.collision += collisionEventHandler;
             float fireAngle = aimAngle + MathHelper.PiOver2;
             simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(fireAngle), fireAngle, true);
 
@@ -40,7 +40,7 @@ namespace Peggle
             }
 
 
-            EventHanders.collision -= collisionEventHandler;
+            EventHandlers.collision -= collisionEventHandler;
             this.game.removeGameComponent(simulatedBall);
 
         }
@@ -58,9 +58,6 @@ namespace Peggle
 
                     if (!targetsHit.Contains(targetHit) && !targetHit.hit)
                     {
-                        //DEBUG
-                        CircularTarget cTarget = (CircularTarget)targetHit;
-                        Debug.WriteLine(aimAngle + " " + "Collision" + cTarget.location.topLeft);
 
                         if (targetHit.countsTowardsLevelProgress)
                         {

@@ -16,16 +16,18 @@ namespace Peggle
 
         public override void Initialize()
         {
-            EventHanders.collision += collisionEventHandler;
+            EventHandlers.collision += collisionEventHandler;
         }
 
         public static void collisionEventHandler(object sender, CollisionArgs e)
         {
             IEntityPhysics collidingObject = e.collidingObject;
+            Vector2 initalResolveMovement = new PolarCoordinate(e.penetration, e.hitObjectAngle + MathHelper.Pi).toCartesian();
+            collidingObject.location.topLeft += initalResolveMovement;
 
             PolarCoordinate collidingObjectPolar = collidingObject.velocity.toPolar();
             float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
-            float newRadius = collidingObjectPolar.radius / 1.1f;
+            float newRadius = collidingObjectPolar.radius / 1.5f;
             collidingObject.velocity = new PolarCoordinate(newRadius, newOrigin).toCartesian();
 
         }

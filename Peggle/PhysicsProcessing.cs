@@ -9,7 +9,7 @@ namespace Peggle
 {
     class PhysicsProcessing : GameComponent
     {
-        Vector2 gravity = new Vector2(0, 0.08f);
+        Vector2 gravity = new Vector2(0, 0.1f);
 
         public PhysicsProcessing(Game game)
             : base(game)
@@ -18,7 +18,7 @@ namespace Peggle
 
         public override void Update(GameTime gameTime)
         {
-            CollisionDetection.checkCollisions();
+            
 
             foreach (IEntityPhysics moveableEntity in Game1.game.getComponents().OfType<IEntityPhysics>())
             {   
@@ -35,6 +35,8 @@ namespace Peggle
 
                
             }
+
+            CollisionDetection.checkCollisions();
 
             
 

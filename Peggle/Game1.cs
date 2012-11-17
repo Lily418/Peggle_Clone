@@ -81,6 +81,11 @@ namespace Peggle
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            if (gameTime.IsRunningSlowly)
+            {
+                Debug.WriteLine("Running Slowly");
+            }
+
             // TODO: Add your update logic here
 
 
