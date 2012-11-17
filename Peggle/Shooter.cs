@@ -12,7 +12,8 @@ namespace Peggle
     {
         const int PIPE_HEIGHT_MULTIPLER = 4;
         const int PIPE_WIDTH_DIVISOR = 4;
-        public const float ROTATION_LIMIT = 1.2f;
+        public const float MIN_ROTATION = MathHelper.PiOver2 - (MathHelper.Pi / 3);
+        public const float MAX_ROTATION = MathHelper.PiOver2 + (MathHelper.Pi / 3);
 
         Game1 game;
         public float aimingAngle { private set; get; } 
@@ -23,7 +24,7 @@ namespace Peggle
 
         public Shooter(Game game, Color color, Rectangle basePosition, IShooterController controller) : base(game)
         {
-            aimingAngle = 0;
+            aimingAngle = MathHelper.PiOver2;
             this.basePosition = basePosition;
             this.color = color;
             this.shooterController = controller;
@@ -41,17 +42,14 @@ namespace Peggle
                 ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime, this);
                 aimingAngle += nextInstruction.movementDirection;
 
-                aimingAngle = MathHelper.Clamp(aimingAngle, -ROTATION_LIMIT, ROTATION_LIMIT);
+                Debug.WriteLine(aimingAngle);
+                
+                aimingAngle = MathHelper.Clamp(aimingAngle, MIN_ROTATION, MAX_ROTATION);
 
 
                 if (nextInstruction.fireBall)
                 {
-
-
-                    //An angle of 0 is facing down for the shooter but 0 is right in the physics system, correct this by adding halfPI
-                    //TODO:Consider rotating shooter recrangle
-                    float angle = aimingAngle + MathHelper.PiOver2;
-                    ball = new Ball((Game)game, calculateBallStartingLocation(angle), angle);
+                    ball = new Ball((Game)game, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     game.addGameComponent(ball);
                 }
             }
@@ -78,8 +76,8 @@ namespace Peggle
 
             int pipeWidth = basePosition.Width / PIPE_WIDTH_DIVISOR;
             int pipeHeight = basePosition.Height * PIPE_HEIGHT_MULTIPLER;
-            Rectangle pipePosition = new Rectangle(basePosition.Center.X, basePosition.Y, pipeWidth, pipeHeight);
-            sb.Draw(draw.dummyTexture, pipePosition, null, color, aimingAngle, new Vector2(0.5f, 0), SpriteEffects.None, 0);
+            Rectangle pipePosition = new Rectangle(basePosition.Center.X, basePosition.Y, pipeHeight, pipeWidth);
+            sb.Draw(draw.dummyTexture, pipePosition, null, color, aimingAngle, new Vector2(0f, 0.5f), SpriteEffects.None, 0);
 
 
 

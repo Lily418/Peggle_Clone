@@ -25,8 +25,7 @@ namespace Peggle
             this.game = (Game1)game;
             actionValue = 0;
             EventHandlers.collision += collisionEventHandler;
-            float fireAngle = aimAngle + MathHelper.PiOver2;
-            simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(fireAngle), fireAngle, true);
+            simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(aimAngle), aimAngle, true);
 
             this.game.addGameComponent(simulatedBall);
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 
-namespace Peggle
+namespace Helper
 {
     static class StringHelper
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Helper;
 
 namespace Peggle
 {
@@ -15,11 +16,11 @@ namespace Peggle
             {
                 if (moveableEntity.location.Left < 0)
                 {
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, MathHelper.Pi, 0), EventType.Collision);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null,  Vector2.Zero, MathHelper.Pi, 0), EventType.Collision);
                 }
                 else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
                 {
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, float.PositiveInfinity, Vector2.Zero, 0, 0), EventType.Collision);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, 0), EventType.Collision);
                 }
 
                 foreach (Entity otherEntity in Game1.game.getComponents().OfType<Entity>())
@@ -39,7 +40,7 @@ namespace Peggle
                             if ((penetration = collision(movingEntityCircle, otherEntityCircle)) > 0)
                             {
                                 float hitAngle = Math.Abs(MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin));
-                                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, float.PositiveInfinity, Vector2.Zero, hitAngle, penetration), EventType.Collision);
+                                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, penetration), EventType.Collision);
                             }
                         }
                         else

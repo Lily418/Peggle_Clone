@@ -30,7 +30,7 @@ namespace Peggle
             {
                 targetPosition = calculateTargetAngle(gameTime, shooter);
                 currentWait = AiWait;
-                Debug.Assert(targetPosition <= 1.2f && targetPosition >= -1.2f, "Target Angle must be between the clamp values impossed by the shooter class");
+                Debug.Assert(targetPosition <= Shooter.MAX_ROTATION && targetPosition >= Shooter.MIN_ROTATION, "Target Angle must be between the clamp values impossed by the shooter class");
             }
 
             if (shooter.aimingAngle == targetPosition)
@@ -74,9 +74,9 @@ namespace Peggle
         {
             PriorityQueue<int, float> possibleShots = new PriorityQueue<int, float>(new IntComparer());
 
-            float interval = (Shooter.ROTATION_LIMIT * 2) / NO_SHOTS_SIMULATED;
+            float interval = (Shooter.MAX_ROTATION - Shooter.MIN_ROTATION) / NO_SHOTS_SIMULATED;
 
-            for (float angle = -Shooter.ROTATION_LIMIT; angle < Shooter.ROTATION_LIMIT; angle += interval)
+            for (float angle = Shooter.MIN_ROTATION; angle < Shooter.MAX_ROTATION; angle += interval)
             {
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(game, currentElapsedTime, shooter, angle).actionValue, angle));
             }
