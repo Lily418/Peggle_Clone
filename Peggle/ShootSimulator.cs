@@ -16,6 +16,7 @@ namespace Peggle
         public int actionValue { get; private set; }
         Ball simulatedBall;
         Game1 game;
+        List<Target> targetsHit = new List<Target>();
 
         public ShootSimulator(Game game, GameTime time, Shooter shooter, float aimAngle)
         {
@@ -47,7 +48,7 @@ namespace Peggle
                 {
                     Target targetHit = (Target)e.hitObject;
 
-                    if (!targetHit.hit)
+                    if (!targetsHit.Contains(targetHit))
                     {
                         if (targetHit.countsTowardsLevelProgress)
                         {
@@ -57,6 +58,8 @@ namespace Peggle
                         {
                             actionValue += NORMAL_TARGET_VALUE;
                         }
+
+                        targetsHit.Add(targetHit);
                     }
                 }
             }

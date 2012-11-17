@@ -9,7 +9,7 @@ namespace Peggle
 {
     class AI : IShooterController
     {
-        const int NO_SHOTS_SIMULATED = 100;
+        const int NO_SHOTS_SIMULATED = 1000;
 
         float? targetPosition = null;
         const float MOVEMENT_SPEED = 0.1f;
@@ -68,6 +68,13 @@ namespace Peggle
             for (float angle = -Shooter.ROTATION_LIMIT; angle < Shooter.ROTATION_LIMIT; angle += interval)
             {
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(game, currentElapsedTime, shooter, angle).actionValue, angle));
+            }
+
+            Debug.WriteLine("Possible Shots");
+            for (int i = 0; i < possibleShots.count(); i++)
+            {
+               
+                Debug.Write(possibleShots[i] +" , ");
             }
 
             return possibleShots.last();

@@ -7,13 +7,14 @@ namespace Peggle
 {
     class PriorityQueue<TCompare,TValue>
     {
-        public TValue this[int index]
+        public KeyValuePair<TCompare, TValue> this[int index]
         {
             get
             {
-                return baseStorage[index].Value;
+                return baseStorage[index];
             }
         }
+
         List<KeyValuePair<TCompare, TValue>> baseStorage = new List<KeyValuePair<TCompare, TValue>>();
         IComparer<TCompare> comparer;
 
@@ -59,6 +60,11 @@ namespace Peggle
         public TValue last()
         {
             return baseStorage.Last().Value;
+        }
+
+        public int count()
+        {
+            return baseStorage.Count;
         }
 
     }
