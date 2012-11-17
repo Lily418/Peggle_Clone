@@ -39,6 +39,7 @@ namespace Peggle
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
+            
             if (hit)
             {
                 game.removeGameComponent(this);

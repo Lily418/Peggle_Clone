@@ -21,7 +21,6 @@ namespace Peggle
         internal static GraphicsDeviceManager graphics;
         internal static ContentManager cm;
         internal Level currentLevel;
-        public static List<Entity> entities { private set; get; }
         SpriteBatch spriteBatch;
 
 
@@ -40,11 +39,7 @@ namespace Peggle
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-        {
-            entities = new List<Entity>();
-
-
-            
+        {   
 
             currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
             currentLevel.load();
@@ -113,21 +108,16 @@ namespace Peggle
         public void addGameComponent(GameComponent gameComponent)
         {
             Components.Add(gameComponent);
-
-            if (gameComponent is Entity)
-            {
-                entities.Add((Entity)gameComponent);
-            }
         }
 
         public void removeGameComponent(GameComponent gameComponent)
         {
             Components.Remove(gameComponent);
+        }
 
-            if (gameComponent is Entity)
-            {
-                entities.Remove((Entity)gameComponent);
-            }
+        public GameComponentCollection getComponents()
+        {
+            return Components;
         }
     }
 }

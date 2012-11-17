@@ -22,7 +22,7 @@ namespace Peggle
         {
             CollisionDetection.checkCollisions();
 
-            foreach (IEntityPhysics moveableEntity in Game1.entities.OfType<IEntityPhysics>())
+            foreach (IEntityPhysics moveableEntity in Game1.game.getComponents().OfType<IEntityPhysics>())
             {   
 
 

@@ -43,8 +43,10 @@ namespace Peggle
 
                 aimingAngle = MathHelper.Clamp(aimingAngle, -ROTATION_LIMIT, ROTATION_LIMIT);
 
+
                 if (nextInstruction.fireBall)
                 {
+
 
                     //An angle of 0 is facing down for the shooter but 0 is right in the physics system, correct this by adding halfPI
                     //TODO:Consider rotating shooter recrangle

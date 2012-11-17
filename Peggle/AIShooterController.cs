@@ -9,7 +9,7 @@ namespace Peggle
 {
     class AI : IShooterController
     {
-        const int NO_SHOTS_SIMULATED = 1000;
+        const int NO_SHOTS_SIMULATED = 100;
 
         float? targetPosition = null;
         const float MOVEMENT_SPEED = 0.1f;
@@ -24,7 +24,6 @@ namespace Peggle
         {
             if (targetPosition == null)
             {
-                Debug.WriteLine("Calculating Position" + gameTime.TotalGameTime);
                 targetPosition = calculateTargetAngle(gameTime, shooter);
 
                 Debug.Assert(targetPosition <= 1.2f && targetPosition >= -1.2f, "Target Angle must be between the clamp values impossed by the shooter class");
@@ -32,11 +31,13 @@ namespace Peggle
 
             if (shooter.aimingAngle == targetPosition)
             {
+                Debug.WriteLine(shooter.aimingAngle + " " + targetPosition);
                 targetPosition = null;
                 return new ShooterInstructions(0.0f, true);
             }
             else
             {
+                Debug.WriteLine("Attempted Movement");
                 float difference = (float)targetPosition - shooter.aimingAngle;
 
                 if (difference < MOVEMENT_SPEED)
@@ -68,13 +69,6 @@ namespace Peggle
             for (float angle = -Shooter.ROTATION_LIMIT; angle < Shooter.ROTATION_LIMIT; angle += interval)
             {
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(game, currentElapsedTime, shooter, angle).actionValue, angle));
-            }
-
-            Debug.WriteLine("Possible Shots");
-            for (int i = 0; i < possibleShots.count(); i++)
-            {
-               
-                Debug.Write(possibleShots[i] +" , ");
             }
 
             return possibleShots.last();

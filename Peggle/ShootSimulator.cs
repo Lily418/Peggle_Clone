@@ -18,15 +18,19 @@ namespace Peggle
         Game1 game;
         List<Target> targetsHit = new List<Target>();
 
+        //DEBUG
+        float aimAngle;
+
         public ShootSimulator(Game game, GameTime time, Shooter shooter, float aimAngle)
         {
             this.game = (Game1)game;
             actionValue = 0;
             EventHanders.collision += collisionEventHandler;
-            simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(), aimAngle, true);
+            simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(), aimAngle  + MathHelper.PiOver2, true);
 
             this.game.addGameComponent(simulatedBall);
             
+            this.aimAngle = aimAngle;
 
 
             while (!simulatedBall.ballFallen())
@@ -42,6 +46,9 @@ namespace Peggle
 
         public void collisionEventHandler(object sender, CollisionArgs e)
         {
+
+                
+            
             if (e.collidingObject is Ball && e.collidingObject.Equals(simulatedBall))
             {
                 if (e.hitObject != null && e.hitObject is Target)
@@ -50,6 +57,7 @@ namespace Peggle
 
                     if (!targetsHit.Contains(targetHit))
                     {
+
                         if (targetHit.countsTowardsLevelProgress)
                         {
                             actionValue += LEVEL_PROGRESS_TARGET_VALUE;
