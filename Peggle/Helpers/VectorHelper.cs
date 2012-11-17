@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Peggle;
 
-namespace Peggle
+namespace Helper
 {
     //Extension methods for Vector2
     public static class VectorHelper
