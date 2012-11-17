@@ -32,7 +32,7 @@ namespace Peggle
 
             velocity = new PolarCoordinate(10.0f, angle).toCartesian();
 
-            maxSpeed = 5;
+            maxSpeed = 6;
 
             this.isSimulation = isSimulation;
         }

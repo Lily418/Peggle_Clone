@@ -9,7 +9,7 @@ namespace Peggle
 {
     class CircularTarget : Target, Entity
     {
-        Location location { get; set; }
+        public Location location { get; private set; }
         
 
         public CircularTarget(Game game, Location location, bool countsTowardsLevelProgress)

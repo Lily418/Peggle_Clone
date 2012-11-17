@@ -9,7 +9,8 @@ namespace Peggle
 {
     class AI : IShooterController
     {
-        const int NO_SHOTS_SIMULATED = 100;
+        //This number was choosen to make the amount of checks equal to the amount of positions the player can move into
+        const int NO_SHOTS_SIMULATED = 80;
 
         float? targetPosition = null;
         const float MOVEMENT_SPEED = 0.1f;
@@ -31,13 +32,11 @@ namespace Peggle
 
             if (shooter.aimingAngle == targetPosition)
             {
-                Debug.WriteLine(shooter.aimingAngle + " " + targetPosition);
                 targetPosition = null;
                 return new ShooterInstructions(0.0f, true);
             }
             else
             {
-                Debug.WriteLine("Attempted Movement");
                 float difference = (float)targetPosition - shooter.aimingAngle;
 
                 if (difference < MOVEMENT_SPEED)
@@ -66,9 +65,18 @@ namespace Peggle
 
             float interval = (Shooter.ROTATION_LIMIT * 2) / NO_SHOTS_SIMULATED;
 
+            Debug.WriteLine(interval);
+
             for (float angle = -Shooter.ROTATION_LIMIT; angle < Shooter.ROTATION_LIMIT; angle += interval)
             {
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(game, currentElapsedTime, shooter, angle).actionValue, angle));
+            }
+
+            Debug.WriteLine("Possible Shots");
+            for (int i = 0; i < possibleShots.count(); i++)
+            {
+                
+                Debug.Write("[" + possibleShots[i].Value + " " + possibleShots[i].Key + "]");
             }
 
             return possibleShots.last();

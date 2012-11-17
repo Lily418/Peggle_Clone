@@ -26,7 +26,8 @@ namespace Peggle
             this.game = (Game1)game;
             actionValue = 0;
             EventHanders.collision += collisionEventHandler;
-            simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(), aimAngle  + MathHelper.PiOver2, true);
+            float fireAngle = aimAngle + MathHelper.PiOver2;
+            simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(fireAngle), fireAngle, true);
 
             this.game.addGameComponent(simulatedBall);
             
@@ -47,7 +48,7 @@ namespace Peggle
         public void collisionEventHandler(object sender, CollisionArgs e)
         {
 
-                
+            
             
             if (e.collidingObject is Ball && e.collidingObject.Equals(simulatedBall))
             {
@@ -55,8 +56,11 @@ namespace Peggle
                 {
                     Target targetHit = (Target)e.hitObject;
 
-                    if (!targetsHit.Contains(targetHit))
+                    if (!targetsHit.Contains(targetHit) && !targetHit.hit)
                     {
+                        //DEBUG
+                        CircularTarget cTarget = (CircularTarget)targetHit;
+                        Debug.WriteLine(aimAngle + " " + "Collision" + cTarget.location.topLeft);
 
                         if (targetHit.countsTowardsLevelProgress)
                         {

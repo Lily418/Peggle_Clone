@@ -51,7 +51,7 @@ namespace Peggle
                     //An angle of 0 is facing down for the shooter but 0 is right in the physics system, correct this by adding halfPI
                     //TODO:Consider rotating shooter recrangle
                     float angle = aimingAngle + MathHelper.PiOver2;
-                    ball = new Ball((Game)game, calculateBallStartingLocation(), angle);
+                    ball = new Ball((Game)game, calculateBallStartingLocation(angle), angle);
                     game.addGameComponent(ball);
                 }
             }
@@ -59,11 +59,10 @@ namespace Peggle
 
         }
 
-        public Location calculateBallStartingLocation()
+        public Location calculateBallStartingLocation(float firingAngle)
         {
             const int BALL_DIAMETER = 20;
-            //Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Top) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, aimingAngle).toCartesian();
-            Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y);
+            Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER - BALL_DIAMETER, firingAngle).toCartesian();
             return new Location(startingVector, BALL_DIAMETER, BALL_DIAMETER);
         }
 

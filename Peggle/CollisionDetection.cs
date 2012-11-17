@@ -34,9 +34,14 @@ namespace Peggle
                         {
                             Circle movingEntityCircle = (Circle)moveableEntityBoundingBox;
                             Circle otherEntityCircle = (Circle)otherEntityBoundingBox;
-                            if (collision(movingEntityCircle, otherEntityCircle))
+
+                            float penetration;
+                            if ((penetration =collision(movingEntityCircle, otherEntityCircle)) > 0)
                             {
                                 float hitAngle = Math.Abs(MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin));
+                                ////Movement needed to stop circles overlapping
+                                //Vector2 initalResolveMovement = new PolarCoordinate(penetration, hitAngle + MathHelper.Pi).toCartesian();
+                                //moveableEntity.location.topLeft += initalResolveMovement;
                                 EventHanders.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, float.PositiveInfinity, Vector2.Zero, hitAngle), EventType.Collision);
                             }
                         }
@@ -51,18 +56,18 @@ namespace Peggle
             }
         }
 
-        static bool collision(Circle one, Circle two)
+        static float collision(Circle one, Circle two)
         {
             
             float distance = Vector2.Distance(one.origin, two.origin);
 
             if (distance < one.radius + two.radius)
             {
-                return true;
+                return one.radius + two.radius - distance;
             }
             else
             {
-                return false;
+                return 0;
             }
 
         }
