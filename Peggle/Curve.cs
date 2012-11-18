@@ -28,15 +28,6 @@ namespace Peggle
             return new Vector2(x, y);
         }
 
-        public Curve[] splitCurve()
-        {
-            Curve[] curves = new Curve[2];
-            curves[0] = new Curve(p0, getPoint(0.25f), getPoint(0.5f));
-            curves[1] = new Curve(getPoint(0.5f), getPoint(0.75f), p2);
-
-            return curves;
-        }
-
         public float getLength()
         {
             return Vector2.Distance(p0, p1) + Vector2.Distance(p1, p2);

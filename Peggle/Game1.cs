@@ -23,12 +23,18 @@ namespace Peggle
         internal static Level currentLevel;
         SpriteBatch spriteBatch;
 
-        Curve testCurve = new Curve(new Vector2(0, 0), new Vector2(100, 0), new Vector2(100, 100));
-        Curve[] curveSplit;
+        Curve testCurve  = new Curve(new Vector2(0, 0), new Vector2(100, 0), new Vector2(100, 100));
+        Curve testCurve2 = new Curve(new Vector2(0, 10), new Vector2(90, 10), new Vector2(90, 100));
+        CurvedBrick curvedBrickTest;
+        QuadCollection curveQuads;
+        Quad testQuad = new Quad(new Vector2(80.64f, 31.36f), new Vector2(94.24f, 57.76f), new Vector2(72.576f, 38.224f), new Vector2(84.816f, 61.984f));
 
         public Game1()
         {
             game = this;
+            curvedBrickTest = new CurvedBrick(testCurve, testCurve2);
+            curveQuads = curvedBrickTest.toQuads();
+            
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             cm = Content;
@@ -42,10 +48,12 @@ namespace Peggle
         /// </summary>
         protected override void Initialize()
         {
+            this.IsMouseVisible = true;
 
-            curveSplit = testCurve.splitCurve();
             currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
             currentLevel.load();
+
+            //Components.Add(curveQuads);
             
 
             base.Initialize();
@@ -84,6 +92,8 @@ namespace Peggle
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            MouseState ms = Mouse.GetState();
+
             base.Update(gameTime);
         }
 
@@ -95,9 +105,10 @@ namespace Peggle
         {
             GraphicsDevice.Clear(Color.Black);
 
-            testCurve.draw();
-            //curveSplit[0].draw();
-            //curveSplit[1].draw();
+            //testCurve.draw();
+            //testCurve2.draw();
+
+            testQuad.draw();
 
             base.Draw(gameTime);
         }
