@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Peggle
 {
-    class CircularTarget : Target, Entity
+    class CircularTarget : Target
     {
         public Location location { get; private set; }
         
@@ -45,7 +45,7 @@ namespace Peggle
             
         }
 
-        public Shape boundingBox()
+        public override Shape boundingBox()
         {
             return Circle.circleFromLocation(location);
         }

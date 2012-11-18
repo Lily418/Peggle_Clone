@@ -21,7 +21,7 @@ namespace Peggle
         {
             
 
-            foreach (IEntityPhysics moveableEntity in Game1.game.getComponents().OfType<IEntityPhysics>())
+            foreach (IEntityPhysics moveableEntity in Game1.getComponents().OfType<IEntityPhysics>())
             {   
 
 

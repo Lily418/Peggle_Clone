@@ -33,10 +33,10 @@ namespace Peggle
         //Should add the level to the entity lists and set up the components
         public void load()
         {
-            game.clearGameComponents();
+            Game1.clearGameComponents();
             physicsProcessor = new PhysicsProcessing(game);
-            game.addGameComponent(physicsProcessor);
-            game.addGameComponent(new CollisionResolver(game));
+            Game1.addGameComponent(physicsProcessor);
+            Game1.addGameComponent(new CollisionResolver(game));
 
             Queue<Shooter> shooters = new Queue<Shooter>();
             Shooter playerShooter = new Shooter(game, Color.Red, new Rectangle(300, 0, 80, 20), PlayerInput.getInstance());
@@ -44,7 +44,7 @@ namespace Peggle
             shooters.Enqueue(playerShooter);
             shooters.Enqueue(aiShooter);
 
-            game.addGameComponent(new TurnManager(game, shooters));
+            Game1.addGameComponent(new TurnManager(game, shooters));
 
             addComponentList(circularTargets);
         }
@@ -53,7 +53,7 @@ namespace Peggle
         {
             foreach (GameComponent gc in gameComponents)
             {
-                game.addGameComponent(gc);
+                Game1.addGameComponent(gc);
             }
         }
 

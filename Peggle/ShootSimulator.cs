@@ -15,29 +15,27 @@ namespace Peggle
 
         public int actionValue { get; private set; }
         Ball simulatedBall;
-        Game1 game;
         List<Target> targetsHit = new List<Target>();
 
 
 
         public ShootSimulator(Game game, GameTime time, Shooter shooter, float aimAngle)
         {
-            this.game = (Game1)game;
             actionValue = 0;
             EventHandlers.collision += collisionEventHandler;
             simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(aimAngle), aimAngle, true);
 
-            this.game.addGameComponent(simulatedBall);
+            Game1.addGameComponent(simulatedBall);
 
 
             while (!simulatedBall.ballFallen())
             {
-                this.game.currentLevel.physicsProcessor.Update(time);
+                Game1.currentLevel.physicsProcessor.Update(time);
             }
 
 
             EventHandlers.collision -= collisionEventHandler;
-            this.game.removeGameComponent(simulatedBall);
+            Game1.removeGameComponent(simulatedBall);
 
         }
 

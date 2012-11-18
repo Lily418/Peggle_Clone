@@ -21,7 +21,7 @@ namespace Peggle
             Game1 game1 = (Game1)game;
             foreach (Shooter shooter in shooters)
             {
-                game1.addGameComponent(shooter);
+                Game1.addGameComponent(shooter);
             }
 
             try

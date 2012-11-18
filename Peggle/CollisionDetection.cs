@@ -12,7 +12,7 @@ namespace Peggle
     {
         public static void checkCollisions()
         {
-            foreach (IEntityPhysics moveableEntity in Game1.game.getComponents().OfType<IEntityPhysics>())
+            foreach (IEntityPhysics moveableEntity in Game1.getComponents().OfType<IEntityPhysics>())
             {
                 if (moveableEntity.location.Left < 0)
                 {
@@ -23,7 +23,7 @@ namespace Peggle
                     EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, 0), EventType.Collision);
                 }
 
-                foreach (Entity otherEntity in Game1.game.getComponents().OfType<Entity>())
+                foreach (Entity otherEntity in Game1.getComponents().OfType<Entity>())
                 {
                     
                     if (!moveableEntity.Equals(otherEntity))

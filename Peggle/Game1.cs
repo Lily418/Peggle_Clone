@@ -17,12 +17,14 @@ namespace Peggle
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        internal static Game1 game;
         internal static GraphicsDeviceManager graphics;
         internal static ContentManager cm;
-        internal Level currentLevel;
+        internal static Game1 game;
+        internal static Level currentLevel;
         SpriteBatch spriteBatch;
 
+        Curve testCurve = new Curve(new Vector2(0, 0), new Vector2(100, 0), new Vector2(100, 100));
+        Curve[] curveSplit;
 
         public Game1()
         {
@@ -39,11 +41,12 @@ namespace Peggle
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-        {   
+        {
 
+            curveSplit = testCurve.splitCurve();
             currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
             currentLevel.load();
-           
+            
 
             base.Initialize();
         }
@@ -81,14 +84,6 @@ namespace Peggle
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            if (gameTime.IsRunningSlowly)
-            {
-                Debug.WriteLine("Running Slowly");
-            }
-
-            // TODO: Add your update logic here
-
-
             base.Update(gameTime);
         }
 
@@ -100,29 +95,31 @@ namespace Peggle
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            testCurve.draw();
+            //curveSplit[0].draw();
+            //curveSplit[1].draw();
 
             base.Draw(gameTime);
         }
 
-        public void clearGameComponents()
+        public static void clearGameComponents()
         {
-            Components.Clear();
+            game.Components.Clear();
         }
 
-        public void addGameComponent(GameComponent gameComponent)
+        public static void addGameComponent(GameComponent gameComponent)
         {
-            Components.Add(gameComponent);
+            game.Components.Add(gameComponent);
         }
 
-        public void removeGameComponent(GameComponent gameComponent)
+        public static void removeGameComponent(GameComponent gameComponent)
         {
-            Components.Remove(gameComponent);
+            game.Components.Remove(gameComponent);
         }
 
-        public GameComponentCollection getComponents()
+        public static GameComponentCollection getComponents()
         {
-            return Components;
+            return game.Components;
         }
     }
 }

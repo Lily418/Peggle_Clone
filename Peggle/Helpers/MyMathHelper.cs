@@ -32,5 +32,35 @@ namespace Helper
         {
             return Math.Abs(a - b);
         }
+
+        public static float min(float[] array)
+        {
+            float min = float.PositiveInfinity;
+
+            foreach (float f in array)
+            {
+                if (f < min)
+                {
+                    min = f; 
+                }
+            }
+
+            return min;
+        }
+
+        public static float max(float[] array)
+        {
+            float max = float.NegativeInfinity;
+
+            foreach (float f in array)
+            {
+                if (f > max)
+                {
+                    max = f;
+                }
+            }
+
+            return max;
+        }
     }
 }
