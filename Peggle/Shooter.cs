@@ -42,6 +42,11 @@ namespace Peggle
             {
                 ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime, this);
                 aimingAngle += nextInstruction.movementDirection;
+<<<<<<< HEAD
+=======
+
+                Debug.WriteLine(aimingAngle);
+>>>>>>> a21d928e9fb87ddc3d950f3717fce13f2af63159
                 
                 aimingAngle = MathHelper.Clamp(aimingAngle, MIN_ROTATION, MAX_ROTATION);
 
@@ -49,7 +54,11 @@ namespace Peggle
                 if (nextInstruction.fireBall)
                 {
                     ball = new Ball((Game)game, calculateBallStartingLocation(aimingAngle), aimingAngle);
+<<<<<<< HEAD
                     Game1.addGameComponent(ball);
+=======
+                    game.addGameComponent(ball);
+>>>>>>> a21d928e9fb87ddc3d950f3717fce13f2af63159
                 }
             }
 

@@ -28,8 +28,8 @@ namespace Peggle
         Curve testCurve2 = new Curve(new Vector2(0, 10), new Vector2(90, 10), new Vector2(90, 100));
         CurvedBrick curvedBrickTest;
         QuadCollection curveQuads;
-        Quad testQuad = new Quad(new Vector2(94.24f, 57.76f), new Vector2(80.64f, 31.36f),  new Vector2(72.576f, 38.224f), new Vector2(84.816f, 61.984f));
-        Quad testQuad2 = new Quad(new Vector2(0, 0), new Vector2(50, 0), new Vector2(0, 50), new Vector2(50, 50));
+        //Quad testQuad = new Quad(new Vector2(94.24f, 57.76f), new Vector2(80.64f, 31.36f),  new Vector2(72.576f, 38.224f), new Vector2(84.816f, 61.984f));
+        Quad testQuad2 = new Quad(new Vector2(0, 0), new Vector2(19, 1), new Vector2(0, 10), new Vector2(17.1f, 10.9f));
 
         public Game1()
         {
@@ -110,11 +110,11 @@ namespace Peggle
             //testCurve.draw();
             //testCurve2.draw();
 
-            testQuad.draw();
+            testQuad2.draw();
 
-            DebugHelper.drawPoint(testQuad.topLeft);
-            DebugHelper.drawPoint(testQuad.topRight);
-            DebugHelper.drawPoint(testQuad.bottomLeft);
+            //DebugHelper.drawPoint(testQuad.topLeft);
+            //DebugHelper.drawPoint(testQuad.topRight);
+            //DebugHelper.drawPoint(testQuad.bottomLeft);
            // DebugHelper.drawPoint(testQuad.bottomRight);
             DebugHelper.drawPoint(new Vector2(85f, 50f));
 
