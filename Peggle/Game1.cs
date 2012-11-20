@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
+using Helper;
 
 namespace Peggle
 {
@@ -27,7 +28,8 @@ namespace Peggle
         Curve testCurve2 = new Curve(new Vector2(0, 10), new Vector2(90, 10), new Vector2(90, 100));
         CurvedBrick curvedBrickTest;
         QuadCollection curveQuads;
-        Quad testQuad = new Quad(new Vector2(80.64f, 31.36f), new Vector2(94.24f, 57.76f), new Vector2(72.576f, 38.224f), new Vector2(84.816f, 61.984f));
+        Quad testQuad = new Quad(new Vector2(94.24f, 57.76f), new Vector2(80.64f, 31.36f),  new Vector2(72.576f, 38.224f), new Vector2(84.816f, 61.984f));
+        Quad testQuad2 = new Quad(new Vector2(0, 0), new Vector2(50, 0), new Vector2(0, 50), new Vector2(50, 50));
 
         public Game1()
         {
@@ -53,7 +55,7 @@ namespace Peggle
             currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
             currentLevel.load();
 
-            //Components.Add(curveQuads);
+            Components.Add(curveQuads);
             
 
             base.Initialize();
@@ -109,6 +111,12 @@ namespace Peggle
             //testCurve2.draw();
 
             testQuad.draw();
+
+            DebugHelper.drawPoint(testQuad.topLeft);
+            DebugHelper.drawPoint(testQuad.topRight);
+            DebugHelper.drawPoint(testQuad.bottomLeft);
+           // DebugHelper.drawPoint(testQuad.bottomRight);
+            DebugHelper.drawPoint(new Vector2(85f, 50f));
 
             base.Draw(gameTime);
         }

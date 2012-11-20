@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Helper;
 
 namespace Peggle
 {
     class Quad
     {
-        Vector2 topLeft;
-        Vector2 topRight;
-        Vector2 bottomLeft;
-        Vector2 bottomRight;
+        public Vector2 topLeft     { private set; get; }
+        public Vector2 topRight    { private set; get; }
+        public Vector2 bottomLeft  { private set; get; }
+        public Vector2 bottomRight { private set; get; }
 
         public Quad(Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight)
         {
@@ -26,15 +27,19 @@ namespace Peggle
         {
             DrawHelper dh = DrawHelper.getInstance();
 
-            Line top    = Line.getLineFromPoints(topLeft, topRight);
-            Line left   = Line.getLineFromPoints(topLeft, bottomLeft);
-            Line right  = Line.getLineFromPoints(topRight, bottomRight);
-            Line bottom = Line.getLineFromPoints(bottomLeft, bottomRight);
+            Vector2[] points = new Vector2[4];
+            points[0] = topLeft;
+            points[1] = topRight;
+            points[2] = bottomLeft;
+            points[3] = bottomRight;
 
-            int minX = Math.Min((int)topLeft.X,    (int)bottomLeft.X);
-            int minY = Math.Min((int)topLeft.Y,    (int)topRight.Y);
-            int maxX = Math.Max((int)topRight.X,   (int)bottomRight.X);
-            int maxY = Math.Max((int)bottomLeft.Y, (int)bottomRight.Y);
+            float[] pointsX = new float[] {topLeft.X,topRight.X,bottomLeft.X,bottomRight.X} ;
+            float[] pointsY = new float[] {topLeft.Y, topRight.Y, bottomLeft.Y, bottomRight.Y };
+
+            int minX = (int)MyMathHelper.min(pointsX);
+            int minY = (int)MyMathHelper.min(pointsY);
+            int maxX = (int)MyMathHelper.max(pointsX);
+            int maxY = (int)MyMathHelper.max(pointsY);
 
             dh.sb.Begin();
 
@@ -44,54 +49,48 @@ namespace Peggle
                 for (int x = minX; x <= maxX; x++)
                 {
 
+  //int      i, j=polySides-1 ;
+  //boolean  oddNodes=NO      ;
 
-                    
-                    float topY = top.yFromX(x);
+  //for (i=0; i<polySides; i++) {
+  //  if (polyY[i]<y && polyY[j]>=y
+  //  ||  polyY[j]<y && polyY[i]>=y) 
+      {
+  //    if (polyX[i]+(y-polyY[i])/(polyY[j]-polyY[i])*(polyX[j]-polyX[i])<x) 
+          {
+  //      oddNodes=!oddNodes; 
+          }
+      
+      }
+  //  j=i; }
 
-                    if ((float)y < topY)
+  //return oddNodes; }
+
+
+                    int j = 3;
+                    bool odd = false;
+
+                    for (int i = 0; i < points.Length; i++)
                     {
-                        continue;
-                    }
-                    
+                        if (points[i].Y < y && points[j].Y >= y
+                           || points[j].Y < y && points[i].Y >= y)
+                        {
+                            if(points[i].X + (y - points[i].Y) / (points[j].Y - points[i].Y) * (points[j].X - points[i].X) < x)
+                            {
+                                odd = !odd;
+                            }
+                        }
 
-                    
-
-                    float bottomY = bottom.yFromX(x);
-                    if ((float)y > bottomY)
-                    {
-                        continue;
-                    }
-
-                  
-
-
-                    
-
-
-                    float leftX = left.xFromY(y);
-
-                    if (x == 81 && y == 35)
-                    {
-                        Debug.WriteLine(leftX);
-                    }
-
-                    if ((float)x < leftX)
-                    {
-                        continue;
-                    }
-
-                   
-                    
-                     
-
-                    float rightX = right.xFromY(y);
-                    if ((float)x > rightX)
-                    {
-                        continue;
+                        j = i;
                     }
 
-                    Rectangle drawPosition = new Rectangle(x, y, 1, 1);
-                    dh.sb.Draw(dh.dummyTexture, drawPosition, Color.DeepPink);
+
+                    if (odd)
+                    {
+                        Rectangle drawPosition = new Rectangle(x, y, 1, 1);
+                        dh.sb.Draw(dh.dummyTexture, drawPosition, Color.DeepPink);
+                    }
+                    
 
                 }
             }
