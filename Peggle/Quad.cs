@@ -49,9 +49,6 @@ namespace Peggle
 
             dh.sb.Begin();
 
-            Debug.WriteLine(topLeft + " " + topRight);
-            Debug.WriteLine(top.yFromX(89));
-
       
 
             for (int y = minY; y <= maxY; y++)
