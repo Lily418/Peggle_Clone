@@ -29,7 +29,8 @@ namespace Peggle
         CurvedBrick curvedBrickTest;
         QuadCollection curveQuads;
         //Quad testQuad = new Quad(new Vector2(94.24f, 57.76f), new Vector2(80.64f, 31.36f),  new Vector2(72.576f, 38.224f), new Vector2(84.816f, 61.984f));
-        Quad testQuad2 = new Quad(new Vector2(0, 0), new Vector2(19, 1), new Vector2(0, 10), new Vector2(17.1f, 10.9f));
+        Quad testQuad2 = new Quad(new Vector2(x:80.49374f, y:51.00624f), new Vector2(x:89.4375f,  y:45.56249f), new Vector2(x:87.24375f, y:71.25624f), new Vector2(x:96.9375f,  y:68.06248f));
+        Line testLine = Line.getLineFromPoints(new Vector2(0,0), new Vector2(1,1));
 
         public Game1()
         {
@@ -107,16 +108,16 @@ namespace Peggle
         {
             GraphicsDevice.Clear(Color.Black);
 
-            //testCurve.draw();
-            //testCurve2.draw();
+            testCurve.draw();
+            testCurve2.draw();
 
             testQuad2.draw();
 
-            //DebugHelper.drawPoint(testQuad.topLeft);
-            //DebugHelper.drawPoint(testQuad.topRight);
-            //DebugHelper.drawPoint(testQuad.bottomLeft);
-           // DebugHelper.drawPoint(testQuad.bottomRight);
-            DebugHelper.drawPoint(new Vector2(85f, 50f));
+            DebugHelper.drawPoint(testQuad2.topLeft);
+            DebugHelper.drawPoint(testQuad2.topRight);
+            DebugHelper.drawPoint(testQuad2.bottomLeft);
+            DebugHelper.drawPoint(testQuad2.bottomRight);
+            DebugHelper.drawPoint(new Vector2(89f, 52f));
 
             base.Draw(gameTime);
         }

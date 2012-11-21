@@ -35,7 +35,7 @@ namespace Peggle
 
             Line top    = Line.getLineFromPoints(topLeft, topRight);
             Line bottom = Line.getLineFromPoints(bottomLeft, bottomRight);
-            Line left   = Line.getLineFromPoints(topLeft, topRight);
+            Line left   = Line.getLineFromPoints(topLeft, bottomLeft);
             Line right  = Line.getLineFromPoints(topRight, bottomRight);
 
             float[] pointsX = new float[] {topLeft.X,topRight.X,bottomLeft.X,bottomRight.X} ;
@@ -46,27 +46,46 @@ namespace Peggle
             int maxX = (int)MyMathHelper.max(pointsX);
             int maxY = (int)MyMathHelper.max(pointsY);
 
+
             dh.sb.Begin();
 
+            Debug.WriteLine(topLeft + " " + topRight);
+            Debug.WriteLine(top.yFromX(89));
+
+      
 
             for (int y = minY; y <= maxY; y++)
             {
                 for (int x = minX; x <= maxX; x++)
                 {
 
+                    
                     float topY = top.yFromX(x);
+
+                    if (x == 89 && y == 52)
+                    {
+                        //Debug.WriteLine(top.m +" "+top.c);
+                    }
+                    
+
                     if(y < topY)
                     {
+                        
                         continue;
                     }
 
                     float bottomY = bottom.yFromX(x);
+
+                    
+
                     if (y > bottomY)
                     {
                         continue;
                     }
 
                     float leftX = left.xFromY(y);
+
+
                     if(x < leftX)
                     {
                         continue;
@@ -79,7 +98,7 @@ namespace Peggle
                     }
                   
                         Rectangle drawPosition = new Rectangle(x, y, 1, 1);
-                        dh.sb.Draw(dh.dummyTexture, drawPosition, Color.DeepPink);
+                        dh.sb.Draw(dh.dummyTexture, drawPosition, Color.HotPink);
                    
                     
                     
@@ -93,18 +112,6 @@ namespace Peggle
         public override string ToString()
         {
             return "Top Left : " + topLeft + " Top Right : " + topRight + " Bottom Left : " + bottomLeft + " Bottom Right : " + bottomRight;
-        }
-
-        private bool pointInPolygon(Vector2[] points, Vector2 test)
-        {
-  bool c = false;
-  int i, j;
-  for (i = 0, j = points.Length-1; i < points.Length; j = i++) {
-    if ( ((points[i].Y> test.Y) != (points[j].Y>test.Y)) &&
-	 (test.X < (points[j].X-points[i].X) * (test.Y-points[i].Y) / (points[j].Y-points[i].Y) + points[i].X) )
-       c = !c;
-  }
-  return c;
         }
 
     }

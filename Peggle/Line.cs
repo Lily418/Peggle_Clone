@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Helper;
+
 
 namespace Peggle
 {
@@ -20,9 +22,14 @@ namespace Peggle
 
         public static Line getLineFromPoints(Vector2 a, Vector2 b)
         {
-            float m = Math.Abs((a.Y - b.Y) / (a.X - b.X));
+            float m = (a.Y - b.Y) / (a.X - b.X);
             
             float c = a.Y - (m * a.X);
+
+            if (float.IsNaN(m))
+            {
+                Debug.WriteLine(a + " " + b);
+            }
 
             return new Line(m, c);
         }
@@ -36,6 +43,22 @@ namespace Peggle
         public float xFromY(float y)
         {
             return (y - c) / m;
+        }
+
+        public void draw()
+        {
+            DrawHelper dh = DrawHelper.getInstance();
+
+            dh.sb.Begin();
+
+            for (int x = 0; x < 800; x++)
+            {
+                int y = (int)yFromX(x);
+                Rectangle drawPosition = new Rectangle(x, y, 1, 1);
+                dh.sb.Draw(dh.dummyTexture, drawPosition, Color.Tomato);  
+            }
+
+            dh.sb.End();
         }
     }
 }
