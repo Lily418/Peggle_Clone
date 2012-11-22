@@ -8,21 +8,19 @@ using Helper;
 
 namespace Peggle
 {
-    class CurvedBrick : Shape
+    class CurvedBrick
     {
-        public Curve upperCurve { get; private set; }
-        public Curve lowerCurve { get; private set; }
+        public QuadCollection quads { private set; get; }
 
         public CurvedBrick(Curve upperCurve, Curve lowerCurve)
         {
-            this.upperCurve = upperCurve;
-            this.lowerCurve = lowerCurve;
+            quads = toQuads(upperCurve, lowerCurve);
         }
 
-        public QuadCollection toQuads()
+        private QuadCollection toQuads(Curve upperCurve, Curve lowerCurve)
         {
 
-            QuadCollection curveQuads = new QuadCollection(Game1.game);
+            QuadCollection curveQuads = new QuadCollection();
 
             float intervalUpper = calculateInterval(upperCurve);
             float intervalLower = calculateInterval(lowerCurve);
@@ -36,7 +34,7 @@ namespace Peggle
                 Vector2 p2   = lowerCurve.getPoint(i);
                 Vector2 p3   = lowerCurve.getPoint(i + usedInterval);
 
-                curveQuads.addQuad(ShapeHelper.organiseQuadPoints(new Vector2[]{p0, p1, p2, p3}));
+                curveQuads.addQuad(Quad.organiseQuadPoints(new Vector2[]{p0, p1, p2, p3}));
             }
 
             return curveQuads;

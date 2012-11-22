@@ -26,6 +26,9 @@ namespace Peggle
                     case "circletarget":
                         level.addElement(loadCircularTarget(element, game));
                         break;
+                    case "curvetarget":
+                        level.addElement(loadCurveTarget(element, game));
+                        break;
                 }
             }
 
@@ -44,6 +47,23 @@ namespace Peggle
 
             return new CircularTarget(game, location, countsTowardsLevelComplete);
 
+        }
+
+        private static CurveTarget loadCurveTarget(XElement element, Game game)
+        {
+            XElement upperCurve = element.Element(XName.Get("UpperCurve"));
+            XElement lowerCurve = element.Element(XName.Get("LowerCurve"));
+
+            return new CurveTarget(new CurvedBrick(loadCurve(upperCurve), loadCurve(lowerCurve)), game);
+        }
+
+        private static Curve loadCurve(XElement element)
+        {
+            String p0 = element.Element(XName.Get("p0")).Value;
+            String p1 = element.Element(XName.Get("p1")).Value;
+            String p2 = element.Element(XName.Get("p2")).Value;
+
+            return new Curve(p0.toVector(), p1.toVector(), p2.toVector());
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -10,23 +11,23 @@ namespace Peggle
     {
         Game1 game;
 
-        List<CircularTarget> circularTargets = new List<CircularTarget>();
         public PhysicsProcessing physicsProcessor { private set; get; }
+        List<Target> targets = new List<Target>();
 
         public Level(Game1 game)
         {
             this.game = game;
         }
 
-        public void addElement(object element)
+        public void addElement(GameComponent element)
         {
-            if (element is CircularTarget)
+            if (element is Target)
             {
-                circularTargets.Add((CircularTarget)element);
+                targets.Add((Target)element);
             }
             else
             {
-                throw new ElementUnknownException(element.GetType() + " was not recognised as a level element");
+                Debug.Assert(false, "Element not recoginsed by level loader " + element.GetType());
             }
         }
 
@@ -46,7 +47,7 @@ namespace Peggle
 
             Game1.addGameComponent(new TurnManager(game, shooters));
 
-            addComponentList(circularTargets);
+            addComponentList(targets);
         }
 
         private void addComponentList(IEnumerable<GameComponent> gameComponents)

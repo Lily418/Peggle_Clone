@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    class QuadCollection : DrawableGameComponent
+    class QuadCollection : Shape
     {
-        List<Quad> quads = new List<Quad>();
+        public List<Quad> quads { get; private set; }
 
-        public QuadCollection(Game game)
-            : base(game)
+        public QuadCollection()
         {
+            quads = new List<Quad>();
         }
 
         public void addQuad(Quad newQuad)
@@ -20,7 +20,7 @@ namespace Peggle
             quads.Add(newQuad);
         }
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime)
         {
             foreach (Quad quad in quads)
             {

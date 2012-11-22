@@ -24,17 +24,9 @@ namespace Peggle
         internal static Level currentLevel;
         SpriteBatch spriteBatch;
 
-        Curve testCurve  = new Curve(new Vector2(0, 0), new Vector2(100, 0), new Vector2(100, 100));
-        Curve testCurve2 = new Curve(new Vector2(0, 10), new Vector2(90, 10), new Vector2(90, 100));
-        CurvedBrick curvedBrickTest;
-        QuadCollection curveQuads;
-
         public Game1()
         {
             game = this;
-            curvedBrickTest = new CurvedBrick(testCurve, testCurve2);
-            curveQuads = curvedBrickTest.toQuads();
-            
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             cm = Content;
@@ -52,8 +44,6 @@ namespace Peggle
 
             currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
             currentLevel.load();
-
-            Components.Add(curveQuads);
             
 
             base.Initialize();

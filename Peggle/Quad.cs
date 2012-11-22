@@ -8,12 +8,18 @@ using Helper;
 
 namespace Peggle
 {
-    class Quad
+    class Quad : Shape
     {
         public Vector2 topLeft     { private set; get; }
         public Vector2 topRight    { private set; get; }
         public Vector2 bottomLeft  { private set; get; }
         public Vector2 bottomRight { private set; get; }
+
+        public Line top    { private set; get; }
+        public Line bottom { private set; get; }
+        public Line right  { private set; get; }
+        public Line left   { private set; get; }
+       
 
         public Quad(Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight)
         {
@@ -21,22 +27,81 @@ namespace Peggle
             this.topRight = topRight;
             this.bottomLeft = bottomLeft;
             this.bottomRight = bottomRight;
+
+            top = Line.getLineFromPoints(topLeft, topRight);
+            bottom = Line.getLineFromPoints(bottomLeft, bottomRight);
+            left = Line.getLineFromPoints(topLeft, bottomLeft);
+            right = Line.getLineFromPoints(topRight, bottomRight);
         }
+
+        public static Quad organiseQuadPoints(Vector2[] points)
+        {
+            Array.Sort(points, new VectorComparer(VectorComparer.Axis.x));
+
+            Vector2 topLeft;
+            Vector2 bottomLeft;
+            Vector2 topRight;
+            Vector2 bottomRight;
+
+            if (points[0].Y < points[1].Y)
+            {
+                topLeft = points[0];
+                bottomLeft = points[1];
+            }
+            else
+            {
+                topLeft = points[1];
+                bottomLeft = points[0];
+            }
+
+            if (points[2].Y < points[3].Y)
+            {
+                topRight = points[2];
+                bottomRight = points[3];
+            }
+            else
+            {
+                topRight = points[3];
+                bottomRight = points[2];
+            }
+
+
+            return new Quad(topLeft, topRight, bottomLeft, bottomRight);
+        }
+
+        public bool pointInQuad(int x, int y)
+        {
+            float topY = top.yFromX(x);
+            if (y < topY)
+            {
+                return false;
+            }
+
+            float bottomY = bottom.yFromX(x);
+            if (y > bottomY)
+            {
+                return false;
+            }
+
+            float leftX = left.xFromY(y);
+            if (x < leftX)
+            {
+                return false;
+            }
+
+            float rightX = right.xFromY(y);
+            if (x > rightX)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
         public void draw()
         {
             DrawHelper dh = DrawHelper.getInstance();
-
-            //Vector2[] points = new Vector2[4];
-            //points[0] = topLeft;
-            //points[1] = topRight;
-            //points[2] = bottomLeft;
-            //points[3] = bottomRight;
-
-            Line top    = Line.getLineFromPoints(topLeft, topRight);
-            Line bottom = Line.getLineFromPoints(bottomLeft, bottomRight);
-            Line left   = Line.getLineFromPoints(topLeft, bottomLeft);
-            Line right  = Line.getLineFromPoints(topRight, bottomRight);
 
             float[] pointsX = new float[] {topLeft.X,topRight.X,bottomLeft.X,bottomRight.X} ;
             float[] pointsY = new float[] {topLeft.Y, topRight.Y, bottomLeft.Y, bottomRight.Y };
@@ -55,51 +120,11 @@ namespace Peggle
             {
                 for (int x = minX; x <= maxX; x++)
                 {
-
-                    
-                    float topY = top.yFromX(x);
-
-                    if (x == 89 && y == 52)
+                    if(pointInQuad(x,y))
                     {
-                        //Debug.WriteLine(top.m +" "+top.c);
-                    }
-                    
-
-                    if(y < topY)
-                    {
-                        
-                        continue;
-                    }
-
-                    float bottomY = bottom.yFromX(x);
-
-                    
-
-                    if (y > bottomY)
-                    {
-                        continue;
-                    }
-
-                    float leftX = left.xFromY(y);
-
-
-                    if(x < leftX)
-                    {
-                        continue;
-                    }
-
-                    float rightX = right.xFromY(y);
-                    if(x > rightX)
-                    {
-                        continue;
-                    }
-                  
                         Rectangle drawPosition = new Rectangle(x, y, 1, 1);
                         dh.sb.Draw(dh.dummyTexture, drawPosition, Color.HotPink);
-                   
-                    
-                    
-
+                    }
                 }
             }
 
