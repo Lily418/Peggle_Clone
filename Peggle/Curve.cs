@@ -8,7 +8,7 @@ using Helper;
 
 namespace Peggle
 {
-    class Curve
+    public class Curve
     {
         public Vector2 p0 { get; private set; }
         public Vector2 p1 { get; private set; }

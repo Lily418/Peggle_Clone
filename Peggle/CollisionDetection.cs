@@ -53,11 +53,13 @@ namespace Peggle
                             {
                                 if (collision(quad, movingEntityCircle))
                                 {
-                                    Debug.WriteLine("Collision");
+                                    Debug.WriteLine("Collsion");
+                                    float hitAngle = Math.Abs(MyMathHelper.angleBetween(quad.center, movingEntityCircle.origin));
+                                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, 0f), EventType.Collision);
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("No Collision");
+                                    Debug.WriteLine("No Collsion");
                                 }
                             }
                         }
@@ -92,18 +94,43 @@ namespace Peggle
         {
             if (quad.pointInQuad((int)circle.origin.X, (int)circle.origin.Y))
             {
+                quad.color = Color.Red;
                 return true;
             }
 
-            if (ShapeHelper.rayCircleIntersection(quad.topLeft, quad.topRight, circle) ||
-                ShapeHelper.rayCircleIntersection(quad.topLeft, quad.bottomLeft, circle) ||
-                ShapeHelper.rayCircleIntersection(quad.topRight, quad.bottomRight, circle) ||
-                ShapeHelper.rayCircleIntersection(quad.bottomLeft, quad.bottomRight, circle))
+           // return lineCircleCollision(quad.topLeft, quad.topRight, circle) || lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)
+           //     || lineCircleCollision(quad.topRight, quad.bottomRight, circle) || lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle);
+
+
+            if (lineCircleCollision(quad.topLeft, quad.topRight, circle)
+                || lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)
+                || lineCircleCollision(quad.topRight, quad.bottomRight, circle)
+                 || lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle))
+            {
+                quad.color = Color.Red;
+                return true;
+            }
+
+            quad.color = Color.Green;
+            return false;
+        }
+
+        static bool lineCircleCollision(Vector2 a, Vector2 b, Circle circle)
+        {
+            Vector2 closestPointToCircleOnLine = ShapeHelper.getClosestPoint(a, b, circle.origin);
+
+            Debug.WriteLine(closestPointToCircleOnLine);
+
+            float distance = Vector2.Distance(circle.origin, closestPointToCircleOnLine);
+
+            if (distance < circle.radius)
             {
                 return true;
             }
-
-            return false;
+            else
+            {
+                return false;
+            }
         }
     }
 }

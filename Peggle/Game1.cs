@@ -24,6 +24,8 @@ namespace Peggle
         internal static Level currentLevel;
         SpriteBatch spriteBatch;
 
+        public static CurveTarget ct;
+
         public Game1()
         {
             game = this;
@@ -41,6 +43,10 @@ namespace Peggle
         protected override void Initialize()
         {
             this.IsMouseVisible = true;
+
+            QuadCollection qc = new QuadCollection();
+            qc.addQuad(new Quad(new Vector2(300, 300),new Vector2(400, 300),new Vector2(300, 400),new Vector2(400, 400)));
+            ct = new CurveTarget(qc, this);
 
             currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
             currentLevel.load();

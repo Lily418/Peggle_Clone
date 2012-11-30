@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    class QuadCollection : Shape
+    public class QuadCollection : Shape
     {
         public List<Quad> quads { get; private set; }
 

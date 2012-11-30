@@ -41,13 +41,16 @@ namespace Peggle
 
             Queue<Shooter> shooters = new Queue<Shooter>();
             Shooter playerShooter = new Shooter(game, Color.Red, new Rectangle(300, 0, 80, 20), PlayerInput.getInstance());
-            Shooter aiShooter = new Shooter(game, Color.Green, new Rectangle(420, 0, 80, 20), new AI(game));
+            //Shooter aiShooter = new Shooter(game, Color.Green, new Rectangle(420, 0, 80, 20), new AI(game));
             shooters.Enqueue(playerShooter);
-            shooters.Enqueue(aiShooter);
+            //shooters.Enqueue(aiShooter);
 
             Game1.addGameComponent(new TurnManager(game, shooters));
 
             addComponentList(targets);
+
+            //DEBUG
+            Game1.addGameComponent(Game1.ct);
         }
 
         private void addComponentList(IEnumerable<GameComponent> gameComponents)

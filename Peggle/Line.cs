@@ -9,7 +9,7 @@ using Helper;
 
 namespace Peggle
 {
-    class Line
+    public class Line
     {
         public float m { get; private set; }
         public float c { get; private set; }

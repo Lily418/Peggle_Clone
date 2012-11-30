@@ -7,55 +7,29 @@ using Peggle;
 
 namespace Helper
 {
-    class ShapeHelper
+    static class ShapeHelper
     {
-        public static bool rayCircleIntersection(Vector2 startRay, Vector2 endRay, Circle circle)
+        public static Vector2 getClosestPoint(Vector2 A, Vector2 B, Vector2 P)
         {
-            Vector2 d = endRay - startRay;
-            Vector2 f = startRay - circle.origin;
+            Vector2 a_to_p = new Vector2(P.X - A.X, P.Y - A.Y);     // Storing vector A->P
+            Vector2 a_to_b = new Vector2(B.X - A.X, B.Y - A.Y);     // Storing vector A->B
 
-            float a = Vector2.Dot(d, d);
-            float b = 2 * Vector2.Dot(f, d);
-            float c = Vector2.Dot(f, f) - (float)Math.Pow(circle.radius, 2);
+            float atb2 = (float)Math.Pow(a_to_b.X, 2) + (float)Math.Pow(a_to_b.Y, 2);  // **2 means "squared"
+            //   Basically finding the squared magnitude
+            //   of a_to_b
 
-            float discriminant = b * b - 4 * a * c;
+            float atp_dot_atb = Vector2.Dot(a_to_b, a_to_p); // The dot product of a_to_p and a_to_b
 
-            if (discriminant < 0)
-            {
-                // no intersection
-                return false;
-            }
-            else
-            {
-                return true;
-                //// ray didn't totally miss sphere,
-                //// so there is a solution to
-                //// the equation.
+            float t = atp_dot_atb / atb2;              // The normalized "distance" from a to
+            //   your closest point
 
+            Vector2 closestPointOnLine =  new Vector2(x: A.X + a_to_b.X * t, y: A.Y + a_to_b.Y * t);
 
-                //discriminant = (float)Math.Sqrt(discriminant);
-                //// either solution may be on or off the ray so need to test both
-                //float t1 = (-b + discriminant) / (2 * a);
-                //float t2 = (-b - discriminant) / (2 * a);
+            closestPointOnLine.X = MathHelper.Clamp(closestPointOnLine.X, Math.Min(A.X, B.X), Math.Max(A.X, B.X));
+            closestPointOnLine.Y = MathHelper.Clamp(closestPointOnLine.Y, Math.Min(A.Y, B.Y), Math.Max(A.Y, B.Y));
 
-                //if (t1 >= 0 && t1 <= 1)
-                //{
-                //    // t1 solution on is ON THE RAY.
-                //}
-                //else
-                //{
-                //    // t1 solution "out of range" of ray
-                //}
-
-                //if (t2 >= 0 && t2 <= 1)
-                //{
-                //    // t2 solution on is ON THE RAY.
-                //}
-                //else
-                //{
-                //    // t2 solution "out of range" of ray
-                //}
-            }
+            return closestPointOnLine;
         }
+
     }
 }

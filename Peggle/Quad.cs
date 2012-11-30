@@ -8,7 +8,7 @@ using Helper;
 
 namespace Peggle
 {
-    class Quad : Shape
+    public class Quad : Shape
     {
         public Vector2 topLeft     { private set; get; }
         public Vector2 topRight    { private set; get; }
@@ -19,6 +19,31 @@ namespace Peggle
         public Line bottom { private set; get; }
         public Line right  { private set; get; }
         public Line left   { private set; get; }
+
+        public float minX {private set; get;}
+        public float minY {private set; get;}
+        public float maxX { private set; get; }
+        public float maxY { private set; get; }
+        
+        public float width
+        {
+            get
+            {
+                return maxX - minX;
+            }
+        }
+
+        public float height
+        {
+            get
+            {
+                return maxY - minY;
+            }
+        }
+
+        public Vector2 center { private set; get; }
+
+        public Color color;
        
 
         public Quad(Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight)
@@ -32,6 +57,18 @@ namespace Peggle
             bottom = Line.getLineFromPoints(bottomLeft, bottomRight);
             left = Line.getLineFromPoints(topLeft, bottomLeft);
             right = Line.getLineFromPoints(topRight, bottomRight);
+
+            float[] pointsX = new float[]{topLeft.X, topRight.X, bottomLeft.X, bottomRight.X};
+            float[] pointsY = new float[]{topLeft.Y, topRight.Y, bottomLeft.Y, bottomRight.Y};
+
+            minX = MyMathHelper.min(pointsX);
+            minY = MyMathHelper.min(pointsY);
+            maxX = MyMathHelper.max(pointsX);
+            maxY = MyMathHelper.max(pointsY);
+
+            center = new Vector2(minX + width / 2, minY + height / 2);
+
+            color = Color.Gold;
         }
 
         public static Quad organiseQuadPoints(Vector2[] points)
@@ -71,6 +108,11 @@ namespace Peggle
 
         public bool pointInQuad(int x, int y)
         {
+            if (x < minX || x > maxX || y > maxY || y < minY)
+            {
+                return false;
+            }
+
             float topY = top.yFromX(x);
             if (y < topY)
             {
@@ -123,7 +165,7 @@ namespace Peggle
                     if(pointInQuad(x,y))
                     {
                         Rectangle drawPosition = new Rectangle(x, y, 1, 1);
-                        dh.sb.Draw(dh.dummyTexture, drawPosition, Color.HotPink);
+                        dh.sb.Draw(dh.dummyTexture, drawPosition, color);
                     }
                 }
             }

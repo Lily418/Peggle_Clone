@@ -8,7 +8,7 @@ using Helper;
 
 namespace Peggle
 {
-    class CurvedBrick
+    public class CurvedBrick
     {
         public QuadCollection quads { private set; get; }
 
@@ -22,10 +22,7 @@ namespace Peggle
 
             QuadCollection curveQuads = new QuadCollection();
 
-            float intervalUpper = calculateInterval(upperCurve);
-            float intervalLower = calculateInterval(lowerCurve);
-
-            float usedInterval = 0.1f;
+            float usedInterval = 0.15f;
 
             for (float i = 0.0f; i <= 1.0f; i += usedInterval)
             {
@@ -38,13 +35,6 @@ namespace Peggle
             }
 
             return curveQuads;
-        }
-
-
-        private float calculateInterval(Curve curve)
-        {
-            const float INTERVAL_BETWEEN_POINTS = 10f;
-            return INTERVAL_BETWEEN_POINTS / curve.getLength();
         }
     }
 }

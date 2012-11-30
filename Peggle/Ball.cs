@@ -9,7 +9,7 @@ using Helper;
 
 namespace Peggle
 {
-    class Ball : DrawableGameComponent, IEntityPhysics
+    public class Ball : DrawableGameComponent, IEntityPhysics
     {
         static Texture2D texture;
         Color color;

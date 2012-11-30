@@ -49,7 +49,7 @@ namespace Peggle
         Collision, BallFallen
     }
 
-    class BallFallenArgs : EventArgs
+    public class BallFallenArgs : EventArgs
     {
         public Ball ball { private set; get; }
 

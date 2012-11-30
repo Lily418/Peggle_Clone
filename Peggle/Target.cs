@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Peggle
 {
-    abstract class Target : DrawableGameComponent, Entity
+    public abstract class Target : DrawableGameComponent, Entity
     {
         public bool hit { get; private set; }
         public bool countsTowardsLevelProgress { get; private set; }
@@ -40,12 +40,12 @@ namespace Peggle
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
             
-            if (hit)
-            {
-                EventHandlers.collision -= collisionEventHandler;
-                EventHandlers.ballFallen -= ballFallenEventHandler;
-                Game1.removeGameComponent(this);
-            }
+            //if (hit)
+            //{
+            //    EventHandlers.collision -= collisionEventHandler;
+            //    EventHandlers.ballFallen -= ballFallenEventHandler;
+            //    Game1.removeGameComponent(this);
+            //}
         }
 
         public abstract Shape boundingBox();
