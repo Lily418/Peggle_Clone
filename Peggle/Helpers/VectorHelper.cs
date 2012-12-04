@@ -42,6 +42,32 @@ namespace Helper
 
         }
 
+        public static Vector2 getClosestVector(Vector2 point, Vector2[] points)
+        {
+            //I decided not to write the method in a way that assumes points has at least one element
+            //I didn't want to return a magic number/meaningless value
+            //I considered making the return type a nullable Vector2 but decided this could lead to NullReference exceptions
+            //when the method was misused, which would be harder to debug than an implicit exception
+            if (points.Length == 0)
+            {
+                throw new ArgumentException("Points cannot be empty");
+            }
+
+            Vector2 closest = Vector2.Zero;
+            float currentMinDistance = float.PositiveInfinity;
+            foreach (Vector2 vector in points)
+            {
+                float thisDistance = 0;
+                if (closest == null || (thisDistance = Vector2.Distance(closest, vector)) < currentMinDistance)
+                {
+                    currentMinDistance = thisDistance;
+                    closest = vector;
+                }
+            }
+
+            return closest;
+        }
+
         public static Point toPoint(this Vector2 vector)
         {
             return new Point((int)vector.X, (int)vector.Y);

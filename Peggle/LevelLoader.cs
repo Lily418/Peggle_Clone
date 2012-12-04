@@ -24,7 +24,7 @@ namespace Peggle
                 switch (parentName)
                 {
                     case "circletarget":
-                        //level.addElement(loadCircularTarget(element, game));
+                        level.addElement(loadCircularTarget(element, game));
                         break;
                     case "curvetarget":
                         level.addElement(loadCurveTarget(element, game));

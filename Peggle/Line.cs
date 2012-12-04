@@ -26,11 +26,6 @@ namespace Peggle
             
             float c = a.Y - (m * a.X);
 
-            if (float.IsNaN(m))
-            {
-                Debug.WriteLine(a + " " + b);
-            }
-
             return new Line(m, c);
         }
 

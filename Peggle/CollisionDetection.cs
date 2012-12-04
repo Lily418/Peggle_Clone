@@ -53,13 +53,14 @@ namespace Peggle
                             {
                                 if (collision(quad, movingEntityCircle))
                                 {
-                                    Debug.WriteLine("Collsion");
-                                    float hitAngle = Math.Abs(MyMathHelper.angleBetween(quad.center, movingEntityCircle.origin));
+                                    Vector2[] closestPointOnEachQuadLine = new Vector2[]{ShapeHelper.getClosestPoint(quad.topLeft, quad.topRight, movingEntityCircle.origin),
+                                                                                         ShapeHelper.getClosestPoint(quad.topLeft, quad.bottomLeft, movingEntityCircle.origin),
+                                                                                         ShapeHelper.getClosestPoint(quad.bottomLeft, quad.bottomRight, movingEntityCircle.origin),
+                                                                                         ShapeHelper.getClosestPoint(quad.topRight, quad.bottomRight, movingEntityCircle.origin)};
+
+                                    Vector2 closestPoint = VectorHelper.getClosestVector(movingEntityCircle.origin, closestPointOnEachQuadLine); 
+                                    float hitAngle = Math.Abs(MyMathHelper.angleBetween(closestPoint, movingEntityCircle.origin));
                                     EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, 0f), EventType.Collision);
-                                }
-                                else
-                                {
-                                    Debug.WriteLine("No Collsion");
                                 }
                             }
                         }
@@ -118,8 +119,6 @@ namespace Peggle
         static bool lineCircleCollision(Vector2 a, Vector2 b, Circle circle)
         {
             Vector2 closestPointToCircleOnLine = ShapeHelper.getClosestPoint(a, b, circle.origin);
-
-            Debug.WriteLine(closestPointToCircleOnLine);
 
             float distance = Vector2.Distance(circle.origin, closestPointToCircleOnLine);
 

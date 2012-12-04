@@ -10,6 +10,8 @@ namespace Peggle
 {
     class CollisionResolver : GameComponent
     {
+        const float BOUNCE_CUTOFF = 0.5f;
+
         public CollisionResolver(Game game)
             : base(game)
         {
@@ -23,12 +25,15 @@ namespace Peggle
         public static void collisionEventHandler(object sender, CollisionArgs e)
         {
             IEntityPhysics collidingObject = e.collidingObject;
-            Vector2 initalResolveMovement = new PolarCoordinate(e.penetration, e.hitObjectAngle + MathHelper.Pi).toCartesian();
-            collidingObject.location.topLeft += initalResolveMovement;
 
             PolarCoordinate collidingObjectPolar = collidingObject.velocity.toPolar();
             float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
-            float newRadius = collidingObjectPolar.radius / 1.5f;
+            float newRadius = collidingObjectPolar.radius - (collidingObjectPolar.radius / 4);
+
+            if (newRadius < 0f)
+            {
+                newRadius = 0f;
+            }
             collidingObject.velocity = new PolarCoordinate(newRadius, newOrigin).toCartesian();
 
         }
