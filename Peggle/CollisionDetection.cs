@@ -52,12 +52,12 @@ namespace Peggle
 
                             foreach (Quad quad in quads)
                             {
-                                KeyValuePair<Vector2, Vector2>? collisionLine;
-                                if ((collisionLine = collision(quad, movingEntityCircle)).HasValue)
+                                float? collisionAngle;
+                                if ((collisionAngle = collision(quad, movingEntityCircle)).HasValue)
                                 {
 
-                                    float hitAngle = MyMathHelper.angleBetween(collisionLine.Value.Key, collisionLine.Value.Value) - MathHelper.PiOver2;
-                                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, 0f), EventType.Collision);
+                                    //float hitAngle = MyMathHelper.angleBetween(collisionLine.Value.Key, collisionLine.Value.Value) - MathHelper.PiOver2;
+                                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, (float)collisionAngle, 0f), EventType.Collision);
                                     curveCollisionFound = true;
                                     break;
                                 }
@@ -95,31 +95,55 @@ namespace Peggle
 
         }
 
-        static KeyValuePair<Vector2, Vector2>? collision(Quad quad, Circle circle)
+        static float? collision(Quad quad, Circle circle)
         {
+            float? collisionAngle = null;
             if (lineCircleCollision(quad.topLeft, quad.topRight, circle))
             {
+                initToZero(ref collisionAngle);
+                Debug.WriteLine("Top Collision" + MyMathHelper.angleBetween(quad.topLeft, quad.topRight));
                 quad.color = Color.Red;
-                return new KeyValuePair<Vector2,Vector2>(quad.topLeft, quad.topRight);
+                collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
             }
-            else if(lineCircleCollision(quad.topLeft, quad.bottomLeft, circle))
+            
+            if (lineCircleCollision(quad.topLeft, quad.bottomLeft, circle))
             {
+                initToZero(ref collisionAngle);
+                Debug.WriteLine("Left Collision");
                 quad.color = Color.Red;
-                return new KeyValuePair<Vector2,Vector2>(quad.topLeft, quad.bottomLeft);
+                collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
             }
-            else if (lineCircleCollision(quad.topRight, quad.bottomRight, circle))
+            
+            if (lineCircleCollision(quad.topRight, quad.bottomRight, circle))
             {
+                initToZero(ref collisionAngle);
+                Debug.WriteLine("Right Collision" + MyMathHelper.angleBetween(quad.topRight, quad.bottomRight));
                 quad.color = Color.Red;
-                return new KeyValuePair<Vector2,Vector2>(quad.topRight, quad.bottomRight);
+                collisionAngle += MyMathHelper.angleBetween(quad.topRight, quad.bottomRight);
             }
-            else if(lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle))
+            
+            if (lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle))
             {
+                initToZero(ref collisionAngle);
+                Debug.WriteLine("Bottom Collision");
                 quad.color = Color.Red;
-                return new KeyValuePair<Vector2, Vector2>(quad.topLeft, quad.bottomRight);
+                collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight);
             }
 
-            quad.color = Color.Green;
-            return null;
+            if (collisionAngle == null)
+            {
+                quad.color = Color.Green;
+            }
+
+            return collisionAngle;
+        }
+
+        private static void initToZero(ref float? x)
+        {
+            if (x == null)
+            {
+                x = 0f;
+            }
         }
 
         static bool lineCircleCollision(Vector2 a, Vector2 b, Circle circle)

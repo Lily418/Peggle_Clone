@@ -32,7 +32,7 @@ namespace Peggle
 
             float newRadius = collidingObjectPolar.radius;
 
-            if (newRadius > 0.8f)
+            if (newRadius > 1.5f)
             {
                 newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
             }
@@ -47,11 +47,11 @@ namespace Peggle
 
         private static float bounceAngle(float collidingAngle, float hitAngle)
         {
-            float betweenAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
+            float betweenAngle = MathHelper.WrapAngle(MyMathHelper.angleBetween(collidingAngle, hitAngle));
 
             Debug.WriteLine("Collding Angle " + collidingAngle + " Hit Angle:" + hitAngle + " Between Angle: " + betweenAngle);
 
-            if (betweenAngle < 0.3)
+            if (betweenAngle < 3f)
             {
                 betweenAngle *= betweenAngle;
             }
