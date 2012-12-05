@@ -70,7 +70,7 @@ namespace Peggle
 
         public Location calculateBallStartingLocation(float firingAngle)
         {
-            const int BALL_DIAMETER = 20;
+            const int BALL_DIAMETER = 15;
             Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, firingAngle).toCartesian();
             return new Location(startingVector, BALL_DIAMETER, BALL_DIAMETER);
         }

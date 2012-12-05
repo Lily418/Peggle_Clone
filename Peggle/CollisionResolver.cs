@@ -32,13 +32,11 @@ namespace Peggle
 
             float newRadius = collidingObjectPolar.radius;
 
-            if (newRadius > 2f)
+
+            Debug.WriteLine(e.penetration);
+            if (e.penetration > 0.5f)
             {
                 newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
-            }
-            else
-            {
-                //newRadius = 0f;
             }
             
             collidingObject.velocity = new PolarCoordinate(newRadius, newOrigin).toCartesian();
@@ -49,7 +47,7 @@ namespace Peggle
         {
             float betweenAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
 
-            if (betweenAngle < 0.3)
+            if (betweenAngle < 1)
             {
                 betweenAngle *= betweenAngle;
             }

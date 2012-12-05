@@ -22,7 +22,7 @@ namespace Peggle
 
             QuadCollection curveQuads = new QuadCollection();
 
-            float usedInterval = 0.1f;
+            float usedInterval = 0.15f;
 
             for (float i = 0.0f; i <= 1.0f; i += usedInterval)
             {

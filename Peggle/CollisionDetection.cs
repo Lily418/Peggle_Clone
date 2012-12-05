@@ -52,12 +52,12 @@ namespace Peggle
 
                             foreach (Quad quad in quads)
                             {
-                                KeyValuePair<Vector2, Vector2>? collisionLine;
-                                if ((collisionLine = collision(quad, movingEntityCircle)).HasValue)
+                                KeyValuePair<float?, float> collisionAngle;
+
+                                if ((collisionAngle = collision(quad, movingEntityCircle)).Key.HasValue)
                                 {
 
-                                    float hitAngle = MyMathHelper.angleBetween(collisionLine.Value.Key, collisionLine.Value.Value) - MathHelper.PiOver2;
-                                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, 0f), EventType.Collision);
+                                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, (float)collisionAngle.Key, collisionAngle.Value), EventType.Collision);
                                     curveCollisionFound = true;
                                     break;
                                 }
@@ -95,34 +95,78 @@ namespace Peggle
 
         }
 
-        private static KeyValuePair<Vector2, Vector2>? collision(Quad quad, Circle circle)
+        private static KeyValuePair<float?, float> collision(Quad quad, Circle circle)
         {
-            if (lineCircleCollision(quad.topLeft, quad.topRight, circle))
+            float? collisionAngle = null;
+            float penetration = 0f;
+
+            float? collisionAmount;
+
+            const float COLLISION_THRESHOLD = 0.8f;
+
+            if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
+                //Debug.WriteLine("Top:" + collisionAmount);
                 quad.color = Color.Red;
-                return new KeyValuePair<Vector2,Vector2>(quad.topLeft, quad.topRight);
+                initToZero(ref collisionAngle);
+                collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
+
+                if (collisionAmount > penetration)
+                {
+                    penetration = (float)collisionAmount;
+                }
             }
-            else if(lineCircleCollision(quad.topLeft, quad.bottomLeft, circle))
+            if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
+                Debug.WriteLine("Left");
                 quad.color = Color.Red;
-                return new KeyValuePair<Vector2,Vector2>(quad.topLeft, quad.bottomLeft);
+                collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
+
+                if (collisionAmount > penetration)
+                {
+                    penetration = (float)collisionAmount;
+                }
             }
-            else if (lineCircleCollision(quad.topRight, quad.bottomRight, circle))
+            if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
+                //Debug.WriteLine("Right:" + collisionAmount );
                 quad.color = Color.Red;
-                return new KeyValuePair<Vector2,Vector2>(quad.topRight, quad.bottomRight);
+                collisionAngle += MyMathHelper.angleBetween(quad.topRight, quad.bottomRight);
+
+                if (collisionAmount > penetration)
+                {
+                    penetration = (float)collisionAmount;
+                }
             }
-            else if(lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle))
+            if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
+                Debug.WriteLine("Bottom");
                 quad.color = Color.Red;
-                return new KeyValuePair<Vector2, Vector2>(quad.topLeft, quad.bottomRight);
+                collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) - MathHelper.Pi;
+
+                if (collisionAmount > penetration)
+                {
+                    penetration = (float)collisionAmount;
+                }
             }
 
-            quad.color = Color.Green;
-            return null;
+            if (collisionAngle == null)
+            {
+                quad.color = Color.Green;
+            }
+
+            return new KeyValuePair<float?, float>(collisionAngle, penetration);
         }
 
-        static bool lineCircleCollision(Vector2 a, Vector2 b, Circle circle)
+        static void initToZero(ref float? f)
+        {
+            if (f == null)
+            {
+                f = 0f;
+            }
+        }
+
+        static float? lineCircleCollision(Vector2 a, Vector2 b, Circle circle)
         {
             Vector2 closestPointToCircleOnLine = ShapeHelper.getClosestPoint(a, b, circle.origin);
 
@@ -130,11 +174,11 @@ namespace Peggle
 
             if (distance < circle.radius)
             {
-                return true;
+                return MathHelper.Distance(distance, circle.radius);
             }
             else
             {
-                return false;
+                return null;
             }
         }
     }
