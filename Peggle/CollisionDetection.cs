@@ -97,45 +97,60 @@ namespace Peggle
 
         static float? collision(Quad quad, Circle circle)
         {
-            float? collisionAngle = null;
+            bool collision = false;
             if (lineCircleCollision(quad.topLeft, quad.topRight, circle))
             {
-                initToZero(ref collisionAngle);
-                Debug.WriteLine("Top Collision" + MyMathHelper.angleBetween(quad.topLeft, quad.topRight));
                 quad.color = Color.Red;
-                collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
+                collision = true;
             }
             
-            if (lineCircleCollision(quad.topLeft, quad.bottomLeft, circle))
+            else if (lineCircleCollision(quad.topLeft, quad.bottomLeft, circle))
             {
-                initToZero(ref collisionAngle);
-                Debug.WriteLine("Left Collision");
                 quad.color = Color.Red;
-                collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
+                collision = true;
             }
             
-            if (lineCircleCollision(quad.topRight, quad.bottomRight, circle))
+            else if (lineCircleCollision(quad.topRight, quad.bottomRight, circle))
             {
-                initToZero(ref collisionAngle);
-                Debug.WriteLine("Right Collision" + MyMathHelper.angleBetween(quad.topRight, quad.bottomRight));
                 quad.color = Color.Red;
-                collisionAngle += MyMathHelper.angleBetween(quad.topRight, quad.bottomRight);
+                collision = true;
             }
             
-            if (lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle))
+            else if (lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle))
             {
-                initToZero(ref collisionAngle);
-                Debug.WriteLine("Bottom Collision");
                 quad.color = Color.Red;
-                collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight);
+                collision = true;
             }
 
-            if (collisionAngle == null)
+            if (!collision)
             {
                 quad.color = Color.Green;
+                return null;
+            }
+            else
+            {
+                if (circle.origin.Y < quad.topLeft.Y || circle.origin.Y < quad.topRight.Y)
+                {
+                    Debug.WriteLine("Top");
+                    return MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
+                }
+                else if (circle.origin.X < quad.topLeft.X || circle.origin.X < quad.bottomLeft.X)
+                {
+                    Debug.WriteLine("Left");
+                    return MathHelper.PiOver2;
+                }
+                else if (circle.origin.X > quad.topRight.X || circle.origin.X > quad.bottomRight.X)
+                {
+                    Debug.WriteLine("Right");
+                    return MathHelper.PiOver2;
+                }
+                else
+                {
+                    Debug.WriteLine("Bottom");
+                    return MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight);
+                }
             }
 
-            return collisionAngle;
         }
 
         private static void initToZero(ref float? x)
