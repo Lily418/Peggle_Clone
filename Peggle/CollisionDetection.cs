@@ -14,13 +14,16 @@ namespace Peggle
         {
             foreach (IEntityPhysics moveableEntity in Game1.getComponents().OfType<IEntityPhysics>())
             {
+
                 if (moveableEntity.location.Left < 0)
                 {
                     EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.location.Left)), EventType.Collision);
+                    break;
                 }
                 else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
                 {
                     EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.location.Right)), EventType.Collision);
+                    break;
                 }
 
                 bool curveCollisionFound = false;
@@ -102,11 +105,11 @@ namespace Peggle
 
             float? collisionAmount;
 
-            const float COLLISION_THRESHOLD = 0.8f;
+            const float COLLISION_THRESHOLD = 1f;
 
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                //Debug.WriteLine("Top:" + collisionAmount);
+               
                 quad.color = Color.Red;
                 initToZero(ref collisionAngle);
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
@@ -118,7 +121,7 @@ namespace Peggle
             }
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                Debug.WriteLine("Left");
+                //Debug.WriteLine("Left");
                 quad.color = Color.Red;
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
 
@@ -140,7 +143,7 @@ namespace Peggle
             }
             if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                Debug.WriteLine("Bottom");
+                //Debug.WriteLine("Bottom");
                 quad.color = Color.Red;
                 collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) - MathHelper.Pi;
 
