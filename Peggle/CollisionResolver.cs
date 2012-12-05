@@ -47,9 +47,9 @@ namespace Peggle
 
         private static float bounceAngle(float collidingAngle, float hitAngle)
         {
-            float betweenAngle = MathHelper.WrapAngle(MyMathHelper.angleBetween(collidingAngle, hitAngle));
+            float betweenAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
 
-            if (betweenAngle < 3f)
+            if (betweenAngle < 0.3)
             {
                 betweenAngle *= betweenAngle;
             }
