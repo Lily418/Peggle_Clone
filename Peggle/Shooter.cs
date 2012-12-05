@@ -7,6 +7,10 @@ using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
 using Helper;
 
+#if DEBUG
+using Microsoft.Xna.Framework.Input;
+#endif
+
 namespace Peggle
 {
     class Shooter : DrawableGameComponent
@@ -36,7 +40,14 @@ namespace Peggle
         public void processInput(GameTime gameTime)
         {
             
-          
+#if DEBUG
+            KeyboardState currentKeyboardState = Keyboard.GetState();
+                if (currentKeyboardState.IsKeyDown(Keys.Q))
+                {
+                    Debug.WriteLine("Shooter Angle:" + aimingAngle);
+                }
+
+#endif
 
             if (ball == null)
             {
@@ -48,6 +59,7 @@ namespace Peggle
 
                 if (nextInstruction.fireBall)
                 {
+                    //aimingAngle = 2.3f;
                     ball = new Ball((Game)game, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
                 }
@@ -59,7 +71,7 @@ namespace Peggle
         public Location calculateBallStartingLocation(float firingAngle)
         {
             const int BALL_DIAMETER = 20;
-            Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER - (BALL_DIAMETER / 2f), firingAngle).toCartesian();
+            Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, firingAngle).toCartesian();
             return new Location(startingVector, BALL_DIAMETER, BALL_DIAMETER);
         }
 

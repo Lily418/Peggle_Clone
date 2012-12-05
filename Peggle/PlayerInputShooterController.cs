@@ -54,6 +54,8 @@ namespace Peggle
                     fireBall = true;
                 }
 
+
+
                 shooterInstructions = new ShooterInstructions(shooterMovement, fireBall);
                 inputLastUpdated = gameTime.TotalGameTime;
 

@@ -30,9 +30,10 @@ namespace Peggle
                 texture = drawHelper.circleTexture;
             }
 
-            velocity = new PolarCoordinate(3.0f, angle).toCartesian();
+            velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, angle).toCartesian();
+            //velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, -1.9f).toCartesian();
 
-            maxSpeed = 5;
+            maxSpeed = PhysicsSettings.MAX_BALL_SPEED;
 
             this.isSimulation = isSimulation;
         }
@@ -52,6 +53,7 @@ namespace Peggle
 
         public override void Draw(GameTime gameTime)
         {
+
             DrawHelper drawHelper = DrawHelper.getInstance();
             SpriteBatch sb = drawHelper.sb;
 

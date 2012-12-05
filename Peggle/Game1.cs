@@ -30,6 +30,9 @@ namespace Peggle
         {
             game = this;
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 500;
+
             Content.RootDirectory = "Content";
             cm = Content;
         }
@@ -42,11 +45,9 @@ namespace Peggle
         /// </summary>
         protected override void Initialize()
         {
-            this.IsMouseVisible = true;
+           
 
-            QuadCollection qc = new QuadCollection();
-            qc.addQuad(new Quad(new Vector2(300, 300),new Vector2(400, 300),new Vector2(300, 400),new Vector2(400, 400)));
-            ct = new CurveTarget(qc, this);
+            this.IsMouseVisible = true;
 
             currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
             currentLevel.load();

@@ -16,13 +16,14 @@ namespace Peggle
             {
                 if (moveableEntity.location.Left < 0)
                 {
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, 0), EventType.Collision);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.location.Left)), EventType.Collision);
                 }
                 else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
                 {
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, 0), EventType.Collision);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.location.Right)), EventType.Collision);
                 }
 
+                bool curveCollisionFound = false;
                 foreach (Entity otherEntity in Game1.getComponents().OfType<Entity>())
                 {
 
@@ -39,7 +40,7 @@ namespace Peggle
                             float penetration;
                             if ((penetration = collision(movingEntityCircle, otherEntityCircle)) > 0)
                             {
-                                float hitAngle = Math.Abs(MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin));
+                                float hitAngle = MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin);
                                 EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, penetration), EventType.Collision);
                             }
                         }
@@ -51,17 +52,20 @@ namespace Peggle
 
                             foreach (Quad quad in quads)
                             {
-                                if (collision(quad, movingEntityCircle))
+                                KeyValuePair<Vector2, Vector2>? collisionLine;
+                                if ((collisionLine = collision(quad, movingEntityCircle)).HasValue)
                                 {
-                                    Vector2[] closestPointOnEachQuadLine = new Vector2[]{ShapeHelper.getClosestPoint(quad.topLeft, quad.topRight, movingEntityCircle.origin),
-                                                                                         ShapeHelper.getClosestPoint(quad.topLeft, quad.bottomLeft, movingEntityCircle.origin),
-                                                                                         ShapeHelper.getClosestPoint(quad.bottomLeft, quad.bottomRight, movingEntityCircle.origin),
-                                                                                         ShapeHelper.getClosestPoint(quad.topRight, quad.bottomRight, movingEntityCircle.origin)};
 
-                                    Vector2 closestPoint = VectorHelper.getClosestVector(movingEntityCircle.origin, closestPointOnEachQuadLine); 
-                                    float hitAngle = Math.Abs(MyMathHelper.angleBetween(closestPoint, movingEntityCircle.origin));
+                                    float hitAngle = MyMathHelper.angleBetween(collisionLine.Value.Key, collisionLine.Value.Value) - MathHelper.PiOver2;
                                     EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, 0f), EventType.Collision);
+                                    curveCollisionFound = true;
+                                    break;
                                 }
+                            }
+
+                            if (curveCollisionFound)
+                            {
+                                break;
                             }
                         }
                         else
@@ -91,29 +95,31 @@ namespace Peggle
 
         }
 
-        static bool collision(Quad quad, Circle circle)
+        static KeyValuePair<Vector2, Vector2>? collision(Quad quad, Circle circle)
         {
-            if (quad.pointInQuad((int)circle.origin.X, (int)circle.origin.Y))
+            if (lineCircleCollision(quad.topLeft, quad.topRight, circle))
             {
                 quad.color = Color.Red;
-                return true;
+                return new KeyValuePair<Vector2,Vector2>(quad.topLeft, quad.topRight);
             }
-
-           // return lineCircleCollision(quad.topLeft, quad.topRight, circle) || lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)
-           //     || lineCircleCollision(quad.topRight, quad.bottomRight, circle) || lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle);
-
-
-            if (lineCircleCollision(quad.topLeft, quad.topRight, circle)
-                || lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)
-                || lineCircleCollision(quad.topRight, quad.bottomRight, circle)
-                 || lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle))
+            else if(lineCircleCollision(quad.topLeft, quad.bottomLeft, circle))
             {
                 quad.color = Color.Red;
-                return true;
+                return new KeyValuePair<Vector2,Vector2>(quad.topLeft, quad.bottomLeft);
+            }
+            else if (lineCircleCollision(quad.topRight, quad.bottomRight, circle))
+            {
+                quad.color = Color.Red;
+                return new KeyValuePair<Vector2,Vector2>(quad.topRight, quad.bottomRight);
+            }
+            else if(lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle))
+            {
+                quad.color = Color.Red;
+                return new KeyValuePair<Vector2, Vector2>(quad.topLeft, quad.bottomRight);
             }
 
             quad.color = Color.Green;
-            return false;
+            return null;
         }
 
         static bool lineCircleCollision(Vector2 a, Vector2 b, Circle circle)

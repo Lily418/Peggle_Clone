@@ -10,7 +10,6 @@ namespace Peggle
 {
     class CollisionResolver : GameComponent
     {
-        const float BOUNCE_CUTOFF = 0.5f;
 
         public CollisionResolver(Game game)
             : base(game)
@@ -28,19 +27,50 @@ namespace Peggle
 
             PolarCoordinate collidingObjectPolar = collidingObject.velocity.toPolar();
             float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
-            float newRadius = collidingObjectPolar.radius - (collidingObjectPolar.radius / 4);
 
-            if (newRadius < 0f)
+            e.collidingObject.location.topLeft += new PolarCoordinate(e.penetration, newOrigin).toCartesian();
+
+            float newRadius = collidingObjectPolar.radius;
+
+            if (newRadius > 0.8f)
             {
-                newRadius = 0f;
+                newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
             }
+            else
+            {
+                //newRadius = 0f;
+            }
+            
             collidingObject.velocity = new PolarCoordinate(newRadius, newOrigin).toCartesian();
 
         }
 
         private static float bounceAngle(float collidingAngle, float hitAngle)
         {
-            return hitAngle += MathHelper.Pi;
+            float betweenAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
+
+            Debug.WriteLine("Collding Angle " + collidingAngle + " Hit Angle:" + hitAngle + " Between Angle: " + betweenAngle);
+
+            if (betweenAngle < 0.3)
+            {
+                betweenAngle *= betweenAngle;
+            }
+            
+
+            
+           
+
+            hitAngle += MathHelper.Pi;
+
+            if (collidingAngle > MathHelper.PiOver2)
+            {
+                hitAngle -= betweenAngle;
+            }
+            else
+            {
+                hitAngle += betweenAngle;
+            }
+            return hitAngle;
         }
 
 
