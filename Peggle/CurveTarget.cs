@@ -11,28 +11,30 @@ namespace Peggle
 {
     public class CurveTarget : Target
     {
-        QuadCollection quads;
+        CurvedBrick position;
+        Line leftLine;
+        Line rightLine;
 
         public CurveTarget(CurvedBrick position, Game game) : base(game, false)
         {
-           
-            quads = position.quads;
-        }
+            this.position = position;
+            leftLine = Line.getLineFromPoints(position.upperCurve.p0, position.lowerCurve.p0);
+            rightLine = Line.getLineFromPoints(position.upperCurve.p2, position.lowerCurve.p2);
 
-        public CurveTarget(QuadCollection collection, Game game)
-            : base(game, false)
-        {
-            quads = collection;
         }
 
         public override void Draw(GameTime gameTime)
         {
-            quads.Draw(gameTime);
+            position.quads.Draw(gameTime, color);
+            position.upperCurve.draw();
+            position.lowerCurve.draw();
+            leftLine.draw((int)position.upperCurve.p0.X, (int)position.lowerCurve.p0.X, (int)position.upperCurve.p0.Y, (int)position.lowerCurve.p0.Y);
+            rightLine.draw((int)position.upperCurve.p2.X, (int)position.lowerCurve.p2.X, (int)position.upperCurve.p2.Y, (int)position.lowerCurve.p2.Y);
         }
 
         public override Shape boundingBox()
         {
-            return quads;
+            return position.quads;
         }
     }
 }

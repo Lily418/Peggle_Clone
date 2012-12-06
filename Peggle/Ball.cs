@@ -31,7 +31,6 @@ namespace Peggle
             }
 
             velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, angle).toCartesian();
-            //velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, 3.6f).toCartesian();
 
             maxSpeed = PhysicsSettings.MAX_BALL_SPEED;
 

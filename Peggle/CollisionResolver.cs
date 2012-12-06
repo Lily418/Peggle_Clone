@@ -32,10 +32,7 @@ namespace Peggle
 
             float newRadius = collidingObjectPolar.radius;
 
-            if (e.penetration > 0.5f)
-            {
-                newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
-            }
+            newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
             
             collidingObject.velocity = new PolarCoordinate(newRadius, newOrigin).toCartesian();
 

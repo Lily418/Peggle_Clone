@@ -10,11 +10,15 @@ namespace Peggle
 {
     public class CurvedBrick
     {
+        public Curve upperCurve { private set; get; }
+        public Curve lowerCurve { private set; get; }
         public QuadCollection quads { private set; get; }
 
         public CurvedBrick(Curve upperCurve, Curve lowerCurve)
         {
             quads = toQuads(upperCurve, lowerCurve);
+            this.upperCurve = upperCurve;
+            this.lowerCurve = lowerCurve;
         }
 
         private QuadCollection toQuads(Curve upperCurve, Curve lowerCurve)

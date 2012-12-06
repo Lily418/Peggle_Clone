@@ -109,8 +109,6 @@ namespace Peggle
 
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-               
-                quad.color = Color.Red;
                 initToZero(ref collisionAngle);
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
 
@@ -121,8 +119,6 @@ namespace Peggle
             }
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                //Debug.WriteLine("Left");
-                quad.color = Color.Red;
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
 
                 if (collisionAmount > penetration)
@@ -132,8 +128,6 @@ namespace Peggle
             }
             if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                //Debug.WriteLine("Right:" + collisionAmount );
-                quad.color = Color.Red;
                 collisionAngle += MyMathHelper.angleBetween(quad.topRight, quad.bottomRight);
 
                 if (collisionAmount > penetration)
@@ -143,8 +137,6 @@ namespace Peggle
             }
             if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                //Debug.WriteLine("Bottom");
-                quad.color = Color.Red;
                 collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) - MathHelper.Pi;
 
                 if (collisionAmount > penetration)
@@ -153,10 +145,6 @@ namespace Peggle
                 }
             }
 
-            if (collisionAngle == null)
-            {
-                quad.color = Color.Green;
-            }
 
             return new KeyValuePair<float?, float>(collisionAngle, penetration);
         }

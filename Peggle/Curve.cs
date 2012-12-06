@@ -44,8 +44,8 @@ namespace Peggle
             for (float i = 0f; i < 1f; i += interval)
             {
                 Vector2 point = getPoint(i);
-                Rectangle drawPosition = new Rectangle((int)point.X, (int)point.Y, 1, 1);
-                dh.sb.Draw(dh.dummyTexture, drawPosition, Color.Yellow);
+                Rectangle drawPosition = new Rectangle((int)point.X, (int)point.Y, 2, 2);
+                dh.sb.Draw(dh.dummyTexture, drawPosition, Color.Purple);
                 
             }
             dh.sb.End();

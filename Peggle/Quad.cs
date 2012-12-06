@@ -42,8 +42,6 @@ namespace Peggle
         }
 
         public Vector2 center { private set; get; }
-
-        public Color color;
        
 
         public Quad(Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight)
@@ -67,8 +65,6 @@ namespace Peggle
             maxY = MyMathHelper.max(pointsY);
 
             center = new Vector2(minX + width / 2, minY + height / 2);
-
-            color = Color.Gold;
         }
 
         public static Quad organiseQuadPoints(Vector2[] points)
@@ -141,7 +137,7 @@ namespace Peggle
         }
 
 
-        public void draw()
+        public void draw(Color color)
         {
             DrawHelper dh = DrawHelper.getInstance();
 

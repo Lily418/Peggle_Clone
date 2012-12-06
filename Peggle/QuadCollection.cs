@@ -20,11 +20,11 @@ namespace Peggle
             quads.Add(newQuad);
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, Color color)
         {
             foreach (Quad quad in quads)
             {
-                quad.draw();
+                quad.draw(color);
             }
         }
     }

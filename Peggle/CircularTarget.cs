@@ -24,21 +24,10 @@ namespace Peggle
             DrawHelper drawHelper = DrawHelper.getInstance();
             SpriteBatch sb = drawHelper.sb;
 
-            Color color;
+            
 
-            if (countsTowardsLevelProgress)
-            {
-                color = Color.Orange;
-            }
-            else
-            {
-                color = Color.Blue;
-            }
 
-            if (hit)
-            {
-                color = color.increaseBrightness(80);
-            }
+
 
             sb.Begin();
             sb.Draw(drawHelper.circleTexture, location.asRectangle(), color);

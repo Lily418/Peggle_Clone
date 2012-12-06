@@ -40,18 +40,43 @@ namespace Peggle
             return (y - c) / m;
         }
 
-        public void draw()
+        public void draw(int X1, int X2, int Y1, int Y2)
         {
+            const int LINE_THICKNESS = 2;
+            //Debug.WriteLine(m + " " + c);
             DrawHelper dh = DrawHelper.getInstance();
 
             dh.sb.Begin();
 
-            for (int x = 0; x < 800; x++)
-            {
-                int y = (int)yFromX(x);
-                Rectangle drawPosition = new Rectangle(x, y, 1, 1);
-                dh.sb.Draw(dh.dummyTexture, drawPosition, Color.Tomato);  
-            }
+                int startX = Math.Min(X1, X2);
+                int endX   = Math.Max(X1, X2);
+
+
+                if (startX != endX)
+                {
+                    for (int x = startX; x < endX; x++)
+                    {
+                        int y = (int)yFromX(x);
+                        Rectangle drawPosition = new Rectangle(x, y, LINE_THICKNESS, LINE_THICKNESS);
+                        dh.sb.Draw(dh.dummyTexture, drawPosition, Color.Purple);
+                    }
+                }
+                else
+                {
+
+                    int startY = Math.Min(Y1, Y2);
+                    int endY   = Math.Max(Y1, Y2);
+
+                    for (int y = startY; y < endY; y++)
+                    {
+
+                        Rectangle drawPosition = new Rectangle(X1, y, LINE_THICKNESS, LINE_THICKNESS);
+                        dh.sb.Draw(dh.dummyTexture, drawPosition, Color.Purple);
+                    }
+                }
+
+                
+            
 
             dh.sb.End();
         }
