@@ -28,8 +28,8 @@ namespace Peggle
             position.quads.Draw(gameTime, color);
             position.upperCurve.draw();
             position.lowerCurve.draw();
-            leftLine.draw((int)position.upperCurve.p0.X, (int)position.lowerCurve.p0.X, (int)position.upperCurve.p0.Y, (int)position.lowerCurve.p0.Y);
-            rightLine.draw((int)position.upperCurve.p2.X, (int)position.lowerCurve.p2.X, (int)position.upperCurve.p2.Y, (int)position.lowerCurve.p2.Y);
+            leftLine.draw ();
+            rightLine.draw();
         }
 
         public override Shape boundingBox()

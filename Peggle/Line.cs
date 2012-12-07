@@ -11,22 +11,28 @@ namespace Peggle
 {
     public class Line
     {
+        public Vector2 a { private set; get; }
+        public Vector2 b { private set; get; }
         public float m { get; private set; }
         public float c { get; private set; }
 
-        private Line(float m, float c)
+        private Line(float m, float c, Vector2 a, Vector2 b)
         {
             this.m = m;
             this.c = c;
+            this.a = a;
+            this.b = b;
+
         }
 
         public static Line getLineFromPoints(Vector2 a, Vector2 b)
         {
+
             float m = (a.Y - b.Y) / (a.X - b.X);
             
             float c = a.Y - (m * a.X);
 
-            return new Line(m, c);
+            return new Line(m, c, a, b);
         }
 
         public float yFromX(float x)
@@ -37,19 +43,28 @@ namespace Peggle
 
         public float xFromY(float y)
         {
-            return (y - c) / m;
+
+            float x = (y - c) / m;
+
+            if (float.IsNaN(x))
+            {
+                x = a.X;
+            }
+
+            return x;
         }
 
-        public void draw(int X1, int X2, int Y1, int Y2)
+        public void draw()
         {
+
             const int LINE_THICKNESS = 2;
-            //Debug.WriteLine(m + " " + c);
+
             DrawHelper dh = DrawHelper.getInstance();
 
             dh.sb.Begin();
 
-                int startX = Math.Min(X1, X2);
-                int endX   = Math.Max(X1, X2);
+                int startX = Math.Min((int)a.X, (int)b.X);
+                int endX   = Math.Max((int)a.X, (int)b.X);
 
 
                 if (startX != endX)
@@ -64,13 +79,12 @@ namespace Peggle
                 else
                 {
 
-                    int startY = Math.Min(Y1, Y2);
-                    int endY   = Math.Max(Y1, Y2);
+                    int startY = Math.Min((int)a.Y, (int)b.Y);
+                    int endY   = Math.Max((int)a.Y, (int)b.Y);
 
                     for (int y = startY; y < endY; y++)
                     {
-
-                        Rectangle drawPosition = new Rectangle(X1, y, LINE_THICKNESS, LINE_THICKNESS);
+                        Rectangle drawPosition = new Rectangle((int)a.X, y, LINE_THICKNESS, LINE_THICKNESS);
                         dh.sb.Draw(dh.dummyTexture, drawPosition, Color.Purple);
                     }
                 }

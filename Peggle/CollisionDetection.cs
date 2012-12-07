@@ -112,6 +112,7 @@ namespace Peggle
                 initToZero(ref collisionAngle);
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
 
+                Debug.WriteLine(collisionAmount);
                 if (collisionAmount > penetration)
                 {
                     penetration = (float)collisionAmount;
@@ -120,7 +121,7 @@ namespace Peggle
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
-
+                Debug.WriteLine(collisionAmount);
                 if (collisionAmount > penetration)
                 {
                     penetration = (float)collisionAmount;
@@ -129,7 +130,7 @@ namespace Peggle
             if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 collisionAngle += MyMathHelper.angleBetween(quad.topRight, quad.bottomRight);
-
+                Debug.WriteLine(collisionAmount);
                 if (collisionAmount > penetration)
                 {
                     penetration = (float)collisionAmount;
@@ -138,7 +139,6 @@ namespace Peggle
             if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) - MathHelper.Pi;
-
                 if (collisionAmount > penetration)
                 {
                     penetration = (float)collisionAmount;

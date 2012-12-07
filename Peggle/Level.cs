@@ -41,8 +41,7 @@ namespace Peggle
 
             Queue<Shooter> shooters = new Queue<Shooter>();
             Shooter playerShooter = new Shooter(game, Color.Red,   new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
-            //Shooter aiShooter     = new Shooter(game, Color.Green, new Rectangle(300, 0, 80, 20), new AI(game));
-            Shooter aiShooter = new Shooter(game, Color.Green, new Rectangle(150, 0, 80, 20), new AI(game));
+            Shooter aiShooter     = new Shooter(game, Color.Green, new Rectangle(300, 0, 80, 20), new AI(game));
             shooters.Enqueue(playerShooter);
             shooters.Enqueue(aiShooter);
 

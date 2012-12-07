@@ -91,6 +91,8 @@ namespace Peggle
 
             MouseState ms = Mouse.GetState();
 
+            //Debug.WriteLine(ms.X + " " + ms.Y);
+
             base.Update(gameTime);
         }
 
@@ -102,9 +104,7 @@ namespace Peggle
         {
             GraphicsDevice.Clear(Color.Black);
 
-            //testCurve.draw();
-            //testCurve2.draw();
-
+            DebugHelper.drawPoint(new Vector2(337, 500));
             base.Draw(gameTime);
         }
 

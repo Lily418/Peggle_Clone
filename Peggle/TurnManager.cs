@@ -28,10 +28,10 @@ namespace Peggle
             {
                 activeShooter = shooterQueue.Dequeue();
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 Debug.Assert(false, "Queue passed to ShooterController should not be empty");
-                throw e;
+                throw;
             }
         }
 

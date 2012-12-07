@@ -28,11 +28,21 @@ namespace Peggle
             PolarCoordinate collidingObjectPolar = collidingObject.velocity.toPolar();
             float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
 
+            //This makes the way the ball bounces nondeterminate but I want the simulated balls to
+            //bounce in the middle of the range that it could bounce.
+            if (e.collidingObject is Ball && !((Ball)e.collidingObject).isSimulation)
+            {
+                newOrigin += RandomHelper.randomFloat(-MathHelper.Pi / 8, MathHelper.Pi / 8);
+            }
+
             e.collidingObject.location.topLeft += new PolarCoordinate(e.penetration, newOrigin).toCartesian();
 
             float newRadius = collidingObjectPolar.radius;
 
-            newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
+            if (newRadius > 5f)
+            {
+                newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
+            }
             
             collidingObject.velocity = new PolarCoordinate(newRadius, newOrigin).toCartesian();
 
@@ -54,6 +64,7 @@ namespace Peggle
             {
                 hitAngle += betweenAngle;
             }
+
             return hitAngle;
         }
 

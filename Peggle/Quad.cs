@@ -141,7 +141,7 @@ namespace Peggle
         {
             DrawHelper dh = DrawHelper.getInstance();
 
-            float[] pointsX = new float[] {topLeft.X,topRight.X,bottomLeft.X,bottomRight.X} ;
+            float[] pointsX = new float[] {topLeft.X, topRight.X, bottomLeft.X, bottomRight.X} ;
             float[] pointsY = new float[] {topLeft.Y, topRight.Y, bottomLeft.Y, bottomRight.Y };
 
             int minX = (int)MyMathHelper.min(pointsX);

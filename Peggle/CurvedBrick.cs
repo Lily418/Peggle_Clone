@@ -26,9 +26,9 @@ namespace Peggle
 
             QuadCollection curveQuads = new QuadCollection();
 
-            float usedInterval = 0.15f;
+            float usedInterval = 0.1f;
 
-            for (float i = 0.0f; i <= 1.0f; i += usedInterval)
+            for (float i = 0.0f; i < 1.0f; i += usedInterval)
             {
                 Vector2 p0   = upperCurve.getPoint(i);
                 Vector2 p1   = upperCurve.getPoint(i + usedInterval);
