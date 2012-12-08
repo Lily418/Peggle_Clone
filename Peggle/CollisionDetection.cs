@@ -99,6 +99,14 @@ namespace Peggle
 
         private static KeyValuePair<float?, float> collision(Quad quad, Circle circle)
         {
+            if (circle.origin.Y - circle.radius > quad.maxY
+                || circle.origin.Y + circle.radius < quad.minY
+                || circle.origin.X + circle.radius < quad.minX
+                || circle.origin.X - circle.radius > quad.maxX)
+            {
+                return new KeyValuePair<float?,float>(null, 0f);
+            }
+
             float? collisionAngle = null;
             float penetration = 0f;
 

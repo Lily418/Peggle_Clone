@@ -62,5 +62,10 @@ namespace Helper
 
             return max;
         }
+
+        public static float shiftRange(float min, float max, float rangePosition)
+        {
+            return rangePosition * (max - min) + min;
+        }
     }
 }

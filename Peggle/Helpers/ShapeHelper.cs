@@ -9,12 +9,13 @@ namespace Helper
 {
     static class ShapeHelper
     {
+        //Converted from some Ruby code here http://stackoverflow.com/questions/3120357/get-closest-point-to-a-line
         public static Vector2 getClosestPoint(Vector2 A, Vector2 B, Vector2 P)
         {
             Vector2 a_to_p = new Vector2(P.X - A.X, P.Y - A.Y);     // Storing vector A->P
             Vector2 a_to_b = new Vector2(B.X - A.X, B.Y - A.Y);     // Storing vector A->B
 
-            float atb2 = (float)Math.Pow(a_to_b.X, 2) + (float)Math.Pow(a_to_b.Y, 2);  // **2 means "squared"
+            float atb2 = (float)Math.Pow(a_to_b.X, 2) + (float)Math.Pow(a_to_b.Y, 2);
             //   Basically finding the squared magnitude
             //   of a_to_b
 

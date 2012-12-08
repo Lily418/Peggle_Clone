@@ -28,7 +28,7 @@ namespace Peggle
             //bounce in the middle of the range that it could bounce.
             if (e.collidingObject is Ball && !((Ball)e.collidingObject).isSimulation)
             {
-                newOrigin += RandomHelper.randomFloat(-MathHelper.Pi / 8, MathHelper.Pi / 8);
+                newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
             }
 
             e.collidingObject.location.topLeft += new PolarCoordinate(e.penetration, newOrigin).toCartesian();
