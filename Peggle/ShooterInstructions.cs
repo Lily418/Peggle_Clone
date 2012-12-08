@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    class ShooterInstructions
+    public class ShooterInstructions
     {
         public float movementDirection { get; private set; }
         public bool fireBall { get; private set; }

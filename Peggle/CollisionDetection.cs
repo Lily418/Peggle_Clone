@@ -17,12 +17,12 @@ namespace Peggle
 
                 if (moveableEntity.location.Left < 0)
                 {
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.location.Left)), EventType.Collision);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.location.Left)));
                     break;
                 }
                 else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
                 {
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.location.Right)), EventType.Collision);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.location.Right)));
                     break;
                 }
 
@@ -44,7 +44,7 @@ namespace Peggle
                             if ((penetration = collision(movingEntityCircle, otherEntityCircle)) > 0)
                             {
                                 float hitAngle = MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin);
-                                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, penetration), EventType.Collision);
+                                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, penetration));
                             }
                         }
                         else if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is QuadCollection)
@@ -60,7 +60,7 @@ namespace Peggle
                                 if ((collisionAngle = collision(quad, movingEntityCircle)).Key.HasValue)
                                 {
 
-                                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, (float)collisionAngle.Key, collisionAngle.Value), EventType.Collision);
+                                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, (float)collisionAngle.Key, collisionAngle.Value));
                                     curveCollisionFound = true;
                                     break;
                                 }
@@ -84,7 +84,6 @@ namespace Peggle
 
         static float collision(Circle one, Circle two)
         {
-
             float distance = Vector2.Distance(one.origin, two.origin);
 
             if (distance < one.radius + two.radius)
@@ -112,7 +111,6 @@ namespace Peggle
                 initToZero(ref collisionAngle);
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
 
-                Debug.WriteLine(collisionAmount);
                 if (collisionAmount > penetration)
                 {
                     penetration = (float)collisionAmount;
@@ -121,7 +119,7 @@ namespace Peggle
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
-                Debug.WriteLine(collisionAmount);
+
                 if (collisionAmount > penetration)
                 {
                     penetration = (float)collisionAmount;
@@ -130,7 +128,7 @@ namespace Peggle
             if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 collisionAngle += MyMathHelper.angleBetween(quad.topRight, quad.bottomRight);
-                Debug.WriteLine(collisionAmount);
+
                 if (collisionAmount > penetration)
                 {
                     penetration = (float)collisionAmount;
@@ -144,7 +142,6 @@ namespace Peggle
                     penetration = (float)collisionAmount;
                 }
             }
-
 
             return new KeyValuePair<float?, float>(collisionAngle, penetration);
         }

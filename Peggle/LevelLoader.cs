@@ -42,10 +42,9 @@ namespace Peggle
             String[] positionStringSplit = positionString.Split(',');
             Location location = new Location(new Vector2(positionStringSplit[0].toFloat(), positionStringSplit[1].toFloat()), positionStringSplit[2].toFloat(), positionStringSplit[3].toFloat());
 
-            bool countsTowardsLevelComplete = Convert.ToBoolean(element.Element(XName.Get("LevelCompleteTarget")).Value);
 
 
-            return new CircularTarget(game, location, countsTowardsLevelComplete);
+            return new CircularTarget(game, location, Target.defaultColor);
 
         }
 
@@ -54,7 +53,7 @@ namespace Peggle
             XElement upperCurve = element.Element(XName.Get("UpperCurve"));
             XElement lowerCurve = element.Element(XName.Get("LowerCurve"));
 
-            return new CurveTarget(new CurvedBrick(loadCurve(upperCurve), loadCurve(lowerCurve)), game);
+            return new CurveTarget(new CurvedBrick(loadCurve(upperCurve), loadCurve(lowerCurve)), Target.defaultColor, game);
         }
 
         private static Curve loadCurve(XElement element)

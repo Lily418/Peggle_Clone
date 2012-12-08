@@ -4,33 +4,27 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Helper;
 
 namespace Peggle
 {
     public abstract class Target : DrawableGameComponent, Entity
     {
+        public const int POINTS = 50;
+        public static readonly Color defaultColor = Color.Blue;
         public bool hit { get; private set; }
-        public bool countsTowardsLevelProgress { get; private set; }
         protected Game1 game;
         protected Color color;
 
-        protected Target(Game game, bool countsTowardsLevelProgress)
+        protected Target(Game game, Color color)
             : base(game)
         {
             this.game = (Game1)game;
             this.hit = false;
-            this.countsTowardsLevelProgress = countsTowardsLevelProgress;
             EventHandlers.collision  += collisionEventHandler;
             EventHandlers.ballFallen += ballFallenEventHandler;
 
-            if (countsTowardsLevelProgress)
-            {
-                color = Color.Orange;
-            }
-            else
-            {
-                color = Color.Blue;
-            }
+            this.color = color;
             
         }
 
@@ -54,7 +48,6 @@ namespace Peggle
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
-
             if (hit)
             {
                 EventHandlers.collision -= collisionEventHandler;
@@ -64,7 +57,6 @@ namespace Peggle
         }
 
         public abstract Shape boundingBox();
-
        
 
    

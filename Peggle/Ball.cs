@@ -18,9 +18,11 @@ namespace Peggle
         public Vector2 velocity { get; set; }
         public float maxSpeed { get; set; }
         public bool isSimulation { get; private set; }
+        public Shooter shotBy { get; private set; }
 
-        public Ball(Game game, Location startingLocation, float angle, bool isSimulation = false) : base (game)
+        public Ball(Game game, Shooter shotBy, Location startingLocation, float angle, bool isSimulation = false) : base (game)
         {
+            this.shotBy = shotBy;
             location = startingLocation;
             color = RandomHelper.randomColor();
 
@@ -41,7 +43,7 @@ namespace Peggle
         {
             if (ballFallen() && !isSimulation)
             {
-                EventHandlers.raiseEvent(new BallFallenArgs(this), EventType.BallFallen);
+                EventHandlers.raiseEvent(new BallFallenArgs(this));
             }
         }
 

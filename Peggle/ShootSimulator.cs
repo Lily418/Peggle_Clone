@@ -10,10 +10,6 @@ namespace Peggle
 {
     class ShootSimulator
     {
-        const int LEVEL_PROGRESS_TARGET_VALUE = 50;
-        const int NORMAL_TARGET_VALUE = 10;
-
-
         public int actionValue { get; private set; }
         Ball simulatedBall;
         List<Target> targetsHit = new List<Target>();
@@ -24,14 +20,14 @@ namespace Peggle
         {
             actionValue = 0;
             EventHandlers.collision += collisionEventHandler;
-            simulatedBall = new Ball(Game1.game, shooter.calculateBallStartingLocation(aimAngle), aimAngle, true);
+            simulatedBall = new Ball(Game1.game, null, shooter.calculateBallStartingLocation(aimAngle), aimAngle, true);
 
             Game1.addGameComponent(simulatedBall);
 
 
             while (!simulatedBall.ballFallen())
             {
-                Game1.currentLevel.physicsProcessor.Update(time);
+                Game1.levelStateManager.currentLevel.physicsProcessor.Update(time);
             }
 
 
@@ -51,17 +47,10 @@ namespace Peggle
                 {
                     Target targetHit = (Target)e.hitObject;
 
-                    if (!targetsHit.Contains(targetHit) && !targetHit.hit)
+                    if (!targetsHit.Contains(targetHit))
                     {
 
-                        if (targetHit.countsTowardsLevelProgress)
-                        {
-                            actionValue += LEVEL_PROGRESS_TARGET_VALUE;
-                        }
-                        else
-                        {
-                            actionValue += NORMAL_TARGET_VALUE;
-                        }
+                        actionValue += Target.POINTS;
 
                         targetsHit.Add(targetHit);
                     }

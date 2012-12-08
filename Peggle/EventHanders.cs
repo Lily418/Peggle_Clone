@@ -11,42 +11,40 @@ namespace Peggle
     {
         public static EventHandler<CollisionArgs> collision;
         public static EventHandler<BallFallenArgs> ballFallen;
+        public static EventHandler<LevelResetRequestArgs> levelResetRequest;
 
-        public static void raiseEvent(EventArgs e, EventType type)
+        public static void raiseEvent(EventArgs e)
         {
-            try
+            if(e is CollisionArgs)
             {
-                switch (type)
-                {
-                    case EventType.Collision:
-
-                        if (collision != null)
+                if (collision != null)
                         {
                             collision("EventHandler", (CollisionArgs)e);
                         }
-
-                        break;
-                    case EventType.BallFallen:
-                        if (ballFallen != null)
-                        {
-                            ballFallen("EventHandler", (BallFallenArgs)e);
-                        }
-
-                        break;
+            }
+            else if (e is BallFallenArgs)
+            {
+                if (ballFallen != null)
+                {
+                    ballFallen("EventHandler", (BallFallenArgs)e);
                 }
             }
-            catch (InvalidCastException)
+            else if (e is LevelResetRequestArgs)
             {
-                Debug.Assert(false, "Event Not Raised, Event: " + e.GetType() +" is not type " + type);
+                if (levelResetRequest != null)
+                {
+                    levelResetRequest("EventHandler", (LevelResetRequestArgs)e);
+                }
             }
+            else
+            {
+                throw new ArgumentException("EventHandler can only raise events of recognised types");
+            }
+            
+
         }
 
 
-    }
-
-    public enum EventType
-    {
-        Collision, BallFallen
     }
 
     public class BallFallenArgs : EventArgs
@@ -58,6 +56,10 @@ namespace Peggle
             this.ball = ball;
         }
 
+    }
+
+    public class LevelResetRequestArgs : EventArgs
+    {
     }
 
     public class CollisionArgs : EventArgs

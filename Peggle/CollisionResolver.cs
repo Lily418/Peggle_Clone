@@ -14,10 +14,6 @@ namespace Peggle
         public CollisionResolver(Game game)
             : base(game)
         {
-        }
-
-        public override void Initialize()
-        {
             EventHandlers.collision += collisionEventHandler;
         }
 
@@ -39,7 +35,7 @@ namespace Peggle
 
             float newRadius = collidingObjectPolar.radius;
 
-            if (newRadius > 5f)
+            if (newRadius > 3f)
             {
                 newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
             }

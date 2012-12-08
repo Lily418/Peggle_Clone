@@ -21,8 +21,8 @@ namespace Peggle
         internal static GraphicsDeviceManager graphics;
         internal static ContentManager cm;
         internal static Game1 game;
-        internal static Level currentLevel;
-        SpriteBatch spriteBatch;
+        internal static GameTime currentGameTime;
+        internal static LevelStateManager levelStateManager;
 
         public static CurveTarget ct;
 
@@ -49,8 +49,7 @@ namespace Peggle
 
             this.IsMouseVisible = true;
 
-            currentLevel = LevelLoader.loadXML(this, @"Content\level.xml");
-            currentLevel.load();
+            levelStateManager = new LevelStateManager(this);
             
 
             base.Initialize();
@@ -62,9 +61,6 @@ namespace Peggle
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -84,14 +80,11 @@ namespace Peggle
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            currentGameTime = gameTime;
 
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            MouseState ms = Mouse.GetState();
-
-            //Debug.WriteLine(ms.X + " " + ms.Y);
 
             base.Update(gameTime);
         }
@@ -103,8 +96,6 @@ namespace Peggle
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            DebugHelper.drawPoint(new Vector2(337, 500));
             base.Draw(gameTime);
         }
 

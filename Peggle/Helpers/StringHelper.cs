@@ -23,6 +23,11 @@ namespace Helper
             return Convert.ToSingle(floatString, numberFormat);
         }
 
+        public static byte toByte(this String floatString)
+        {
+            return Convert.ToByte(floatString, numberFormat);
+        }
+
 
         //String expected in form x,y
         public static Vector2 toVector(this String vectorString)

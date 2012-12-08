@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Peggle
+namespace Helper
 {
     static class ColorHelper
     {
@@ -28,6 +28,12 @@ namespace Peggle
             }
 
             return newByte;
+        }
+
+        public static Color parseColorString(String colorString)
+        {
+            String[] splitString = colorString.Split(',');
+            return new Color(splitString[0].toByte(), splitString[1].toByte(), splitString[2].toByte());
         }
     }
 }

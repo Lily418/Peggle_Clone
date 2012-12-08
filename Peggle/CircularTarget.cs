@@ -8,13 +8,12 @@ using Helper;
 
 namespace Peggle
 {
-    class CircularTarget : Target
+    class CircularTarget : Target, IShallowClone<CircularTarget>
     {
         public Location location { get; private set; }
-        
 
-        public CircularTarget(Game game, Location location, bool countsTowardsLevelProgress)
-            : base(game, countsTowardsLevelProgress)
+        public CircularTarget(Game game, Location location, Color color)
+            : base(game, color)
         {
             this.location = location;
         }
@@ -23,11 +22,6 @@ namespace Peggle
         {
             DrawHelper drawHelper = DrawHelper.getInstance();
             SpriteBatch sb = drawHelper.sb;
-
-            
-
-
-
 
             sb.Begin();
             sb.Draw(drawHelper.circleTexture, location.asRectangle(), color);
@@ -38,6 +32,11 @@ namespace Peggle
         public override Shape boundingBox()
         {
             return Circle.circleFromLocation(location);
+        }
+
+        public CircularTarget clone()
+        {
+            return new CircularTarget(game, location, defaultColor);
         }
     }
 }

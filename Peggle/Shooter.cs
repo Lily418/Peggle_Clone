@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Peggle
 {
-    class Shooter : DrawableGameComponent
+    public class Shooter : DrawableGameComponent
     {
         const int PIPE_HEIGHT_MULTIPLER = 4;
         const int PIPE_WIDTH_DIVISOR = 4;
@@ -60,7 +60,7 @@ namespace Peggle
                 if (nextInstruction.fireBall)
                 {
          //           aimingAngle = 2.460914f;
-                    ball = new Ball((Game)game, calculateBallStartingLocation(aimingAngle), aimingAngle);
+                    ball = new Ball((Game)game, this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
                 }
             }

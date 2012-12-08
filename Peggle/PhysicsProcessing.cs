@@ -33,7 +33,7 @@ namespace Peggle
                 
                 //Limit max speed
                 moveableEntity.velocity = moveableEntity.velocity.shorten(moveableEntity.maxSpeed);
-                //Debug.WriteLine(moveableEntity.velocity);
+
                 moveableEntity.location.topLeft += moveableEntity.velocity;
 
                

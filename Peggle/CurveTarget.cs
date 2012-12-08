@@ -9,13 +9,13 @@ using System.Diagnostics;
 
 namespace Peggle
 {
-    public class CurveTarget : Target
+    public class CurveTarget : Target, IShallowClone<CurveTarget>
     {
         CurvedBrick position;
         Line leftLine;
         Line rightLine;
 
-        public CurveTarget(CurvedBrick position, Game game) : base(game, false)
+        public CurveTarget(CurvedBrick position, Color color, Game game) : base(game, color)
         {
             this.position = position;
             leftLine = Line.getLineFromPoints(position.upperCurve.p0, position.lowerCurve.p0);
@@ -35,6 +35,11 @@ namespace Peggle
         public override Shape boundingBox()
         {
             return position.quads;
+        }
+
+        public CurveTarget clone()
+        {
+            return new CurveTarget(position, color, game);
         }
     }
 }
