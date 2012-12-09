@@ -14,75 +14,91 @@ namespace Peggle
         {
             foreach (IEntityPhysics moveableEntity in Game1.getComponents().OfType<IEntityPhysics>())
             {
-
-                if (moveableEntity.location.Left < 0)
+                if (wallCollision(moveableEntity))
                 {
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.location.Left)));
-                    break;
-                }
-                else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
-                {
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.location.Right)));
-                    break;
+                    continue;
                 }
 
-                bool curveCollisionFound = false;
                 foreach (Entity otherEntity in Game1.getComponents().OfType<Entity>())
                 {
 
                     if (!moveableEntity.Equals(otherEntity))
                     {
-                        Shape moveableEntityBoundingBox = moveableEntity.boundingBox();
-                        Shape otherEntityBoundingBox = otherEntity.boundingBox();
-
-                        if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is Circle)
+                        if (checkCollisions(moveableEntity, otherEntity))
                         {
-                            Circle movingEntityCircle = (Circle)moveableEntityBoundingBox;
-                            Circle otherEntityCircle = (Circle)otherEntityBoundingBox;
-
-                            float penetration;
-                            if ((penetration = collision(movingEntityCircle, otherEntityCircle)) > 0)
-                            {
-                                float hitAngle = MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin);
-                                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, penetration));
-                            }
-                        }
-                        else if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is QuadCollection)
-                        {
-                            Circle movingEntityCircle = (Circle)moveableEntityBoundingBox;
-                            QuadCollection quadCollection = (QuadCollection)otherEntityBoundingBox;
-                            List<Quad> quads = quadCollection.quads;
-
-                            foreach (Quad quad in quads)
-                            {
-                                KeyValuePair<float?, float> collisionAngle;
-
-                                if ((collisionAngle = collision(quad, movingEntityCircle)).Key.HasValue)
-                                {
-
-                                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, (float)collisionAngle.Key, collisionAngle.Value));
-                                    curveCollisionFound = true;
-                                    break;
-                                }
-                            }
-
-                            if (curveCollisionFound)
-                            {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            Debug.Assert(false, "No Collision defined for types " + moveableEntityBoundingBox.GetType() + " " + otherEntityBoundingBox.GetType());
+                            continue;
                         }
                     }
                 }
 
-
             }
         }
 
-        static float collision(Circle one, Circle two)
+
+        static bool checkCollisions(IEntityPhysics moveableEntity, Entity otherEntity)
+        {
+            Shape moveableEntityBoundingBox = moveableEntity.boundingBox();
+            Shape otherEntityBoundingBox = otherEntity.boundingBox();
+
+            if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is Circle)
+            {
+                Circle movingEntityCircle = (Circle)moveableEntityBoundingBox;
+                Circle otherEntityCircle = (Circle)otherEntityBoundingBox;
+
+                float penetration;
+                if ((penetration = circleCollision(movingEntityCircle, otherEntityCircle)) > 0)
+                {
+                    float hitAngle = MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin);
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, penetration));
+                    return true;
+                }
+            }
+            else if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is QuadCollection)
+            {
+                Circle movingEntityCircle = (Circle)moveableEntityBoundingBox;
+                QuadCollection quadCollection = (QuadCollection)otherEntityBoundingBox;
+                List<Quad> quads = quadCollection.quads;
+
+                foreach (Quad quad in quads)
+                {
+                    KeyValuePair<float?, float> collisionAngle;
+
+                    if ((collisionAngle = quadCircleCollision(quad, movingEntityCircle)).Key.HasValue)
+                    {
+
+                        EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, (float)collisionAngle.Key, collisionAngle.Value));
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                Debug.Assert(false, "No Collision defined for types " + moveableEntityBoundingBox.GetType() + " " + otherEntityBoundingBox.GetType());
+            }
+
+            return false;
+        }
+
+        static bool wallCollision(IEntityPhysics moveableEntity)
+        {
+            if (moveableEntity.location.Left < 0)
+            {
+                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.location.Left)));
+                return true;
+
+            }
+            else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
+            {
+                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.location.Right)));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        static float circleCollision(Circle one, Circle two)
         {
             float distance = Vector2.Distance(one.origin, two.origin);
 
@@ -97,7 +113,7 @@ namespace Peggle
 
         }
 
-        private static KeyValuePair<float?, float> collision(Quad quad, Circle circle)
+        private static KeyValuePair<float?, float> quadCircleCollision(Quad quad, Circle circle)
         {
             if (circle.origin.Y - circle.radius > quad.maxY
                 || circle.origin.Y + circle.radius < quad.minY
