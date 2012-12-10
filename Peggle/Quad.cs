@@ -169,10 +169,30 @@ namespace Peggle
             dh.sb.End();
         }
 
+
+        public void translate(Vector2 direction)
+        {
+            topLeft     += direction;
+            topRight    += direction;
+            bottomLeft  += direction;
+            bottomRight += direction;
+        }
+
         public override string ToString()
         {
             return "Top Left : " + topLeft + " Top Right : " + topRight + " Bottom Left : " + bottomLeft + " Bottom Right : " + bottomRight;
         }
 
+
+
+        public float leftMostPoint()
+        {
+            return Math.Min(topLeft.X, bottomLeft.X);
+        }
+
+        public float rightMostPoint()
+        {
+            return Math.Max(topRight.X, bottomRight.X);
+        }
     }
 }

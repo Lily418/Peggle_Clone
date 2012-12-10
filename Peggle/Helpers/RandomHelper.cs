@@ -16,7 +16,7 @@ namespace Helper
             return random;
         }
 
-        public static Color randomColor()
+        public static Color randomBasicColor()
         {
             switch (random.Next(4))
             {

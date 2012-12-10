@@ -81,15 +81,15 @@ namespace Peggle
 
         static bool wallCollision(IEntityPhysics moveableEntity)
         {
-            if (moveableEntity.location.Left < 0)
+            if (moveableEntity.boundingBox().leftMostPoint() < 0)
             {
-                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.location.Left)));
+                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.boundingBox().leftMostPoint())));
                 return true;
 
             }
-            else if (moveableEntity.location.Right > Game1.graphics.GraphicsDevice.Viewport.Width)
+            else if (moveableEntity.boundingBox().rightMostPoint() > Game1.graphics.GraphicsDevice.Viewport.Width)
             {
-                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.location.Right)));
+                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.boundingBox().rightMostPoint())));
                 return true;
             }
             else
@@ -140,6 +140,15 @@ namespace Peggle
                     penetration = (float)collisionAmount;
                 }
             }
+            else if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
+            {
+                collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) - MathHelper.Pi;
+                if (collisionAmount > penetration)
+                {
+                    penetration = (float)collisionAmount;
+                }
+            }
+
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
@@ -149,7 +158,7 @@ namespace Peggle
                     penetration = (float)collisionAmount;
                 }
             }
-            if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
+            else if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 collisionAngle += MyMathHelper.angleBetween(quad.topRight, quad.bottomRight);
 
@@ -158,14 +167,7 @@ namespace Peggle
                     penetration = (float)collisionAmount;
                 }
             }
-            if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
-            {
-                collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) - MathHelper.Pi;
-                if (collisionAmount > penetration)
-                {
-                    penetration = (float)collisionAmount;
-                }
-            }
+            
 
             return new KeyValuePair<float?, float>(collisionAngle, penetration);
         }

@@ -31,7 +31,7 @@ namespace Peggle
                 newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
             }
 
-            e.collidingObject.location.topLeft += new PolarCoordinate(e.penetration, newOrigin).toCartesian();
+            e.collidingObject.boundingBox().translate(new PolarCoordinate(e.penetration, newOrigin).toCartesian());
 
             float newRadius = collidingObjectPolar.radius;
 

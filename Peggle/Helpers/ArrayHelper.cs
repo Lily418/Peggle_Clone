@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Helper
 {
+    //For treating flat lists like 2 dimensional arrays
     static class ArrayHelper
     {
         public static int twoIndexesToOne(int row, int col, int width)

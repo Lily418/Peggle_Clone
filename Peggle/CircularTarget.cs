@@ -10,9 +10,9 @@ namespace Peggle
 {
     class CircularTarget : Target, IShallowClone<CircularTarget>
     {
-        public Location location { get; private set; }
+        public Circle location { get; private set; }
 
-        public CircularTarget(Game game, Location location, Color color)
+        public CircularTarget(Game game, Circle location, Color color)
             : base(game, color)
         {
             this.location = location;
@@ -20,18 +20,12 @@ namespace Peggle
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            DrawHelper drawHelper = DrawHelper.getInstance();
-            SpriteBatch sb = drawHelper.sb;
-
-            sb.Begin();
-            sb.Draw(drawHelper.circleTexture, location.asRectangle(), color);
-            sb.End();
-            
+            location.draw(color);    
         }
 
         public override Shape boundingBox()
         {
-            return Circle.circleFromLocation(location);
+            return location;
         }
 
         public CircularTarget clone()

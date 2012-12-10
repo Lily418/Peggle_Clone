@@ -52,14 +52,14 @@ namespace Peggle
 
         }
 
-        public TValue first()
+        public KeyValuePair<TCompare, TValue> first()
         {
-            return baseStorage.First().Value;
+            return baseStorage.First();
         }
 
-        public TValue last()
+        public KeyValuePair<TCompare, TValue> last()
         {
-            return baseStorage.Last().Value;
+            return baseStorage.Last();
         }
 
         public int count()

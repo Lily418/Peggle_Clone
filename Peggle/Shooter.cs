@@ -68,11 +68,11 @@ namespace Peggle
 
         }
 
-        public Location calculateBallStartingLocation(float firingAngle)
+        public Circle calculateBallStartingLocation(float firingAngle)
         {
-            const int BALL_DIAMETER = 15;
+            const int BALL_RADIUS = 15;
             Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, firingAngle).toCartesian();
-            return new Location(startingVector, BALL_DIAMETER, BALL_DIAMETER);
+            return new Circle(startingVector, 7);
         }
 
         public override void Draw(GameTime gameTime)

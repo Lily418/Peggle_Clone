@@ -13,10 +13,8 @@ namespace Helper
     {
         public static Vector2 shorten(this Vector2 vector, float maxLength)
         {
-
             if (vector.Length() > maxLength)
             {
-                
                 float currentOrigin = vector.toPolar().origin;
 
                 vector = new PolarCoordinate(maxLength, currentOrigin).toCartesian();
@@ -57,8 +55,8 @@ namespace Helper
             float currentMinDistance = float.PositiveInfinity;
             foreach (Vector2 vector in points)
             {
-                float thisDistance = 0;
-                if (closest == null || (thisDistance = Vector2.Distance(closest, vector)) < currentMinDistance)
+                float thisDistance;
+                if ((thisDistance = Vector2.Distance(closest, vector)) < currentMinDistance)
                 {
                     currentMinDistance = thisDistance;
                     closest = vector;

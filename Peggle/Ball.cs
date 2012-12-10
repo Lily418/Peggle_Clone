@@ -11,32 +11,28 @@ namespace Peggle
 {
     public class Ball : DrawableGameComponent, IEntityPhysics
     {
-        static Texture2D texture;
-        Color color;
-        public Location location { get; set; }
+        private Color color;
 
         public Vector2 velocity { get; set; }
         public float maxSpeed { get; set; }
+
         public bool isSimulation { get; private set; }
         public Shooter shotBy { get; private set; }
+        public Circle location { get; private set; }
 
-        public Ball(Game game, Shooter shotBy, Location startingLocation, float angle, bool isSimulation = false) : base (game)
+        public Ball(Game game, Shooter shotBy, Circle startingLocation, float angle, bool isSimulation = false) : base (game)
         {
             this.shotBy = shotBy;
-            location = startingLocation;
-            color = RandomHelper.randomColor();
-
-            if (texture == null)
-            {
-                DrawHelper drawHelper = DrawHelper.getInstance();
-                texture = drawHelper.circleTexture;
-            }
+            this.isSimulation = isSimulation;
+            maxSpeed = PhysicsSettings.MAX_BALL_SPEED;
+            this.location = startingLocation;
+            color = RandomHelper.randomBasicColor();
 
             velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, angle).toCartesian();
 
-            maxSpeed = PhysicsSettings.MAX_BALL_SPEED;
+           
 
-            this.isSimulation = isSimulation;
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -49,25 +45,19 @@ namespace Peggle
 
         public bool ballFallen()
         {
-            return Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.topLeft.toPoint().Y ? true : false;
+            return Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.top.Y;
         }
 
         public override void Draw(GameTime gameTime)
         {
-
-            DrawHelper drawHelper = DrawHelper.getInstance();
-            SpriteBatch sb = drawHelper.sb;
-
-            sb.Begin();
-            sb.Draw(texture, location.asRectangle(), color);
-            sb.End();
+            location.draw(color);
         }
 
 
 
         public Shape boundingBox()
         {
-            return Circle.circleFromLocation(location);
+            return location;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using Helper;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -40,8 +41,9 @@ namespace Peggle
         {
             String positionString = element.Element(XName.Get("Position")).Value;
             String[] positionStringSplit = positionString.Split(',');
-            Location location = new Location(new Vector2(positionStringSplit[0].toFloat(), positionStringSplit[1].toFloat()), positionStringSplit[2].toFloat(), positionStringSplit[3].toFloat());
 
+            Circle location = new Circle(new Vector2(positionStringSplit[0].toFloat(), positionStringSplit[1].toFloat()), positionStringSplit[2].toFloat());
+            Debug.WriteLine(positionStringSplit[2].toFloat());
 
 
             return new CircularTarget(game, location, Target.defaultColor);
