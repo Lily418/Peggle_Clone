@@ -1,10 +1,14 @@
-﻿using System;
+﻿//#define DEBUG_MODE
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Helper;
+using System.Threading;
+using Microsoft.Xna.Framework.Input;
 
 namespace Peggle
 {
@@ -24,10 +28,7 @@ namespace Peggle
 
                     if (!moveableEntity.Equals(otherEntity))
                     {
-                        if (checkCollisions(moveableEntity, otherEntity))
-                        {
-                            continue;
-                        }
+                        checkCollisions(moveableEntity, otherEntity);
                     }
                 }
 
@@ -35,7 +36,7 @@ namespace Peggle
         }
 
 
-        static bool checkCollisions(IEntityPhysics moveableEntity, Entity otherEntity)
+        static void checkCollisions(IEntityPhysics moveableEntity, Entity otherEntity)
         {
             Shape moveableEntityBoundingBox = moveableEntity.boundingBox();
             Shape otherEntityBoundingBox = otherEntity.boundingBox();
@@ -50,7 +51,6 @@ namespace Peggle
                 {
                     float hitAngle = MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin);
                     EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, penetration));
-                    return true;
                 }
             }
             else if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is QuadCollection)
@@ -65,9 +65,7 @@ namespace Peggle
 
                     if ((collisionAngle = quadCircleCollision(quad, movingEntityCircle)).Key.HasValue)
                     {
-
                         EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, (float)collisionAngle.Key, collisionAngle.Value));
-                        return true;
                     }
                 }
             }
@@ -75,8 +73,6 @@ namespace Peggle
             {
                 Debug.Assert(false, "No Collision defined for types " + moveableEntityBoundingBox.GetType() + " " + otherEntityBoundingBox.GetType());
             }
-
-            return false;
         }
 
         static bool wallCollision(IEntityPhysics moveableEntity)
@@ -115,7 +111,7 @@ namespace Peggle
 
         private static KeyValuePair<float?, float> quadCircleCollision(Quad quad, Circle circle)
         {
-            if (circle.origin.Y - circle.radius > quad.maxY
+            if  (circle.origin.Y - circle.radius > quad.maxY
                 || circle.origin.Y + circle.radius < quad.minY
                 || circle.origin.X + circle.radius < quad.minX
                 || circle.origin.X - circle.radius > quad.maxX)
@@ -128,57 +124,65 @@ namespace Peggle
 
             float? collisionAmount;
 
-            const float COLLISION_THRESHOLD = 1f;
+            const float COLLISION_THRESHOLD = 2f;
 
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                initToZero(ref collisionAngle);
-                collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.topRight);
+                MyMathHelper.angleBetweenAngles(ref collisionAngle, MathHelper.WrapAngle(MyMathHelper.angleBetween(quad.topLeft, quad.topRight) - MathHelper.PiOver2));
 
+#if DEBUG_MODE
+                Debug.WriteLine("Top" + collisionAmount);
+#endif
                 if (collisionAmount > penetration)
                 {
-                    penetration = (float)collisionAmount;
+                    penetration += (float)collisionAmount;
                 }
             }
             else if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                collisionAngle += MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) - MathHelper.Pi;
+#if DEBUG_MODE
+                Debug.WriteLine("Bottom" + collisionAmount);
+#endif
+                MyMathHelper.angleBetweenAngles(ref collisionAngle, MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.Pi); 
                 if (collisionAmount > penetration)
                 {
-                    penetration = (float)collisionAmount;
+                    penetration += (float)collisionAmount;
                 }
             }
-
-            if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
+            else if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                collisionAngle += MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft);
+#if DEBUG_MODE
+                Debug.WriteLine("Left" + collisionAmount);
+#endif
+                MyMathHelper.angleBetweenAngles(ref collisionAngle, MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2);
 
                 if (collisionAmount > penetration)
                 {
-                    penetration = (float)collisionAmount;
+                    penetration += (float)collisionAmount;
                 }
             }
             else if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                collisionAngle += MyMathHelper.angleBetween(quad.topRight, quad.bottomRight);
+#if DEBUG_MODE
+                Debug.WriteLine("Right" + collisionAmount);
+#endif
+
+                MyMathHelper.angleBetweenAngles(ref collisionAngle, MyMathHelper.angleBetween(quad.topRight, quad.bottomRight) + MathHelper.PiOver2);
 
                 if (collisionAmount > penetration)
                 {
-                    penetration = (float)collisionAmount;
+                    penetration += (float)collisionAmount;
                 }
             }
-            
+
+
+#if DEBUG_MODE
+            //Debug.WriteLine("Final Collision Angle" + collisionAngle);
+#endif
 
             return new KeyValuePair<float?, float>(collisionAngle, penetration);
         }
 
-        static void initToZero(ref float? f)
-        {
-            if (f == null)
-            {
-                f = 0f;
-            }
-        }
 
         static float? lineCircleCollision(Vector2 a, Vector2 b, Circle circle)
         {
@@ -188,7 +192,7 @@ namespace Peggle
 
             if (distance < circle.radius)
             {
-                return MathHelper.Distance(distance, circle.radius);
+                return Vector2.Distance(closestPointToCircleOnLine, circle.origin);
             }
             else
             {

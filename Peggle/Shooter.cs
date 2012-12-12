@@ -59,7 +59,7 @@ namespace Peggle
 
                 if (nextInstruction.fireBall)
                 {
-         //           aimingAngle = 2.460914f;
+                    //aimingAngle = 0.9235989f;
                     ball = new Ball((Game)game, this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
                 }
@@ -70,9 +70,9 @@ namespace Peggle
 
         public Circle calculateBallStartingLocation(float firingAngle)
         {
-            const int BALL_RADIUS = 15;
+            const int BALL_RADIUS = 7;
             Vector2 startingVector = new Vector2(basePosition.Center.X, basePosition.Center.Y) + new PolarCoordinate(basePosition.Height * PIPE_HEIGHT_MULTIPLER, firingAngle).toCartesian();
-            return new Circle(startingVector, 7);
+            return new Circle(startingVector, BALL_RADIUS);
         }
 
         public override void Draw(GameTime gameTime)

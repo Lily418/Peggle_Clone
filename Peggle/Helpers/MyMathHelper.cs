@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace Helper
 {
@@ -23,6 +24,8 @@ namespace Helper
         public static float angleBetween(Vector2 a, Vector2 b)
         {
             return (float)Math.Atan2(a.Y - b.Y, a.X - b.X);
+
+            
         }
 
         public static float difference(float a, float b)
@@ -63,6 +66,19 @@ namespace Helper
         public static float shiftRange(float min, float max, float rangePosition)
         {
             return rangePosition * (max - min) + min;
+        }
+
+        public static void angleBetweenAngles(ref float? f, float newAngle)
+        {
+            if (f == null)
+            {
+                f = newAngle;
+            }
+            else
+            {
+                f = (f + newAngle) / 2f;
+
+            }
         }
     }
 }

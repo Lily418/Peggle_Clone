@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using Helper;
+
 
 namespace Peggle
 {
@@ -28,7 +30,8 @@ namespace Peggle
             this.location = startingLocation;
             color = RandomHelper.randomBasicColor();
 
-            velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, angle).toCartesian();
+            velocity = new PolarCoordinate(3, angle).toCartesian();
+            //velocity = new PolarCoordinate(3, -4.302259F).toCartesian();
 
            
 
@@ -45,7 +48,8 @@ namespace Peggle
 
         public bool ballFallen()
         {
-            return Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.top.Y;
+            KeyboardState ks = Keyboard.GetState();
+            return Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.top.Y || ks.IsKeyDown(Keys.D);
         }
 
         public override void Draw(GameTime gameTime)

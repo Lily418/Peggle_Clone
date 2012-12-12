@@ -78,8 +78,11 @@ namespace Peggle
 
             for (float angle = Shooter.MIN_ROTATION; angle < Shooter.MAX_ROTATION; angle += interval)
             {
+               //Debug.WriteLine(angle);
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(game, currentElapsedTime, shooter, angle).actionValue, angle));
             }
+
+            Debug.WriteLine(possibleShots.last().Value);
 
             return possibleShots.last().Value;
         }

@@ -11,24 +11,41 @@ namespace Peggle
     class CollisionResolver : GameComponent
     {
 
+        Dictionary<IEntityPhysics, PolarCoordinate> initalAngles = new Dictionary<IEntityPhysics, PolarCoordinate>();
         public CollisionResolver(Game game)
             : base(game)
         {
             EventHandlers.collision += collisionEventHandler;
         }
 
-        public static void collisionEventHandler(object sender, CollisionArgs e)
+        public override void Update(GameTime gameTime)
+        {
+            initalAngles.Clear();
+        }
+
+        public void collisionEventHandler(object sender, CollisionArgs e)
         {
             IEntityPhysics collidingObject = e.collidingObject;
 
             PolarCoordinate collidingObjectPolar = collidingObject.velocity.toPolar();
-            float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
+
+            float newOrigin;
+            if (!initalAngles.ContainsKey(collidingObject))
+            {
+                initalAngles.Add(collidingObject, collidingObjectPolar);
+                newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
+            }
+            else
+            {
+                float additionalOrigin = bounceAngle(initalAngles[collidingObject].origin, e.hitObjectAngle);
+                newOrigin = e.collidingObject.velocity.toPolar().origin;
+            }
 
             //This makes the way the ball bounces nondeterminate but I want the simulated balls to
             //bounce in the middle of the range that it could bounce.
             if (e.collidingObject is Ball && !((Ball)e.collidingObject).isSimulation)
             {
-                newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
+               // newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
             }
 
             e.collidingObject.boundingBox().translate(new PolarCoordinate(e.penetration, newOrigin).toCartesian());
@@ -47,8 +64,6 @@ namespace Peggle
         private static float bounceAngle(float collidingAngle, float hitAngle)
         {
             float betweenAngle = MyMathHelper.angleBetween(collidingAngle, hitAngle);
-            
-           
 
             hitAngle += MathHelper.Pi;
 
@@ -60,6 +75,8 @@ namespace Peggle
             {
                 hitAngle += betweenAngle;
             }
+
+            //Debug.WriteLine("Final Hit Angle" + hitAngle);
 
             return hitAngle;
         }

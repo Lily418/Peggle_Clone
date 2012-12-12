@@ -43,8 +43,6 @@ namespace Peggle
             String[] positionStringSplit = positionString.Split(',');
 
             Circle location = new Circle(new Vector2(positionStringSplit[0].toFloat(), positionStringSplit[1].toFloat()), positionStringSplit[2].toFloat());
-            Debug.WriteLine(positionStringSplit[2].toFloat());
-
 
             return new CircularTarget(game, location, Target.defaultColor);
 
