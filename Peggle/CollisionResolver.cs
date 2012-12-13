@@ -52,7 +52,7 @@ namespace Peggle
 
             float newRadius = collidingObjectPolar.radius;
 
-            if (newRadius > 1f)
+            if (newRadius > 2f)
             {
                 newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
             }
@@ -67,16 +67,14 @@ namespace Peggle
 
             hitAngle += MathHelper.Pi;
 
-            //if (collidingAngle > MathHelper.PiOver2)
-            //{
-            //    hitAngle -= betweenAngle;
-            //}
-            //else
-            //{
-            //    hitAngle += betweenAngle;
-            //}
-
-            //Debug.WriteLine(hitAngle + " " + collidingAngle + " " + betweenAngle);
+            if (collidingAngle > MathHelper.PiOver2)
+            {
+                hitAngle -= betweenAngle;
+            }
+            else
+            {
+                hitAngle += betweenAngle;
+            }
 
             return hitAngle;
         }

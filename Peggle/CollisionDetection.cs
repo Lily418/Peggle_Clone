@@ -117,24 +117,35 @@ namespace Peggle
 
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                //Debug.WriteLine("Top" + quad.topLeft +" "+quad.topRight)
+                Debug.WriteLine("Top");
+                float angle;
+                if (quad.topLeft.Y < quad.topRight.Y)
+                {
+                    Debug.WriteLine("No Pi");
+                    angle = MyMathHelper.angleBetween(quad.topRight, quad.topLeft) - MathHelper.PiOver2;
+                }
+                else
+                {
+                    Debug.WriteLine("Pi");
+                    angle = MyMathHelper.angleBetween(quad.topLeft, quad.topRight) - MathHelper.PiOver2;
+                }
 
-                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topRight, quad.topLeft) - MathHelper.PiOver2, (float)collisionAmount);                
+                return new KeyValuePair<float?, float>(angle, (float)collisionAmount);                
             }
             else if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                //Debug.WriteLine("Bottom");
+                Debug.WriteLine("Bottom");
                 return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.PiOver2, (float)collisionAmount); 
 
             }
             else if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                //Debug.WriteLine("Left");
+                Debug.WriteLine("Left");
                 return new KeyValuePair<float?,float>(MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                //Debug.WriteLine("Right" + MyMathHelper.angleBetween(quad.topRight, quad.bottomRight));
+                Debug.WriteLine("Right" + MyMathHelper.angleBetween(quad.topRight, quad.bottomRight));
                 return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topRight, quad.bottomRight), (float)collisionAmount);
             }
 
