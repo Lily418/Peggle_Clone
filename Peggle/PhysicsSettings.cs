@@ -13,7 +13,7 @@ namespace Peggle
 
             public static readonly Vector2 GRAVITY = new Vector2(0, 0.2f);
 
-            public const float MAX_BALL_SPEED = 7f;
+            public const float MAX_BALL_SPEED = 8f;
             
     }
 }

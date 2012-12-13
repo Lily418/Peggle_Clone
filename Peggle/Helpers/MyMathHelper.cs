@@ -24,7 +24,6 @@ namespace Helper
         public static float angleBetween(Vector2 a, Vector2 b)
         {
             return (float)Math.Atan2(a.Y - b.Y, a.X - b.X);
-
             
         }
 

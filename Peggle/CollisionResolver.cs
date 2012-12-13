@@ -45,7 +45,7 @@ namespace Peggle
             //bounce in the middle of the range that it could bounce.
             if (e.collidingObject is Ball && !((Ball)e.collidingObject).isSimulation)
             {
-                newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
+               // newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
             }
 
             e.collidingObject.boundingBox().translate(new PolarCoordinate(e.penetration, newOrigin).toCartesian());
@@ -67,14 +67,16 @@ namespace Peggle
 
             hitAngle += MathHelper.Pi;
 
-            if (collidingAngle > MathHelper.PiOver2)
-            {
-                hitAngle -= betweenAngle;
-            }
-            else
-            {
-                hitAngle += betweenAngle;
-            }
+            //if (collidingAngle > MathHelper.PiOver2)
+            //{
+            //    hitAngle -= betweenAngle;
+            //}
+            //else
+            //{
+            //    hitAngle += betweenAngle;
+            //}
+
+            //Debug.WriteLine(hitAngle + " " + collidingAngle + " " + betweenAngle);
 
             return hitAngle;
         }

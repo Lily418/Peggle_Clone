@@ -50,7 +50,7 @@ namespace Peggle
             {
                 EventHandlers.collision -= collisionEventHandler;
                 EventHandlers.ballFallen -= ballFallenEventHandler;
-                Game1.removeGameComponent(this);
+                //Game1.removeGameComponent(this);
             }
         }
 

@@ -13,8 +13,8 @@ namespace Peggle
     {
         public Vector2 a { private set; get; }
         public Vector2 b { private set; get; }
-        public float m { get; private set; }
-        public float c { get; private set; }
+        public float   m { get; private set; }
+        public float   c { get; private set; }
 
         private Line(float m, float c, Vector2 a, Vector2 b)
         {
@@ -22,10 +22,12 @@ namespace Peggle
             this.c = c;
             this.a = a;
             this.b = b;
+
         }
 
         public static Line getLineFromPoints(Vector2 a, Vector2 b)
         {
+
             float m = (a.Y - b.Y) / (a.X - b.X);
 
             float c = a.Y - (m * a.X);
@@ -40,6 +42,7 @@ namespace Peggle
 
         public float xFromY(float y)
         {
+
             float x = (y - c) / m;
 
             //Dealing with vertical lines
@@ -53,6 +56,7 @@ namespace Peggle
 
         public void draw(Color color)
         {
+
             const int LINE_THICKNESS = 2;
 
             DrawHelper dh = DrawHelper.getInstance();
@@ -60,32 +64,23 @@ namespace Peggle
             dh.sb.Begin();
 
             int startX = Math.Min((int)a.X, (int)b.X);
-            int endX = Math.Max((int)a.X, (int)b.X);
+            int endX   = Math.Max((int)a.X, (int)b.X);
+            int startY = Math.Min((int)a.Y, (int)b.Y);
+            int endY   = Math.Max((int)a.Y, (int)b.Y);
 
-            if (startX != endX)
+            for (int x = startX; x < endX; x++)
             {
-                for (int x = startX; x < endX; x++)
-                {
-                    int y = (int)yFromX(x);
-                    Rectangle drawPosition = new Rectangle(x, y, LINE_THICKNESS, LINE_THICKNESS);
-                    dh.sb.Draw(dh.dummyTexture, drawPosition, color);
-                }
-            }
-            else
-            {
-
-                int startY = Math.Min((int)a.Y, (int)b.Y);
-                int endY = Math.Max((int)a.Y, (int)b.Y);
-
-                for (int y = startY; y < endY; y++)
-                {
-                    Rectangle drawPosition = new Rectangle((int)a.X, y, LINE_THICKNESS, LINE_THICKNESS);
-                    dh.sb.Draw(dh.dummyTexture, drawPosition, color);
-                }
+                int y = (int)yFromX(x);
+                Rectangle drawPosition = new Rectangle(x, y, LINE_THICKNESS, LINE_THICKNESS);
+                dh.sb.Draw(dh.dummyTexture, drawPosition, color);
             }
 
-
-
+            for (int y = startY; y < endY; y++)
+            {
+                int x = (int)xFromY(y);
+                Rectangle drawPosition = new Rectangle(x, y, LINE_THICKNESS, LINE_THICKNESS);
+                dh.sb.Draw(dh.dummyTexture, drawPosition, color);
+            }
 
             dh.sb.End();
         }

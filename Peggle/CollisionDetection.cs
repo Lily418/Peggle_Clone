@@ -117,20 +117,25 @@ namespace Peggle
 
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topLeft, quad.topRight) - MathHelper.PiOver2, (float)collisionAmount);                
+                //Debug.WriteLine("Top" + quad.topLeft +" "+quad.topRight)
+
+                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topRight, quad.topLeft) - MathHelper.PiOver2, (float)collisionAmount);                
             }
             else if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.Pi, (float)collisionAmount); 
+                //Debug.WriteLine("Bottom");
+                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.PiOver2, (float)collisionAmount); 
 
             }
             else if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
+                //Debug.WriteLine("Left");
                 return new KeyValuePair<float?,float>(MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topRight, quad.bottomRight) + MathHelper.PiOver2, (float)collisionAmount);
+                //Debug.WriteLine("Right" + MyMathHelper.angleBetween(quad.topRight, quad.bottomRight));
+                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topRight, quad.bottomRight), (float)collisionAmount);
             }
 
             return new KeyValuePair<float?, float>(null, 0f);

@@ -34,7 +34,8 @@ namespace Peggle
                 {
                     //Limit max speed
                     moveableEntity.velocity = moveableEntity.velocity.shorten(moveableEntity.maxSpeed);
-
+                    
+                    //Move
                     moveableEntity.boundingBox().translate(moveableEntity.velocity / 4);
                 }
             }

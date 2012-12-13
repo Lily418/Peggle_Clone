@@ -27,7 +27,8 @@ namespace Peggle
 
             maxSpeed = PhysicsSettings.MAX_BALL_SPEED;
             color = RandomHelper.randomBasicColor();
-            velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, angle).toCartesian(); 
+            velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, angle).toCartesian();
+            //velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, 1.158895f).toCartesian(); 
         }
 
         public override void Update(GameTime gameTime)
