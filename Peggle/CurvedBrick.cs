@@ -26,14 +26,14 @@ namespace Peggle
 
             QuadCollection curveQuads = new QuadCollection();
 
-            float usedInterval = 0.1f;
+            float interval = 0.1f;
 
-            for (float i = 0.0f; i < 1.0f; i += usedInterval)
+            for (float i = 0.0f; i < 1.0f; i += interval)
             {
                 Vector2 p0   = upperCurve.getPoint(i);
-                Vector2 p1   = upperCurve.getPoint(i + usedInterval);
+                Vector2 p1   = upperCurve.getPoint(i + interval);
                 Vector2 p2   = lowerCurve.getPoint(i);
-                Vector2 p3   = lowerCurve.getPoint(i + usedInterval);
+                Vector2 p3   = lowerCurve.getPoint(i + interval);
 
                 curveQuads.addQuad(Quad.organiseQuadPoints(new Vector2[]{p0, p1, p2, p3}));
             }

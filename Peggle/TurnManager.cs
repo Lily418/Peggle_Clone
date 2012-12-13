@@ -12,13 +12,12 @@ namespace Peggle
         Shooter activeShooter;
         Queue<Shooter> shooterQueue = new Queue<Shooter>(2);
 
-        public TurnManager(Game game, Queue<Shooter> shooters) : base (game)
+        public TurnManager(Queue<Shooter> shooters) : base (Game1.game)
         {
             EventHandlers.ballFallen += ballFallenEventHandler;
 
             shooterQueue = shooters;
 
-            Game1 game1 = (Game1)game;
             foreach (Shooter shooter in shooters)
             {
                 Game1.addGameComponent(shooter);

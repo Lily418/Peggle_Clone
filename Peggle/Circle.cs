@@ -33,13 +33,12 @@ namespace Peggle
 
         public void draw(Color color)
         {
-            DrawHelper drawHelper = DrawHelper.getInstance();
-            SpriteBatch sb = drawHelper.sb;
+            DrawHelper dh = DrawHelper.getInstance();
 
-            sb.Begin();
+            dh.sb.Begin();
             Rectangle drawPosition = new Rectangle((int)(origin.X - radius), (int)(origin.Y - radius), (int)(radius * 2f), (int)(radius * 2f));
-            sb.Draw(drawHelper.circleTexture, drawPosition, color);
-            sb.End();
+            dh.sb.Draw(dh.circleTexture, drawPosition, color);
+            dh.sb.End();
         }
 
 

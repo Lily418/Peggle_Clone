@@ -25,7 +25,7 @@ namespace Helper
             Vector2 closestPointOnLine =  new Vector2(x: A.X + a_to_b.X * t, y: A.Y + a_to_b.Y * t);
 
             //The function was originally designed to find a point along a line, but I'm only interested in the line segment representing
-            //by quad's edge. Which is why I'm clamping the values.
+            //the quad's edge. Which is why I'm clamping the values.
             closestPointOnLine.X = MathHelper.Clamp(closestPointOnLine.X, Math.Min(A.X, B.X), Math.Max(A.X, B.X));
             closestPointOnLine.Y = MathHelper.Clamp(closestPointOnLine.Y, Math.Min(A.Y, B.Y), Math.Max(A.Y, B.Y));
 

@@ -12,8 +12,8 @@ namespace Peggle
     {
         public Circle location { get; private set; }
 
-        public CircularTarget(Game game, Circle location, Color color)
-            : base(game, color)
+        public CircularTarget(Circle location, Color color)
+            : base(color)
         {
             this.location = location;
         }
@@ -30,7 +30,7 @@ namespace Peggle
 
         public CircularTarget clone()
         {
-            return new CircularTarget(game, location, defaultColor);
+            return new CircularTarget(location, defaultColor);
         }
     }
 }

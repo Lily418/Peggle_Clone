@@ -20,20 +20,18 @@ namespace Peggle
         public const float MIN_ROTATION = MathHelper.PiOver2 - (MathHelper.Pi / 3);
         public const float MAX_ROTATION = MathHelper.PiOver2 + (MathHelper.Pi / 3);
 
-        Game1 game;
         public float aimingAngle { private set; get; } 
         Color color;
         Rectangle basePosition;
         IShooterController shooterController;
         Ball ball = null;
 
-        public Shooter(Game game, Color color, Rectangle basePosition, IShooterController controller) : base(game)
+        public Shooter(Color color, Rectangle basePosition, IShooterController controller) : base(Game1.game)
         {
             aimingAngle = MathHelper.PiOver2;
             this.basePosition = basePosition;
             this.color = color;
             this.shooterController = controller;
-            this.game = (Game1)game;
             EventHandlers.ballFallen += ballFallenEventHandler;
         }
 
@@ -60,7 +58,7 @@ namespace Peggle
                 if (nextInstruction.fireBall)
                 {
                     //aimingAngle = 0.9235989f;
-                    ball = new Ball((Game)game, this, calculateBallStartingLocation(aimingAngle), aimingAngle);
+                    ball = new Ball(this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
                 }
             }

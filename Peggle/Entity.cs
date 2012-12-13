@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Peggle
 {
-    public interface Entity
+    public interface IEntity
     {
         Shape boundingBox();
     }

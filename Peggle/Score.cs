@@ -13,11 +13,11 @@ namespace Peggle
     {
         Shooter shooter;
         public int score { private set; get; }
-        List<Entity> targetsHit = new List<Entity>();
+        List<IEntity> targetsHit = new List<IEntity>();
         Vector2 drawRatio;
         public String label { private set; get; }
 
-        public Score(Game game, Shooter shooter, Vector2 drawRatio, String label) : base(game)
+        public Score(Shooter shooter, Vector2 drawRatio, String label) : base(Game1.game)
         {
             this.score = 0;
             this.shooter = shooter;

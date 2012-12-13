@@ -12,20 +12,20 @@ namespace Peggle
     {
         Vector2 gravity = PhysicsSettings.GRAVITY;
 
-        public PhysicsProcessing(Game game)
-            : base(game)
+        public PhysicsProcessing()
+            : base(Game1.game)
         {
         }
 
         public override void Update(GameTime gameTime)
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 4; i++)
             {
                 //Gravity must be applied before collision check, otherwise gravity will cause entities to move inside other entites.
                 foreach (IEntityPhysics moveableEntity in Game1.getComponents().OfType<IEntityPhysics>())
                 {
                     //Gravity
-                    moveableEntity.velocity = Vector2.Add(moveableEntity.velocity, gravity / 2f);
+                    moveableEntity.velocity = Vector2.Add(moveableEntity.velocity, gravity / 4f);
                 }
 
                 CollisionDetection.checkCollisions();
@@ -35,7 +35,7 @@ namespace Peggle
                     //Limit max speed
                     moveableEntity.velocity = moveableEntity.velocity.shorten(moveableEntity.maxSpeed);
 
-                    moveableEntity.boundingBox().translate(moveableEntity.velocity / 2);
+                    moveableEntity.boundingBox().translate(moveableEntity.velocity / 4);
                 }
             }
 

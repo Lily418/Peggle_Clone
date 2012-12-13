@@ -1,14 +1,10 @@
-﻿//#define DEBUG_MODE
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Helper;
-using System.Threading;
-using Microsoft.Xna.Framework.Input;
 
 namespace Peggle
 {
@@ -23,7 +19,7 @@ namespace Peggle
                     continue;
                 }
 
-                foreach (Entity otherEntity in Game1.getComponents().OfType<Entity>())
+                foreach (IEntity otherEntity in Game1.getComponents().OfType<IEntity>())
                 {
 
                     if (!moveableEntity.Equals(otherEntity))
@@ -36,7 +32,7 @@ namespace Peggle
         }
 
 
-        static void checkCollisions(IEntityPhysics moveableEntity, Entity otherEntity)
+        private static void checkCollisions(IEntityPhysics moveableEntity, IEntity otherEntity)
         {
             Shape moveableEntityBoundingBox = moveableEntity.boundingBox();
             Shape otherEntityBoundingBox = otherEntity.boundingBox();
@@ -44,28 +40,26 @@ namespace Peggle
             if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is Circle)
             {
                 Circle movingEntityCircle = (Circle)moveableEntityBoundingBox;
-                Circle otherEntityCircle = (Circle)otherEntityBoundingBox;
+                Circle otherEntityCircle  = (Circle)otherEntityBoundingBox;
 
                 float penetration;
                 if ((penetration = circleCollision(movingEntityCircle, otherEntityCircle)) > 0)
                 {
                     float hitAngle = MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin);
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, hitAngle, penetration));
+                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, hitAngle, penetration));
                 }
             }
             else if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is QuadCollection)
             {
                 Circle movingEntityCircle = (Circle)moveableEntityBoundingBox;
                 QuadCollection quadCollection = (QuadCollection)otherEntityBoundingBox;
-                List<Quad> quads = quadCollection.quads;
 
-                foreach (Quad quad in quads)
+                foreach (Quad quad in quadCollection.quads)
                 {
                     KeyValuePair<float?, float> collisionAngle;
-
-                    if ((collisionAngle = quadCircleCollision(quad, movingEntityCircle)).Key.HasValue)
+                    if ((collisionAngle = quadCircleCollision(quad, movingEntityCircle)).Key != null)
                     {
-                        EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, Vector2.Zero, (float)collisionAngle.Key, collisionAngle.Value));
+                        EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, (float)collisionAngle.Key, collisionAngle.Value));
                     }
                 }
             }
@@ -79,13 +73,12 @@ namespace Peggle
         {
             if (moveableEntity.boundingBox().leftMostPoint() < 0)
             {
-                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.boundingBox().leftMostPoint())));
+                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.boundingBox().leftMostPoint())));
                 return true;
-
             }
             else if (moveableEntity.boundingBox().rightMostPoint() > Game1.graphics.GraphicsDevice.Viewport.Width)
             {
-                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, Vector2.Zero, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.boundingBox().rightMostPoint())));
+                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.boundingBox().rightMostPoint())));
                 return true;
             }
             else
@@ -111,76 +104,36 @@ namespace Peggle
 
         private static KeyValuePair<float?, float> quadCircleCollision(Quad quad, Circle circle)
         {
-            if  (circle.origin.Y - circle.radius > quad.maxY
+            if   ( circle.origin.Y - circle.radius > quad.maxY
                 || circle.origin.Y + circle.radius < quad.minY
-                || circle.origin.X + circle.radius < quad.minX
-                || circle.origin.X - circle.radius > quad.maxX)
+                || circle.origin.X - circle.radius > quad.maxX
+                || circle.origin.X + circle.radius < quad.minX)
             {
                 return new KeyValuePair<float?,float>(null, 0f);
             }
 
-            float? collisionAngle = null;
-            float penetration = 0f;
-
+            const float COLLISION_THRESHOLD = 1f;
             float? collisionAmount;
-
-            const float COLLISION_THRESHOLD = 2f;
 
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                MyMathHelper.angleBetweenAngles(ref collisionAngle, MathHelper.WrapAngle(MyMathHelper.angleBetween(quad.topLeft, quad.topRight) - MathHelper.PiOver2));
-
-#if DEBUG_MODE
-                Debug.WriteLine("Top" + collisionAmount);
-#endif
-                if (collisionAmount > penetration)
-                {
-                    penetration += (float)collisionAmount;
-                }
+                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topLeft, quad.topRight) - MathHelper.PiOver2, (float)collisionAmount);                
             }
             else if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-#if DEBUG_MODE
-                Debug.WriteLine("Bottom" + collisionAmount);
-#endif
-                MyMathHelper.angleBetweenAngles(ref collisionAngle, MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.Pi); 
-                if (collisionAmount > penetration)
-                {
-                    penetration += (float)collisionAmount;
-                }
+                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.Pi, (float)collisionAmount); 
+
             }
             else if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-#if DEBUG_MODE
-                Debug.WriteLine("Left" + collisionAmount);
-#endif
-                MyMathHelper.angleBetweenAngles(ref collisionAngle, MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2);
-
-                if (collisionAmount > penetration)
-                {
-                    penetration += (float)collisionAmount;
-                }
+                return new KeyValuePair<float?,float>(MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-#if DEBUG_MODE
-                Debug.WriteLine("Right" + collisionAmount);
-#endif
-
-                MyMathHelper.angleBetweenAngles(ref collisionAngle, MyMathHelper.angleBetween(quad.topRight, quad.bottomRight) + MathHelper.PiOver2);
-
-                if (collisionAmount > penetration)
-                {
-                    penetration += (float)collisionAmount;
-                }
+                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topRight, quad.bottomRight) + MathHelper.PiOver2, (float)collisionAmount);
             }
 
-
-#if DEBUG_MODE
-            //Debug.WriteLine("Final Collision Angle" + collisionAngle);
-#endif
-
-            return new KeyValuePair<float?, float>(collisionAngle, penetration);
+            return new KeyValuePair<float?, float>(null, 0f);
         }
 
 

@@ -10,10 +10,10 @@ namespace Peggle
 {
     class CollisionResolver : GameComponent
     {
-
         Dictionary<IEntityPhysics, PolarCoordinate> initalAngles = new Dictionary<IEntityPhysics, PolarCoordinate>();
-        public CollisionResolver(Game game)
-            : base(game)
+
+        public CollisionResolver()
+            : base(Game1.game)
         {
             EventHandlers.collision += collisionEventHandler;
         }
@@ -45,14 +45,14 @@ namespace Peggle
             //bounce in the middle of the range that it could bounce.
             if (e.collidingObject is Ball && !((Ball)e.collidingObject).isSimulation)
             {
-               // newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
+                newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
             }
 
             e.collidingObject.boundingBox().translate(new PolarCoordinate(e.penetration, newOrigin).toCartesian());
 
             float newRadius = collidingObjectPolar.radius;
 
-            if (newRadius > 3f)
+            if (newRadius > 1f)
             {
                 newRadius /= PhysicsSettings.COLLISION_SPEED_DIVISOR;
             }
@@ -75,8 +75,6 @@ namespace Peggle
             {
                 hitAngle += betweenAngle;
             }
-
-            //Debug.WriteLine("Final Hit Angle" + hitAngle);
 
             return hitAngle;
         }

@@ -13,7 +13,7 @@ namespace Peggle
         const String TITLE_TEXT  = "Game Over";
         const String PROMPT_TEXT = "Press Enter To Continue";
 
-        public EndLevelOverlay(Game game) : base(game)
+        public EndLevelOverlay() : base(Game1.game)
         {
         }
 

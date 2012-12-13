@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 using Helper;
 
 
@@ -22,20 +19,15 @@ namespace Peggle
         public Shooter shotBy { get; private set; }
         public Circle location { get; private set; }
 
-        public Ball(Game game, Shooter shotBy, Circle startingLocation, float angle, bool isSimulation = false) : base (game)
+        public Ball(Shooter shotBy, Circle startingLocation, float angle, bool isSimulation = false) : base (Game1.game)
         {
             this.shotBy = shotBy;
             this.isSimulation = isSimulation;
-            maxSpeed = PhysicsSettings.MAX_BALL_SPEED;
             this.location = startingLocation;
+
+            maxSpeed = PhysicsSettings.MAX_BALL_SPEED;
             color = RandomHelper.randomBasicColor();
-
-            velocity = new PolarCoordinate(3, angle).toCartesian();
-            //velocity = new PolarCoordinate(3, -4.302259F).toCartesian();
-
-           
-
-            
+            velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, angle).toCartesian(); 
         }
 
         public override void Update(GameTime gameTime)
@@ -48,16 +40,13 @@ namespace Peggle
 
         public bool ballFallen()
         {
-            KeyboardState ks = Keyboard.GetState();
-            return Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.top.Y || ks.IsKeyDown(Keys.D);
+            return Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom < location.top.Y;
         }
 
         public override void Draw(GameTime gameTime)
         {
             location.draw(color);
         }
-
-
 
         public Shape boundingBox()
         {

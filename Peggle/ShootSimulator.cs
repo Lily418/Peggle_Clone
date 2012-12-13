@@ -16,11 +16,11 @@ namespace Peggle
 
 
 
-        public ShootSimulator(Game game, GameTime time, Shooter shooter, float aimAngle)
+        public ShootSimulator(GameTime time, Shooter shooter, float aimAngle)
         {
             actionValue = 0;
             EventHandlers.collision += collisionEventHandler;
-            simulatedBall = new Ball(Game1.game, null, shooter.calculateBallStartingLocation(aimAngle), aimAngle, true);
+            simulatedBall = new Ball(null, shooter.calculateBallStartingLocation(aimAngle), aimAngle, true);
 
             Game1.addGameComponent(simulatedBall);
 

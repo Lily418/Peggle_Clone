@@ -15,7 +15,7 @@ namespace Peggle
         Line leftLine;
         Line rightLine;
 
-        public CurveTarget(CurvedBrick position, Color color, Game game) : base(game, color)
+        public CurveTarget(CurvedBrick position, Color color) : base(color)
         {
             this.position = position;
             leftLine = Line.getLineFromPoints(position.upperCurve.p0, position.lowerCurve.p0);
@@ -26,10 +26,10 @@ namespace Peggle
         public override void Draw(GameTime gameTime)
         {
             position.quads.Draw(gameTime, color);
-            position.upperCurve.draw();
-            position.lowerCurve.draw();
-            leftLine.draw ();
-            rightLine.draw();
+            position.upperCurve.draw(Color.Purple);
+            position.lowerCurve.draw(Color.Purple);
+            leftLine.draw(Color.Purple);
+            rightLine.draw(Color.Purple);
         }
 
         public override Shape boundingBox()
@@ -39,7 +39,7 @@ namespace Peggle
 
         public CurveTarget clone()
         {
-            return new CurveTarget(position, color, game);
+            return new CurveTarget(position, color);
         }
     }
 }

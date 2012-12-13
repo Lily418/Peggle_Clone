@@ -8,6 +8,7 @@ using Helper;
 
 namespace Peggle
 {
+    //Quadratic Bézier curve
     public class Curve
     {
         public Vector2 p0 { get; private set; }
@@ -29,12 +30,7 @@ namespace Peggle
             return new Vector2(x, y);
         }
 
-        public float getLength()
-        {
-            return Vector2.Distance(p0, p1) + Vector2.Distance(p1, p2);
-        }
-
-        public void draw()
+        public void draw(Color color)
         {
             DrawHelper dh = DrawHelper.getInstance();
 
@@ -45,7 +41,7 @@ namespace Peggle
             {
                 Vector2 point = getPoint(i);
                 Rectangle drawPosition = new Rectangle((int)point.X, (int)point.Y, 2, 2);
-                dh.sb.Draw(dh.dummyTexture, drawPosition, Color.Purple);
+                dh.sb.Draw(dh.dummyTexture, drawPosition, color);
                 
             }
             dh.sb.End();

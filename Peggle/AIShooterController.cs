@@ -14,15 +14,9 @@ namespace Peggle
 
         float? targetPosition = null;
         const float MOVEMENT_SPEED = 0.02f;
-        Game1 game;
 
-        TimeSpan AiWait = TimeSpan.FromSeconds(1);
+        TimeSpan AiWait = TimeSpan.FromSeconds(0.5);
         TimeSpan currentWait = TimeSpan.Zero;
-
-        public AI(Game game)
-        {
-            this.game = (Game1)game;
-        }
 
         public ShooterInstructions getShooterInstructions(GameTime gameTime, Shooter shooter)
         {
@@ -72,17 +66,14 @@ namespace Peggle
         
         private float calculateTargetAngle(GameTime currentElapsedTime, Shooter shooter)
         {
-            PriorityQueue<int, float> possibleShots = new PriorityQueue<int, float>(new IntComparer());
+            PriorityQueue<int, float> possibleShots = new PriorityQueue<int, float>(Comparer<int>.Default);
 
             float interval = (Shooter.MAX_ROTATION - Shooter.MIN_ROTATION) / NO_SHOTS_SIMULATED;
 
             for (float angle = Shooter.MIN_ROTATION; angle < Shooter.MAX_ROTATION; angle += interval)
             {
-               //Debug.WriteLine(angle);
-                possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(game, currentElapsedTime, shooter, angle).actionValue, angle));
+                possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(currentElapsedTime, shooter, angle).actionValue, angle));
             }
-
-            Debug.WriteLine(possibleShots.last().Value);
 
             return possibleShots.last().Value;
         }

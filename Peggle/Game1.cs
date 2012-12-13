@@ -18,13 +18,10 @@ namespace Peggle
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        internal static Game1 game;
         internal static GraphicsDeviceManager graphics;
         internal static ContentManager cm;
-        internal static Game1 game;
-        internal static GameTime currentGameTime;
         internal static LevelStateManager levelStateManager;
-
-        public static CurveTarget ct;
 
         public Game1()
         {
@@ -45,13 +42,10 @@ namespace Peggle
         /// </summary>
         protected override void Initialize()
         {
-           
-
             this.IsMouseVisible = true;
 
-            levelStateManager = new LevelStateManager(this);
+            levelStateManager = new LevelStateManager();
             
-
             base.Initialize();
         }
 
@@ -80,12 +74,6 @@ namespace Peggle
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            currentGameTime = gameTime;
-
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
             base.Update(gameTime);
         }
 

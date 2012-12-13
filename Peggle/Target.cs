@@ -8,18 +8,16 @@ using Helper;
 
 namespace Peggle
 {
-    public abstract class Target : DrawableGameComponent, Entity
+    public abstract class Target : DrawableGameComponent, IEntity
     {
         public const int POINTS = 50;
         public static readonly Color defaultColor = Color.Blue;
         public bool hit { get; private set; }
-        protected Game1 game;
         protected Color color;
 
-        protected Target(Game game, Color color)
-            : base(game)
+        protected Target(Color color)
+            : base(Game1.game)
         {
-            this.game = (Game1)game;
             this.hit = false;
             EventHandlers.collision  += collisionEventHandler;
             EventHandlers.ballFallen += ballFallenEventHandler;

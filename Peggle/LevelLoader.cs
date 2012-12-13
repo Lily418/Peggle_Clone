@@ -12,10 +12,10 @@ namespace Peggle
     static class LevelLoader
     {
         
-        public static Level loadXML(Game game, String path)
+        public static Level loadXML(String path)
         {
             XDocument doc = XDocument.Load(path);
-            Level level = new Level((Game1)game);
+            Level level = new Level();
 
             IEnumerable<XElement> root = doc.Root.Elements();
 
@@ -25,10 +25,10 @@ namespace Peggle
                 switch (parentName)
                 {
                     case "circletarget":
-                        level.addElement(loadCircularTarget(element, game));
+                        level.addElement(loadCircularTarget(element));
                         break;
                     case "curvetarget":
-                        level.addElement(loadCurveTarget(element, game));
+                        level.addElement(loadCurveTarget(element));
                         break;
                 }
             }
@@ -37,23 +37,23 @@ namespace Peggle
 
         }
 
-        private static CircularTarget loadCircularTarget(XElement element, Game game)
+        private static CircularTarget loadCircularTarget(XElement element)
         {
             String positionString = element.Element(XName.Get("Position")).Value;
             String[] positionStringSplit = positionString.Split(',');
 
             Circle location = new Circle(new Vector2(positionStringSplit[0].toFloat(), positionStringSplit[1].toFloat()), positionStringSplit[2].toFloat());
 
-            return new CircularTarget(game, location, Target.defaultColor);
+            return new CircularTarget(location, Target.defaultColor);
 
         }
 
-        private static CurveTarget loadCurveTarget(XElement element, Game game)
+        private static CurveTarget loadCurveTarget(XElement element)
         {
             XElement upperCurve = element.Element(XName.Get("UpperCurve"));
             XElement lowerCurve = element.Element(XName.Get("LowerCurve"));
 
-            return new CurveTarget(new CurvedBrick(loadCurve(upperCurve), loadCurve(lowerCurve)), Target.defaultColor, game);
+            return new CurveTarget(new CurvedBrick(loadCurve(upperCurve), loadCurve(lowerCurve)), Target.defaultColor);
         }
 
         private static Curve loadCurve(XElement element)

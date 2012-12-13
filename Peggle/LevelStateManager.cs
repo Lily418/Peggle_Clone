@@ -11,11 +11,11 @@ namespace Peggle
 
         public Level currentLevel { private set; get; }
         
-        public LevelStateManager(Game game)
+        public LevelStateManager()
         {
             EventHandlers.ballFallen += ballFallenEventHandler;
             EventHandlers.levelResetRequest += levelResetRequestHander;
-            currentLevel = LevelLoader.loadXML(game, @"Content\level.xml");
+            currentLevel = LevelLoader.loadXML(@"Content\level.xml");
             currentLevel.load();
         }
 
@@ -51,7 +51,7 @@ namespace Peggle
                 gameC.Enabled = false;
             }
 
-            Game1.addGameComponent(new EndLevelOverlay(Game1.game));
+            Game1.addGameComponent(new EndLevelOverlay());
             
         }
     }

@@ -11,22 +11,18 @@ namespace Peggle
 {
     class Level
     {
-        Game1 game;
-
         public PhysicsProcessing physicsProcessor { private set; get; }
         List<Target> targetCache = new List<Target>();
         List<Shooter> shooters = new List<Shooter>();
         CollisionResolver collisionResolver;
 
-        public Level(Game1 game)
+        public Level()
         {
-            this.game = game;
-            physicsProcessor  = new PhysicsProcessing(game);
-            collisionResolver = new CollisionResolver(game);
+            physicsProcessor  = new PhysicsProcessing();
+            collisionResolver = new CollisionResolver();
             
-            //TODO: Move this to the game setup options
-            Shooter playerShooter = new Shooter(game, Color.Red, new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
-            Shooter aiShooter = new Shooter(game, Color.Green, new Rectangle(300, 0, 80, 20), new AI(game));
+            Shooter playerShooter = new Shooter(Color.Red,     new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
+            Shooter aiShooter     = new Shooter(Color.Green,   new Rectangle(300, 0, 80, 20), new AI());
             shooters.Add(playerShooter);
             shooters.Add(aiShooter);
 
@@ -44,7 +40,6 @@ namespace Peggle
             }
         }
 
-        //Should add the level to the entity lists and set up the components
         public void load()
         {
             Game1.clearGameComponents();
@@ -61,13 +56,13 @@ namespace Peggle
             {
                 shooterQueue.Enqueue(shooter);
                 String labelString = "Player "+ shooterNumber +":";
-                Game1.addGameComponent(new Score(game, shooter, new Vector2(scoreX, scoreY), labelString));
+                Game1.addGameComponent(new Score(shooter, new Vector2(scoreX, scoreY), labelString));
 
                 shooterNumber++;
                 scoreY += DrawHelper.getInstance().font.MeasureString(labelString).Y / Game1.graphics.GraphicsDevice.Viewport.Height;
             }
 
-            Game1.addGameComponent(new TurnManager(game, shooterQueue));
+            Game1.addGameComponent(new TurnManager(shooterQueue));
 
             List<Target>targets = new List<Target>();
 
