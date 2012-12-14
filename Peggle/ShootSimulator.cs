@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Peggle
 {
@@ -38,9 +33,6 @@ namespace Peggle
 
         public void collisionEventHandler(object sender, CollisionArgs e)
         {
-
-            
-            
             if (e.collidingObject is Ball && e.collidingObject.Equals(simulatedBall))
             {
                 if (e.hitObject != null && e.hitObject is Target)
@@ -49,7 +41,6 @@ namespace Peggle
 
                     if (!targetsHit.Contains(targetHit))
                     {
-
                         actionValue += Target.POINTS;
 
                         targetsHit.Add(targetHit);

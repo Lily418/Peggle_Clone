@@ -1,5 +1,3 @@
-using System;
-
 namespace Peggle
 {
 #if WINDOWS || XBOX

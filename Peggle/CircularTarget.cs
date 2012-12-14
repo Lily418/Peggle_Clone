@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Helper;
+﻿using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
@@ -18,7 +12,7 @@ namespace Peggle
             this.location = location;
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
             location.draw(color);    
         }

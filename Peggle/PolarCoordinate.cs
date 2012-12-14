@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace Peggle
@@ -11,8 +8,7 @@ namespace Peggle
         public float radius { private set; get; }
         public float origin { private set; get; }
 
-        public PolarCoordinate(float radius, float origin)
-            : this()
+        public PolarCoordinate(float radius, float origin) : this()
         {
             this.radius = radius;
             this.origin = origin;

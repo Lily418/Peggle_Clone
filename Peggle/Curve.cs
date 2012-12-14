@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Helper;
 
 namespace Peggle
@@ -24,8 +20,8 @@ namespace Peggle
 
         public Vector2 getPoint(float t)
         {
-            float x = (float)(Math.Pow((double)(1f - t), 2.0) * p0.X + 2 * (1 - t) * t * p1.X + Math.Pow(t, 2) * p2.X);
-            float y = (float)(Math.Pow((double)(1f - t), 2.0) * p0.Y + 2 * (1 - t) * t * p1.Y + Math.Pow(t, 2) * p2.Y);
+            float x = (float)(Math.Pow((1f - t), 2.0) * p0.X + 2 * (1 - t) * t * p1.X + Math.Pow(t, 2) * p2.X);
+            float y = (float)(Math.Pow((1f - t), 2.0) * p0.Y + 2 * (1 - t) * t * p1.Y + Math.Pow(t, 2) * p2.Y);
 
             return new Vector2(x, y);
         }

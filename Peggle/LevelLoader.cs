@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Helper;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace Peggle
 {

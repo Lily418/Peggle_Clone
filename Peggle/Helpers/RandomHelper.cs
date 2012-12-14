@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 
@@ -9,7 +6,7 @@ namespace Helper
 {
     static class RandomHelper
     {
-        static Random random = new Random();
+        readonly static Random random = new Random();
 
         public static Random getRandom()
         {

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace Helper
 {
     static class MyMathHelper
     {
 
-        public static float angleBetween(float a, float b)
+        public static float angleFromAToB(float a, float b)
         {
             a = MathHelper.WrapAngle(a);
             b = MathHelper.WrapAngle(b);
@@ -24,7 +20,6 @@ namespace Helper
         public static float angleBetween(Vector2 a, Vector2 b)
         {
             return (float)Math.Atan2(a.Y - b.Y, a.X - b.X);
-            
         }
 
         public static float difference(float a, float b)

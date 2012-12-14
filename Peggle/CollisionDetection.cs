@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Helper;
@@ -24,7 +22,10 @@ namespace Peggle
 
                     if (!moveableEntity.Equals(otherEntity))
                     {
-                        checkCollisions(moveableEntity, otherEntity);
+                        if (checkCollisions(moveableEntity, otherEntity))
+                        {
+                            break;
+                        }
                     }
                 }
 
@@ -32,7 +33,7 @@ namespace Peggle
         }
 
 
-        private static void checkCollisions(IEntityPhysics moveableEntity, IEntity otherEntity)
+        private static bool checkCollisions(IEntityPhysics moveableEntity, IEntity otherEntity)
         {
             Shape moveableEntityBoundingBox = moveableEntity.boundingBox();
             Shape otherEntityBoundingBox = otherEntity.boundingBox();
@@ -47,6 +48,7 @@ namespace Peggle
                 {
                     float hitAngle = MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin);
                     EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, hitAngle, penetration));
+                    return true;
                 }
             }
             else if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is QuadCollection)
@@ -60,6 +62,7 @@ namespace Peggle
                     if ((collisionAngle = quadCircleCollision(quad, movingEntityCircle)).Key != null)
                     {
                         EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, (float)collisionAngle.Key, collisionAngle.Value));
+                        return true;
                     }
                 }
             }
@@ -67,6 +70,8 @@ namespace Peggle
             {
                 Debug.Assert(false, "No Collision defined for types " + moveableEntityBoundingBox.GetType() + " " + otherEntityBoundingBox.GetType());
             }
+
+            return false;
         }
 
         static bool wallCollision(IEntityPhysics moveableEntity)
@@ -117,16 +122,13 @@ namespace Peggle
 
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                Debug.WriteLine("Top");
                 float angle;
                 if (quad.topLeft.Y < quad.topRight.Y)
                 {
-                    Debug.WriteLine("No Pi");
                     angle = MyMathHelper.angleBetween(quad.topRight, quad.topLeft) - MathHelper.PiOver2;
                 }
                 else
                 {
-                    Debug.WriteLine("Pi");
                     angle = MyMathHelper.angleBetween(quad.topLeft, quad.topRight) - MathHelper.PiOver2;
                 }
 
@@ -134,18 +136,15 @@ namespace Peggle
             }
             else if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                Debug.WriteLine("Bottom");
                 return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.PiOver2, (float)collisionAmount); 
 
             }
             else if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                Debug.WriteLine("Left");
                 return new KeyValuePair<float?,float>(MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                Debug.WriteLine("Right" + MyMathHelper.angleBetween(quad.topRight, quad.bottomRight));
                 return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topRight, quad.bottomRight), (float)collisionAmount);
             }
 

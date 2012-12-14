@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Helper;
 
@@ -63,8 +60,6 @@ namespace Peggle
             }
 
             Game1.addGameComponent(new TurnManager(shooterQueue));
-
-            List<Target>targets = new List<Target>();
 
             foreach(Target target in targetCache)
             {

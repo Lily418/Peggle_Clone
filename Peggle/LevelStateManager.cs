@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace Peggle
@@ -21,15 +18,7 @@ namespace Peggle
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
-            bool targetsLeft = false;
-            foreach (Target target in Game1.getComponents().OfType<Target>())
-            {
-                if (!target.hit)
-                {
-                    targetsLeft = true;
-                    break;
-                }
-            }
+            bool targetsLeft = Game1.getComponents().OfType<Target>().Any(target => !target.hit);
 
             if (!targetsLeft)
             {

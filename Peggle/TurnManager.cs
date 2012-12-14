@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace Peggle
 {
@@ -27,10 +24,9 @@ namespace Peggle
             {
                 activeShooter = shooterQueue.Dequeue();
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException e)
             {
-                Debug.Assert(false, "Queue passed to ShooterController should not be empty");
-                throw;
+                throw new InvalidOperationException("Queue passed to ShooterController should not be empty", e);
             }
         }
 

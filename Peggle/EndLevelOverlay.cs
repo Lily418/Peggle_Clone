@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Helper;
@@ -50,7 +48,7 @@ namespace Peggle
             }
 
             float promptY = background.Y + background.Height * 0.9f;
-            float promptX = background.X + (background.Width / 2 - (dh.font.MeasureString(PROMPT_TEXT).X / 2));
+            float promptX = background.X + (background.Width / 2f - (dh.font.MeasureString(PROMPT_TEXT).X / 2));
 
             dh.sb.DrawString(dh.font, PROMPT_TEXT, new Vector2(promptX, promptY), Color.White);
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Helper
+﻿namespace Helper
 {
     //For treating flat lists like 2 dimensional arrays
     static class ArrayHelper

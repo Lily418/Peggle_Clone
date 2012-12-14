@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Peggle
 {
     class PriorityQueue<TCompare,TValue>
     {
-        public KeyValuePair<TCompare, TValue> this[int index]
-        {
-            get
-            {
-                return baseStorage[index];
-            }
-        }
+        
 
         List<KeyValuePair<TCompare, TValue>> baseStorage = new List<KeyValuePair<TCompare, TValue>>();
         IComparer<TCompare> comparer;
@@ -21,6 +13,14 @@ namespace Peggle
         public PriorityQueue(IComparer<TCompare> comparer)
         {
             this.comparer = comparer;
+        }
+
+        public KeyValuePair<TCompare, TValue> this[int index]
+        {
+            get
+            {
+                return baseStorage[index];
+            }
         }
 
 

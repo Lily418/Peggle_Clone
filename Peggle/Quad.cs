@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 using Helper;
 
 namespace Peggle
@@ -24,25 +20,6 @@ namespace Peggle
         public float minY {private set; get;}
         public float maxX { private set; get; }
         public float maxY { private set; get; }
-        
-        public float width
-        {
-            get
-            {
-                return maxX - minX;
-            }
-        }
-
-        public float height
-        {
-            get
-            {
-                return maxY - minY;
-            }
-        }
-
-        public Vector2 center { private set; get; }
-       
 
         public Quad(Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight)
         {
@@ -63,8 +40,6 @@ namespace Peggle
             minY = MyMathHelper.min(pointsY);
             maxX = MyMathHelper.max(pointsX);
             maxY = MyMathHelper.max(pointsY);
-
-            center = new Vector2(minX + width / 2, minY + height / 2);
         }
 
         public static Quad organiseQuadPoints(Vector2[] points)
@@ -97,7 +72,6 @@ namespace Peggle
                 topRight = points[3];
                 bottomRight = points[2];
             }
-
 
             return new Quad(topLeft, topRight, bottomLeft, bottomRight);
         }
@@ -141,22 +115,11 @@ namespace Peggle
         {
             DrawHelper dh = DrawHelper.getInstance();
 
-            float[] pointsX = new float[] {topLeft.X, topRight.X, bottomLeft.X, bottomRight.X} ;
-            float[] pointsY = new float[] {topLeft.Y, topRight.Y, bottomLeft.Y, bottomRight.Y };
+            dh.sb.Begin();      
 
-            int minX = (int)MyMathHelper.min(pointsX);
-            int minY = (int)MyMathHelper.min(pointsY);
-            int maxX = (int)MyMathHelper.max(pointsX);
-            int maxY = (int)MyMathHelper.max(pointsY);
-
-
-            dh.sb.Begin();
-
-      
-
-            for (int y = minY; y <= maxY; y++)
+            for (int y = (int)minY; y <= (int)maxY; y++)
             {
-                for (int x = minX; x <= maxX; x++)
+                for (int x = (int)minX; x <= (int)maxX; x++)
                 {
                     if(pointInQuad(x,y))
                     {

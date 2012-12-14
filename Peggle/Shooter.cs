@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
 using Helper;
 
@@ -54,10 +50,8 @@ namespace Peggle
                 
                 aimingAngle = MathHelper.Clamp(aimingAngle, MIN_ROTATION, MAX_ROTATION);
 
-
                 if (nextInstruction.fireBall)
                 {
-                    //aimingAngle = 0.8735989f;
                     ball = new Ball(this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
                 }
@@ -74,8 +68,7 @@ namespace Peggle
         }
 
         public override void Draw(GameTime gameTime)
-        {
-            
+        {            
             DrawHelper draw = DrawHelper.getInstance();
 
             SpriteBatch sb = draw.sb;
@@ -83,17 +76,12 @@ namespace Peggle
 
             sb.Draw(draw.dummyTexture, basePosition, color);
 
-            int pipeWidth = basePosition.Width / PIPE_WIDTH_DIVISOR;
+            int pipeWidth  = basePosition.Width / PIPE_WIDTH_DIVISOR;
             int pipeHeight = basePosition.Height * PIPE_HEIGHT_MULTIPLER;
             Rectangle pipePosition = new Rectangle(basePosition.Center.X, basePosition.Y, pipeHeight, pipeWidth);
             sb.Draw(draw.dummyTexture, pipePosition, null, color, aimingAngle, new Vector2(0f, 0.5f), SpriteEffects.None, 0);
 
-
-
             sb.End();
-
-            
-            
         }
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)

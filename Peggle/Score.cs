@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Helper;
 
 namespace Peggle
@@ -22,13 +18,12 @@ namespace Peggle
             this.score = 0;
             this.shooter = shooter;
             this.label = label;
-            EventHandlers.collision += collisionEventHandler;
             this.drawRatio = drawRatio;
+            EventHandlers.collision += collisionEventHandler;
         }
 
         public void collisionEventHandler(object sender, CollisionArgs e)
-        {
-            
+        {   
             if (e.collidingObject is Ball && ((Ball)e.collidingObject).shotBy == shooter && e.hitObject is Target)
             {
                 if (!targetsHit.Contains(e.hitObject))
@@ -46,7 +41,7 @@ namespace Peggle
             dh.sb.Begin();
 
             Rectangle viewport = Game1.graphics.GraphicsDevice.Viewport.Bounds;
-            float x = viewport.Width * drawRatio.X;
+            float x = viewport.Width  * drawRatio.X;
             float y = viewport.Height * drawRatio.Y;
 
             dh.sb.DrawString(dh.font, label + score , new Vector2(x,y) , Color.Wheat);

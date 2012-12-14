@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace Peggle
@@ -49,12 +46,12 @@ namespace Peggle
         }
 
 
-        float Shape.leftMostPoint()
+        public float leftMostPoint()
         {
             return left;
         }
 
-        float Shape.rightMostPoint()
+        public float rightMostPoint()
         {
             return right;
         }

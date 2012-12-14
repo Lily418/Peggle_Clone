@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
@@ -15,7 +13,7 @@ namespace Peggle
         float? targetPosition = null;
         const float MOVEMENT_SPEED = 0.02f;
 
-        TimeSpan AiWait = TimeSpan.FromSeconds(0.5);
+        readonly TimeSpan AiWait = TimeSpan.FromSeconds(0.5);
         TimeSpan currentWait = TimeSpan.Zero;
 
         public ShooterInstructions getShooterInstructions(GameTime gameTime, Shooter shooter)
@@ -68,7 +66,7 @@ namespace Peggle
         {
             PriorityQueue<int, float> possibleShots = new PriorityQueue<int, float>(Comparer<int>.Default);
 
-            float interval = (Shooter.MAX_ROTATION - Shooter.MIN_ROTATION) / NO_SHOTS_SIMULATED;
+            const float interval = (Shooter.MAX_ROTATION - Shooter.MIN_ROTATION) / NO_SHOTS_SIMULATED;
 
             for (float angle = Shooter.MIN_ROTATION; angle < Shooter.MAX_ROTATION; angle += interval)
             {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using System.Diagnostics;
-using Helper;
+﻿using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
@@ -16,17 +10,17 @@ namespace Peggle
 
         public CurvedBrick(Curve upperCurve, Curve lowerCurve)
         {
-            quads = toQuads(upperCurve, lowerCurve);
             this.upperCurve = upperCurve;
             this.lowerCurve = lowerCurve;
+            quads = toQuads();
         }
 
-        private QuadCollection toQuads(Curve upperCurve, Curve lowerCurve)
+        private QuadCollection toQuads()
         {
 
             QuadCollection curveQuads = new QuadCollection();
 
-            float interval = 0.1f;
+            const float interval = 0.1f;
 
             for (float i = 0.0f; i < 1.0f; i += interval)
             {

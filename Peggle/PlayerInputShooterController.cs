@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 
 namespace Peggle
 {
     class PlayerInput : IShooterController
     {
 
-        static PlayerInput instance = new PlayerInput();
+        const float MOVEMENT_SPEED = 0.05f;
 
-        TimeSpan inputLastUpdated = TimeSpan.Zero;
-        ShooterInstructions shooterInstructions = null;
+        readonly static PlayerInput instance = new PlayerInput();
 
         private PlayerInput()
-        {
-        }
+        { }
 
         public static PlayerInput getInstance()
         {
@@ -27,48 +20,42 @@ namespace Peggle
 
         public ShooterInstructions getShooterInstructions(GameTime gameTime, Shooter shooter)
         {
-            if (shooterInstructions == null || inputLastUpdated != gameTime.TotalGameTime)
+            KeyboardState currentKeyboardState = Keyboard.GetState();
+
+            float shooterMovement = 0.0f;
+
+            if (currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                KeyboardState currentKeyboardState = Keyboard.GetState();
-
-                float shooterMovement = 0.0f;
-
-                if(currentKeyboardState.IsKeyDown(Keys.Left))
-                {
-                    shooterMovement += 0.05f;
-                }
-
-                if (currentKeyboardState.IsKeyDown(Keys.Right))
-                {
-                    shooterMovement -= 0.05f;
-                }
-
-                if (currentKeyboardState.IsKeyDown(Keys.S))
-                {
-                    shooterMovement /= 5.0f;
-                }
-
-                bool fireBall = false;
-                if(currentKeyboardState.IsKeyDown(Keys.Space))
-                {
-                    fireBall = true;
-                }
-
-
-
-                shooterInstructions = new ShooterInstructions(shooterMovement, fireBall);
-                inputLastUpdated = gameTime.TotalGameTime;
-
-                
+                shooterMovement += MOVEMENT_SPEED;
             }
 
-            return shooterInstructions;
+            if (currentKeyboardState.IsKeyDown(Keys.Right))
+            {
+                shooterMovement -= MOVEMENT_SPEED;
+            }
+
+            if (currentKeyboardState.IsKeyDown(Keys.S))
+            {
+                shooterMovement /= 5.0f;
+            }
+
+            bool fireBall;
+            if (currentKeyboardState.IsKeyDown(Keys.Space))
+            {
+                fireBall = true;
+            }
+            else
+            {
+                fireBall = false;
+            }
+
+            return new ShooterInstructions(shooterMovement, fireBall);
         }
 
 
-        
+
     }
-    
+
 
 
 }

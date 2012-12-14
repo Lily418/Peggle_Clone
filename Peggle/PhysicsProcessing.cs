@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 using Helper;
 
 namespace Peggle
@@ -19,13 +15,14 @@ namespace Peggle
 
         public override void Update(GameTime gameTime)
         {
-            for (int i = 0; i < 4; i++)
+            const int LOOPS = 4;
+            for (int i = 0; i < LOOPS; i++)
             {
                 //Gravity must be applied before collision check, otherwise gravity will cause entities to move inside other entites.
                 foreach (IEntityPhysics moveableEntity in Game1.getComponents().OfType<IEntityPhysics>())
                 {
                     //Gravity
-                    moveableEntity.velocity = Vector2.Add(moveableEntity.velocity, gravity / 4f);
+                    moveableEntity.velocity = Vector2.Add(moveableEntity.velocity, gravity / LOOPS);
                 }
 
                 CollisionDetection.checkCollisions();
@@ -36,7 +33,7 @@ namespace Peggle
                     moveableEntity.velocity = moveableEntity.velocity.shorten(moveableEntity.maxSpeed);
                     
                     //Move
-                    moveableEntity.boundingBox().translate(moveableEntity.velocity / 4);
+                    moveableEntity.boundingBox().translate(moveableEntity.velocity / LOOPS);
                 }
             }
 

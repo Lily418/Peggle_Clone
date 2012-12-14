@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using System.Diagnostics;
+﻿using Microsoft.Xna.Framework;
 using Helper;
 
 namespace Peggle
@@ -50,7 +45,7 @@ namespace Peggle
             {
                 EventHandlers.collision -= collisionEventHandler;
                 EventHandlers.ballFallen -= ballFallenEventHandler;
-                //Game1.removeGameComponent(this);
+                Game1.removeGameComponent(this);
             }
         }
 
