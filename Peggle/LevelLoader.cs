@@ -22,10 +22,10 @@ namespace Peggle
                 switch (parentName)
                 {
                     case "circletarget":
-                        level.addElement(loadCircularTarget(element));
+                        level.addTarget(loadCircularTarget(element));
                         break;
                     case "curvetarget":
-                        level.addElement(loadCurveTarget(element));
+                        level.addTarget(loadCurveTarget(element));
                         break;
                 }
             }
@@ -41,7 +41,7 @@ namespace Peggle
 
             Circle location = new Circle(new Vector2(positionStringSplit[0].toFloat(), positionStringSplit[1].toFloat()), positionStringSplit[2].toFloat());
 
-            return new CircularTarget(location, Target.defaultColor);
+            return new CircularTarget(location);
 
         }
 
@@ -50,7 +50,7 @@ namespace Peggle
             XElement upperCurve = element.Element(XName.Get("UpperCurve"));
             XElement lowerCurve = element.Element(XName.Get("LowerCurve"));
 
-            return new CurveTarget(new CurvedBrick(loadCurve(upperCurve), loadCurve(lowerCurve)), Target.defaultColor);
+            return new CurveTarget(new CurvedBrick(loadCurve(upperCurve), loadCurve(lowerCurve)));
         }
 
         private static Curve loadCurve(XElement element)

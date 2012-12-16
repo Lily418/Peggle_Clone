@@ -23,6 +23,7 @@ namespace Peggle
             try
             {
                 activeShooter = shooterQueue.Dequeue();
+                EventHandlers.raiseEvent(new TurnChangeArgs(activeShooter, null));
             }
             catch (InvalidOperationException e)
             {
@@ -40,8 +41,11 @@ namespace Peggle
             //Check ball is not a ball being simulated by the AI
             if(!e.ball.isSimulation)
             {
+            Shooter deactivatedShooter = activeShooter;
             shooterQueue.Enqueue(activeShooter);
             activeShooter = shooterQueue.Dequeue();
+
+            EventHandlers.raiseEvent(new TurnChangeArgs(activeShooter, deactivatedShooter));
             }
         }
     }

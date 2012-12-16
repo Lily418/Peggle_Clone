@@ -25,16 +25,9 @@ namespace Peggle
 
         }
 
-        public void addElement(GameComponent element)
+        public void addTarget(Target target)
         {
-            if (element is Target)
-            {
-                targetCache.Add((Target)element);
-            }
-            else
-            {
-                Debug.Assert(false, "Element not recognised by level loader " + element.GetType());
-            }
+            targetCache.Add(target);
         }
 
         public void load()
@@ -59,17 +52,16 @@ namespace Peggle
                 scoreY += DrawHelper.getInstance().font.MeasureString(labelString).Y / Game1.graphics.GraphicsDevice.Viewport.Height;
             }
 
-            Game1.addGameComponent(new TurnManager(shooterQueue));
 
             foreach(Target target in targetCache)
             {
                 if(target is CircularTarget)
                 {
-                    Game1.addGameComponent(((CircularTarget)target).clone());
+                   shooters.ForEach(shooter => shooter.addTarget(((CircularTarget)target).clone()));
                 }
                 else if(target is CurveTarget)
                 {
-                    Game1.addGameComponent(((CurveTarget)target).clone());
+                    shooters.ForEach(shooter => shooter.addTarget(((CurveTarget)target).clone()));
                 }
                 else
                 {
@@ -77,6 +69,8 @@ namespace Peggle
                 }
                 
             }
+
+            Game1.addGameComponent(new TurnManager(shooterQueue));
 
             foreach (GameComponent gc in Game1.getComponents())
             {
