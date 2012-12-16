@@ -9,9 +9,11 @@ namespace Peggle
     class Level
     {
         public PhysicsProcessing physicsProcessor { private set; get; }
+        public TurnManager turnManager { private set; get; }
         List<Target> targetCache = new List<Target>();
         List<Shooter> shooters = new List<Shooter>();
         CollisionResolver collisionResolver;
+        
 
         public Level()
         {
@@ -70,7 +72,7 @@ namespace Peggle
                 
             }
 
-            Game1.addGameComponent(new TurnManager(shooterQueue));
+            Game1.addGameComponent(turnManager = new TurnManager(shooterQueue));
 
             foreach (GameComponent gc in Game1.getComponents())
             {

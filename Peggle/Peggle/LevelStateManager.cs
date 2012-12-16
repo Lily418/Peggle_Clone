@@ -18,12 +18,7 @@ namespace Peggle
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
-            bool targetsLeft = Game1.getComponents().OfType<Target>().Any(target => !target.hit);
-
-            if (!targetsLeft)
-            {
-                endLevel();
-            }
+            
 
 
         }

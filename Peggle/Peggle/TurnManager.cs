@@ -8,6 +8,7 @@ namespace Peggle
     {
         Shooter activeShooter;
         Queue<Shooter> shooterQueue = new Queue<Shooter>(2);
+        public int turnCount { private set; get; }
 
         public TurnManager(Queue<Shooter> shooters) : base (Game1.game)
         {
@@ -29,6 +30,8 @@ namespace Peggle
             {
                 throw new InvalidOperationException("Queue passed to ShooterController should not be empty", e);
             }
+
+            turnCount = 0;
         }
 
         public override void Update(GameTime gameTime)
@@ -47,6 +50,11 @@ namespace Peggle
 
             EventHandlers.raiseEvent(new TurnChangeArgs(activeShooter, deactivatedShooter));
             }
+        }
+
+        public int noOfPlayers()
+        {
+            return shooterQueue.Count;
         }
     }
 }
