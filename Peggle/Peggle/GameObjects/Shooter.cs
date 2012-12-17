@@ -101,9 +101,9 @@ namespace Peggle
             {
                 if (targets[i].hit)
                 {
-                    //Game1.removeGameComponent(targets[i]);
-                    //targets.Remove(targets[i]);
-                    //i--;
+                    Game1.removeGameComponent(targets[i]);
+                    targets.Remove(targets[i]);
+                    i--;
                 }
             }
         }

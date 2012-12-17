@@ -20,12 +20,8 @@ namespace Peggle
 
             float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
 
-            //This makes the way the ball bounces nondeterminate but I want the simulated balls to
-            //bounce in the middle of the range that it could bounce.
-            //if (e.collidingObject is Ball && !((Ball)e.collidingObject).isSimulation)
-            //{
-                newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 4), (MathHelper.Pi / 4), RandomHelper.randomNormalDistributedFloat());
-            //}
+
+            //newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 12f), (MathHelper.Pi / 12f), RandomHelper.randomNormalDistributedFloat());
 
             e.collidingObject.boundingBox().translate(new PolarCoordinate(e.penetration, newOrigin).toCartesian());
 
@@ -42,21 +38,7 @@ namespace Peggle
 
         private static float bounceAngle(float collidingAngle, float hitAngle)
         {
-            collidingAngle = MathHelper.WrapAngle(collidingAngle);
-            hitAngle = MathHelper.WrapAngle(hitAngle);
-            float betweenAngle = MyMathHelper.difference(collidingAngle, hitAngle);
-
             hitAngle += MathHelper.Pi;
-
-            if (collidingAngle < hitAngle)
-            {
-                hitAngle -= betweenAngle;
-            }
-            else
-            {
-                hitAngle += betweenAngle;
-            }
-
             return hitAngle;
         }
 

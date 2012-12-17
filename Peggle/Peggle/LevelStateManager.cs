@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Helper;
 
+
 namespace Peggle
 {
     class LevelStateManager : DrawableGameComponent
@@ -28,7 +29,6 @@ namespace Peggle
 
             if (turns % players == 0)
             {
-
                 int roundsPlayed = turns / players;
                 roundsRemaining = MAX_ROUNDS - roundsPlayed;
 

@@ -23,7 +23,10 @@ namespace Peggle
             }
         }
 
-
+        public List<KeyValuePair<TCompare, TValue>> getBaseStorage()
+        {
+            return baseStorage;
+        }
 
         public void enqueue(KeyValuePair<TCompare, TValue> element)
         {

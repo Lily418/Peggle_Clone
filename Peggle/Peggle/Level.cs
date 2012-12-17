@@ -22,11 +22,10 @@ namespace Peggle
             physicsProcessor  = new PhysicsProcessing();
             collisionResolver = new CollisionResolver();
             
-            //Shooter playerShooter = new Shooter(Color.Red,     new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
-            Shooter playerShooter = new Shooter(Color.Red, new Rectangle(300, 0, 80, 20), PlayerInput.getInstance());
+            Shooter playerShooter = new Shooter(Color.Red,     new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
             Shooter aiShooter     = new Shooter(Color.Green,   new Rectangle(300, 0, 80, 20), new AI());
             shooters.Add(playerShooter);
-            shooters.Add(aiShooter);
+            //shooters.Add(aiShooter);
 
         }
 

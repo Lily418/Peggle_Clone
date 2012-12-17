@@ -39,7 +39,7 @@ namespace Peggle
         {
             if (hit)
             {
-                EventHandlers.collision -= collisionEventHandler;
+                EventHandlers.collision  -= collisionEventHandler;
                 EventHandlers.ballFallen -= ballFallenEventHandler;
             }
         }

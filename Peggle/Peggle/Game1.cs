@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Networking;
 
 namespace Peggle
 {
@@ -12,6 +13,8 @@ namespace Peggle
         internal static GraphicsDeviceManager graphics;
         internal static ContentManager cm;
         internal static LevelStateManager levelStateManager;
+
+        UDPConnection udpConnection = new UDPConnection("169.254.74.94");
 
         public Game1()
         {
