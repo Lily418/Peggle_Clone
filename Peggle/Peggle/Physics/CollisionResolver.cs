@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Helper;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -21,10 +22,10 @@ namespace Peggle
 
             //This makes the way the ball bounces nondeterminate but I want the simulated balls to
             //bounce in the middle of the range that it could bounce.
-            if (e.collidingObject is Ball && !((Ball)e.collidingObject).isSimulation)
-            {
-                newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8), (MathHelper.Pi / 8), RandomHelper.randomNormalDistributedFloat());
-            }
+            //if (e.collidingObject is Ball && !((Ball)e.collidingObject).isSimulation)
+            //{
+                newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 4), (MathHelper.Pi / 4), RandomHelper.randomNormalDistributedFloat());
+            //}
 
             e.collidingObject.boundingBox().translate(new PolarCoordinate(e.penetration, newOrigin).toCartesian());
 
@@ -41,11 +42,13 @@ namespace Peggle
 
         private static float bounceAngle(float collidingAngle, float hitAngle)
         {
-            float betweenAngle = MyMathHelper.angleFromAToB(collidingAngle, hitAngle);
+            collidingAngle = MathHelper.WrapAngle(collidingAngle);
+            hitAngle = MathHelper.WrapAngle(hitAngle);
+            float betweenAngle = MyMathHelper.difference(collidingAngle, hitAngle);
 
             hitAngle += MathHelper.Pi;
 
-            if (collidingAngle > MathHelper.PiOver2)
+            if (collidingAngle < hitAngle)
             {
                 hitAngle -= betweenAngle;
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
@@ -36,7 +37,7 @@ namespace Peggle
         private static bool checkCollisions(IEntityPhysics moveableEntity, IEntity otherEntity)
         {
             Shape moveableEntityBoundingBox = moveableEntity.boundingBox();
-            Shape otherEntityBoundingBox = otherEntity.boundingBox();
+            Shape otherEntityBoundingBox    = otherEntity.boundingBox();
 
             if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is Circle)
             {
@@ -53,7 +54,7 @@ namespace Peggle
             }
             else if (moveableEntityBoundingBox is Circle && otherEntityBoundingBox is QuadCollection)
             {
-                Circle movingEntityCircle = (Circle)moveableEntityBoundingBox;
+                Circle movingEntityCircle     = (Circle)moveableEntityBoundingBox;
                 QuadCollection quadCollection = (QuadCollection)otherEntityBoundingBox;
 
                 foreach (Quad quad in quadCollection.quads)
@@ -120,35 +121,34 @@ namespace Peggle
             const float COLLISION_THRESHOLD = 1f;
             float? collisionAmount;
 
+            float? hitAngle = null;
+            float penetration = 0f;
             if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.topRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                float angle;
-                if (quad.topLeft.Y < quad.topRight.Y)
-                {
-                    angle = MyMathHelper.angleBetween(quad.topRight, quad.topLeft) - MathHelper.PiOver2;
-                }
-                else
-                {
-                    angle = MyMathHelper.angleBetween(quad.topLeft, quad.topRight) - MathHelper.PiOver2;
-                }
-
-                return new KeyValuePair<float?, float>(angle, (float)collisionAmount);                
+                //Debug.WriteLine("Top");
+                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.topLeft, quad.topRight) - MathHelper.PiOver2);
+                penetration = Math.Max(penetration, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.PiOver2, (float)collisionAmount); 
-
+                //Debug.WriteLine("Bottom");
+                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.PiOver2);
+                penetration = Math.Max(penetration, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                return new KeyValuePair<float?,float>(MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2, (float)collisionAmount);
+                //Debug.WriteLine("Left");
+                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2);
+                penetration = Math.Max(penetration, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
-                return new KeyValuePair<float?, float>(MyMathHelper.angleBetween(quad.topRight, quad.bottomRight), (float)collisionAmount);
+                //Debug.WriteLine("Right");
+                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.topRight, quad.bottomRight) - MathHelper.PiOver2);
+                penetration = Math.Max(penetration, (float)collisionAmount);
             }
 
-            return new KeyValuePair<float?, float>(null, 0f);
+            return new KeyValuePair<float?, float>(hitAngle, penetration);
         }
 
 

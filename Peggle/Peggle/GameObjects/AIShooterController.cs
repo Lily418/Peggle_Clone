@@ -69,10 +69,26 @@ namespace Peggle
 
             const float interval = (Shooter.MAX_ROTATION - Shooter.MIN_ROTATION) / NO_SHOTS_SIMULATED;
 
+            TimeSpan max = TimeSpan.Zero;
+            float maxAngle = 0f;
             for (float angle = Shooter.MIN_ROTATION; angle < Shooter.MAX_ROTATION; angle += interval)
             {
+                Debug.WriteLine(angle);
+
+                DateTime inital = DateTime.Now;
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(currentElapsedTime, shooter, angle).actionValue, angle));
+                TimeSpan difference = DateTime.Now - inital;
+
+                if (difference > max)
+                {
+                    maxAngle = angle;
+                    max = difference;
+                }
+
+                
             }
+
+            Debug.WriteLine(maxAngle);
 
             return possibleShots.last().Value;
         }

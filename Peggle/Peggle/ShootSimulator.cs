@@ -19,12 +19,10 @@ namespace Peggle
 
             Game1.addGameComponent(simulatedBall);
 
-
             while (!simulatedBall.ballFallen())
             {
                 Game1.levelStateManager.currentLevel.physicsProcessor.Update(time);
             }
-
 
             EventHandlers.collision -= collisionEventHandler;
             Game1.removeGameComponent(simulatedBall);

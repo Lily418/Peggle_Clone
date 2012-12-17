@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Peggle
 {
-    public class Shooter : DrawableGameComponent
+    public class Shooter : DrawableGameComponent, IShallowClone<Shooter>
     {
         const int PIPE_HEIGHT_MULTIPLER = 4;
         const int PIPE_WIDTH_DIVISOR = 4;
@@ -23,7 +23,7 @@ namespace Peggle
         IShooterController shooterController;
         Ball ball = null;
 
-        List<Target> targets = new List<Target>();
+        public List<Target> targets { private set; get; }
 
         public Shooter(Color color, Rectangle basePosition, IShooterController controller) : base(Game1.game)
         {
@@ -33,9 +33,10 @@ namespace Peggle
             this.shooterController = controller;
             EventHandlers.ballFallen += ballFallenEventHandler;
             EventHandlers.turnChange += turnChangeEventHandler;
+            targets = new List<Target>();
         }
 
-        public void processInput(GameTime gameTime)
+        public bool processInput(GameTime gameTime)
         {
             
 #if DEBUG
@@ -56,11 +57,14 @@ namespace Peggle
 
                 if (nextInstruction.fireBall)
                 {
+                    //aimingAngle = 2.356194f;
                     ball = new Ball(this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
+                    return true;
                 }
             }
 
+            return false;
 
         }
 
@@ -97,9 +101,9 @@ namespace Peggle
             {
                 if (targets[i].hit)
                 {
-                    Game1.removeGameComponent(targets[i]);
-                    targets.Remove(targets[i]);
-                    i--;
+                    //Game1.removeGameComponent(targets[i]);
+                    //targets.Remove(targets[i]);
+                    //i--;
                 }
             }
         }
@@ -116,7 +120,6 @@ namespace Peggle
             }
             else
             {
-                Debug.WriteLine("Well that wasn't me " + shooterController.GetType() +" " +targets.Count);
                 foreach (Target target in targets)
                 {
                     target.Enabled = false;
@@ -134,5 +137,10 @@ namespace Peggle
         }
 
 
+
+        public Shooter clone()
+        {
+            return new Shooter(color, basePosition, shooterController);
+        }
     }
 }

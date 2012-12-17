@@ -36,7 +36,10 @@ namespace Peggle
 
         public override void Update(GameTime gameTime)
         {
-            activeShooter.processInput(gameTime);
+            if (activeShooter.processInput(gameTime))
+            {
+                turnCount++;
+            }
         }
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
@@ -54,7 +57,7 @@ namespace Peggle
 
         public int noOfPlayers()
         {
-            return shooterQueue.Count;
+            return shooterQueue.Count + 1;
         }
     }
 }

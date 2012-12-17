@@ -11,16 +11,19 @@ namespace Peggle
         public PhysicsProcessing physicsProcessor { private set; get; }
         public TurnManager turnManager { private set; get; }
         List<Target> targetCache = new List<Target>();
-        List<Shooter> shooters = new List<Shooter>();
+        public List<Shooter> shooters { private set; get; }
         CollisionResolver collisionResolver;
         
 
         public Level()
         {
+            shooters = new List<Shooter>();
+
             physicsProcessor  = new PhysicsProcessing();
             collisionResolver = new CollisionResolver();
             
-            Shooter playerShooter = new Shooter(Color.Red,     new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
+            //Shooter playerShooter = new Shooter(Color.Red,     new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
+            Shooter playerShooter = new Shooter(Color.Red, new Rectangle(300, 0, 80, 20), PlayerInput.getInstance());
             Shooter aiShooter     = new Shooter(Color.Green,   new Rectangle(300, 0, 80, 20), new AI());
             shooters.Add(playerShooter);
             shooters.Add(aiShooter);
@@ -73,6 +76,8 @@ namespace Peggle
             }
 
             Game1.addGameComponent(turnManager = new TurnManager(shooterQueue));
+
+            Game1.addGameComponent(Game1.levelStateManager);
 
             foreach (GameComponent gc in Game1.getComponents())
             {

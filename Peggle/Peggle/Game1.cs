@@ -35,6 +35,7 @@ namespace Peggle
             this.IsMouseVisible = true;
 
             levelStateManager = new LevelStateManager();
+            levelStateManager.loadLevel();
             
             base.Initialize();
         }
