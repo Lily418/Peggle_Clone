@@ -6,7 +6,7 @@ using Helper;
 
 namespace Peggle
 {
-    class Level
+    public class Level
     {
         public PhysicsProcessing physicsProcessor { private set; get; }
         public TurnManager turnManager { private set; get; }
@@ -15,17 +15,17 @@ namespace Peggle
         CollisionResolver collisionResolver;
         
 
-        public Level()
+        public Level(List<Shooter> shooters)
         {
-            shooters = new List<Shooter>();
-
             physicsProcessor  = new PhysicsProcessing();
             collisionResolver = new CollisionResolver();
-            
-            Shooter playerShooter = new Shooter(Color.Red,     new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
-            Shooter aiShooter     = new Shooter(Color.Green,   new Rectangle(300, 0, 80, 20), new AI());
-            shooters.Add(playerShooter);
-            //shooters.Add(aiShooter);
+
+            this.shooters = shooters;
+
+            //Shooter playerShooter = new Shooter(Color.Red,     new Rectangle(150, 0, 80, 20), PlayerInput.getInstance());
+            //Shooter aiShooter     = new Shooter(Color.Green,   new Rectangle(300, 0, 80, 20), new AI());
+            //shooters.Add(playerShooter);
+            ////shooters.Add(aiShooter);
 
         }
 

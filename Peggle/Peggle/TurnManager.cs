@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Peggle
 {
-    class TurnManager : GameComponent
+    public class TurnManager : GameComponent
     {
         Shooter activeShooter;
         Queue<Shooter> shooterQueue = new Queue<Shooter>(2);

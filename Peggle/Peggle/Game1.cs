@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Networking;
@@ -12,9 +13,11 @@ namespace Peggle
         internal static Game1 game;
         internal static GraphicsDeviceManager graphics;
         internal static ContentManager cm;
-        internal static LevelStateManager levelStateManager;
+        internal static KeyboardInput keyboardInput = KeyboardInput.getInstance();
 
-        UDPConnection udpConnection = new UDPConnection("192.168.0.11");
+        public static LevelStateManager levelStateManager {private set; get;}
+
+        //UDPConnection udpConnection = new UDPConnection("192.168.0.11");
         //UDPConnection udpConnection = new UDPConnection("127.0.0.1");
 
         public Game1()
@@ -40,15 +43,17 @@ namespace Peggle
         {
             this.IsMouseVisible = true;
 
-            levelStateManager = new LevelStateManager();
-            levelStateManager.loadLevel();
+            //levelStateManager = new LevelStateManager();
+            //levelStateManager.loadLevel();
+
+            addGameComponent(new SetupMenu());
             
             base.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            udpConnection.send("I'm afraid I can't let you do that Dave");
+            keyboardInput.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -80,6 +85,12 @@ namespace Peggle
         public static GameComponentCollection getComponents()
         {
             return game.Components;
+        }
+
+        public static void setLevelManager(LevelStateManager levelStateManager)
+        {
+            Game1.levelStateManager = levelStateManager;
+            addGameComponent(levelStateManager);
         }
     }
 }

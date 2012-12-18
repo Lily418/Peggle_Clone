@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Helper;
@@ -6,7 +7,7 @@ using Helper;
 
 namespace Peggle
 {
-    class LevelStateManager : DrawableGameComponent
+    public class LevelStateManager : DrawableGameComponent
     {
 
         public Level currentLevel { private set; get; }
@@ -14,12 +15,12 @@ namespace Peggle
 
         const int MAX_ROUNDS = 5;
 
-        public LevelStateManager() : base (Game1.game)
+        public LevelStateManager(List<Shooter>shooters) : base (Game1.game)
         {
             roundsRemaining = MAX_ROUNDS;
             EventHandlers.ballFallen += ballFallenEventHandler;
             EventHandlers.levelResetRequest += levelResetRequestHander;
-            currentLevel = LevelLoader.loadXML(@"Content\level.xml");
+            currentLevel = LevelLoader.loadXML(@"Content\level.xml", shooters);
         }
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)

@@ -19,16 +19,15 @@ namespace Peggle
 
         public float aimingAngle { private set; get; } 
         Color color;
-        Rectangle basePosition;
+        Rectangle basePosition = new Rectangle(210, 0, 80, 20);
         IShooterController shooterController;
         Ball ball = null;
 
         public List<Target> targets { private set; get; }
 
-        public Shooter(Color color, Rectangle basePosition, IShooterController controller) : base(Game1.game)
+        public Shooter(Color color, IShooterController controller) : base(Game1.game)
         {
             aimingAngle = MathHelper.PiOver2;
-            this.basePosition = basePosition;
             this.color = color;
             this.shooterController = controller;
             EventHandlers.ballFallen += ballFallenEventHandler;
@@ -112,6 +111,7 @@ namespace Peggle
         {
             if (e.activatedShooter == this)
             {
+                this.Visible = true;
                 foreach (Target target in targets)
                 {
                     target.Enabled = true;
@@ -120,6 +120,7 @@ namespace Peggle
             }
             else
             {
+                this.Visible = false;
                 foreach (Target target in targets)
                 {
                     target.Enabled = false;
@@ -140,7 +141,7 @@ namespace Peggle
 
         public Shooter clone()
         {
-            return new Shooter(color, basePosition, shooterController);
+            return new Shooter(color, shooterController);
         }
     }
 }

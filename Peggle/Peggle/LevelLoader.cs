@@ -9,10 +9,10 @@ namespace Peggle
     static class LevelLoader
     {
         
-        public static Level loadXML(String path)
+        public static Level loadXML(String path, List<Shooter>shooters)
         {
             XDocument doc = XDocument.Load(path);
-            Level level = new Level();
+            Level level = new Level(shooters);
 
             IEnumerable<XElement> root = doc.Root.Elements();
 

@@ -4,7 +4,7 @@ using Helper;
 
 namespace Peggle
 {
-    class PhysicsProcessing : GameComponent
+    public class PhysicsProcessing : GameComponent
     {
         Vector2 gravity = PhysicsSettings.GRAVITY;
 
