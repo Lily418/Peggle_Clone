@@ -132,19 +132,19 @@ namespace Peggle
             else if ((collisionAmount = lineCircleCollision(quad.bottomLeft, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 //Debug.WriteLine("Bottom");
-                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) + MathHelper.PiOver2);
+                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.bottomLeft, quad.bottomRight) - MathHelper.PiOver2);
                 penetration = Math.Max(penetration, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.topLeft, quad.bottomLeft, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 //Debug.WriteLine("Left");
-                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) - MathHelper.PiOver2);
+                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.topLeft, quad.bottomLeft) + MathHelper.PiOver2);
                 penetration = Math.Max(penetration, (float)collisionAmount);
             }
             else if ((collisionAmount = lineCircleCollision(quad.topRight, quad.bottomRight, circle)) != null && collisionAmount > COLLISION_THRESHOLD)
             {
                 //Debug.WriteLine("Right");
-                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.topRight, quad.bottomRight) + MathHelper.PiOver2);
+                MyMathHelper.angleBetweenAngles(ref hitAngle, MyMathHelper.angleBetween(quad.topRight, quad.bottomRight) - MathHelper.PiOver2);
                 penetration = Math.Max(penetration, (float)collisionAmount);
             }
 

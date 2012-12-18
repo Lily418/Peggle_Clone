@@ -14,17 +14,20 @@ namespace Peggle
         internal static ContentManager cm;
         internal static LevelStateManager levelStateManager;
 
-        UDPConnection udpConnection = new UDPConnection("169.254.74.94");
+        UDPConnection udpConnection = new UDPConnection("192.168.0.11");
+        //UDPConnection udpConnection = new UDPConnection("127.0.0.1");
 
         public Game1()
         {
             game = this;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 500;
+            graphics.PreferredBackBufferWidth  = 500;
 
             Content.RootDirectory = "Content";
             cm = Content;
+
+            
         }
 
         /// <summary>
@@ -41,6 +44,12 @@ namespace Peggle
             levelStateManager.loadLevel();
             
             base.Initialize();
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            udpConnection.send("I'm afraid I can't let you do that Dave");
+            base.Update(gameTime);
         }
 
         /// <summary>
