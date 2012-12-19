@@ -10,7 +10,7 @@ namespace Peggle
     class AI : IShooterController
     {
         //This number was choosen to make the amount of checks equal to the amount of positions the player can move into
-        const int NO_SHOTS_SIMULATED = 80;
+        const int NO_SHOTS_SIMULATED = 20;
 
         float? targetPosition = null;
         const float MOVEMENT_SPEED = 0.02f;
@@ -72,7 +72,9 @@ namespace Peggle
 
             for (float angle = Shooter.MIN_ROTATION; angle < Shooter.MAX_ROTATION; angle += interval)
             {
+                DateTime start = DateTime.Now;
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(currentElapsedTime, shooter, angle).actionValue, angle));
+                //Debug.WriteLine(angle + " " + (DateTime.Now - start));
             }
 
             List<KeyValuePair<int, float>> bestShots = possibleShots.getBaseStorage().FindAll(shot => shot.Key == possibleShots.last().Key);

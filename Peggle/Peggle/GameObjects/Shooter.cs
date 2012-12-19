@@ -56,7 +56,7 @@ namespace Peggle
 
                 if (nextInstruction.fireBall)
                 {
-                    //aimingAngle = 2.356194f;
+                    //aimingAngle = 0.8377577f;
                     ball = new Ball(this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
                     return true;

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Networking;
+using Helper;
 
 namespace Peggle
 {
@@ -64,6 +65,11 @@ namespace Peggle
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+
+            DebugHelper.drawPoint(new Vector2(x:93.05f, y:299.85f), Color.Red);
+            DebugHelper.drawPoint(new Vector2(x: 95.5f, y: 287.3f), Color.Yellow);
+            DebugHelper.drawPoint(new Vector2(x: 94.8f, y: 300.6f), Color.Green);
+            DebugHelper.drawPoint(new Vector2(x: 98f,   y: 288.8f), Color.Blue);
             base.Draw(gameTime);
         }
 

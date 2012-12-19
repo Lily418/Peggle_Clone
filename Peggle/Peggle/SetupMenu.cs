@@ -70,6 +70,10 @@ namespace Peggle
                 {
                     shooters.Add(new Shooter(colors[selectedColorIndex], PlayerInput.getInstance()));
                 }
+                else if (typeToCreate == typeof(AI))
+                {
+                    shooters.Add(new Shooter(colors[selectedColorIndex], new AI()));
+                }
                 
             }
         }

@@ -22,6 +22,13 @@ namespace Helper
             return (float)Math.Atan2(a.Y - b.Y, a.X - b.X);
         }
 
+        public static float directionBetweenPoints(Vector2 destination, Vector2 origin)
+        {
+            Vector2 direction = destination - origin;
+            direction.Normalize();
+            return direction.toPolar().origin;
+        }
+
         public static float difference(float a, float b)
         {
             return Math.Abs(a - b);

@@ -44,35 +44,34 @@ namespace Peggle
 
         public static Quad organiseQuadPoints(Vector2[] points)
         {
-            Array.Sort(points, new VectorComparer(VectorComparer.Axis.x));
+            Array.Sort(points, new VectorComparer(VectorComparer.Axis.y));
 
             Vector2 topLeft;
             Vector2 bottomLeft;
             Vector2 topRight;
             Vector2 bottomRight;
 
-            if (points[0].Y < points[1].Y)
+            if (points[0].X < points[1].X)
             {
                 topLeft = points[0];
-                bottomLeft = points[1];
+                topRight = points[1];
             }
             else
             {
                 topLeft = points[1];
-                bottomLeft = points[0];
+                topRight = points[0];
             }
 
-            if (points[2].Y < points[3].Y)
+            if (points[2].X < points[3].X)
             {
-                topRight = points[2];
+                bottomLeft = points[2];
                 bottomRight = points[3];
             }
             else
             {
-                topRight = points[3];
+                bottomLeft = points[3];
                 bottomRight = points[2];
             }
-
             return new Quad(topLeft, topRight, bottomLeft, bottomRight);
         }
 
