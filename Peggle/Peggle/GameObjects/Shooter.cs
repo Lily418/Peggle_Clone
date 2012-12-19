@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
@@ -17,8 +18,8 @@ namespace Peggle
         public const float MIN_ROTATION = MathHelper.PiOver2 - (MathHelper.Pi / 3);
         public const float MAX_ROTATION = MathHelper.PiOver2 + (MathHelper.Pi / 3);
 
-        public float aimingAngle { private set; get; } 
-        Color color;
+        public float aimingAngle { private set; get; }
+        public Color color { private set; get; }
         Rectangle basePosition = new Rectangle(210, 0, 80, 20);
         IShooterController shooterController;
         Ball ball = null;
@@ -142,6 +143,11 @@ namespace Peggle
         public Shooter clone()
         {
             return new Shooter(color, shooterController);
+        }
+
+        public Type getControllerType()
+        {
+            return shooterController.GetType();
         }
     }
 }

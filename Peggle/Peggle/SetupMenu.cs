@@ -62,7 +62,6 @@ namespace Peggle
 
                 if (typeToCreate == null)
                 {
-                    //TODO:Organise Shooter locations here
                     Game1.setLevelManager(new LevelStateManager(shooters));
                     Game1.levelStateManager.loadLevel();
                 }
@@ -131,6 +130,30 @@ namespace Peggle
                 }
 
                 index++;
+            }
+
+            int playerIndex = 1;
+            float drawPositionY = 150;
+
+            foreach (Shooter shooter in shooters)
+            {
+                String nameLabel = "";
+
+                Type shooterType = shooter.GetType();
+                Debug.WriteLine(shooter.getControllerType());
+                if(shooter.getControllerType() == typeof(PlayerInput))
+                {
+                    nameLabel = "Player " + playerIndex;
+                }
+                else if (shooter.getControllerType() == typeof(AI))
+                {
+                    nameLabel = "AI " + playerIndex;
+                }
+
+                float drawPositionX = (viewport.Width / 2) - (dh.font.MeasureString(nameLabel).X / 2);
+                dh.sb.DrawString(dh.font, nameLabel, new Vector2(drawPositionX, drawPositionY), shooter.color);
+                playerIndex++;
+                drawPositionY += dh.font.MeasureString(nameLabel).Y;
             }
 
             dh.sb.End();
