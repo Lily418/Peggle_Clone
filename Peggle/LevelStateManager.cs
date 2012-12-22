@@ -13,7 +13,7 @@ namespace Peggle
         public Level currentLevel { private set; get; }
         public int roundsRemaining   { private set; get; }
 
-        const int MAX_ROUNDS = 5;
+        const int MAX_ROUNDS = 1;
 
         public LevelStateManager(List<Shooter>shooters) : base (Game1.game)
         {

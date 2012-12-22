@@ -25,10 +25,14 @@ namespace Peggle
             shooterTypes.Add(new KeyValuePair<string, Type>("AI",           typeof(AI)));
             shooterTypes.Add(new KeyValuePair<string, Type>("Start Game",   null));
 
+            
+
             colors.Add(Color.Red);
             colors.Add(Color.Blue);
             colors.Add(Color.Green);
             colors.Add(Color.Yellow);
+            colors.Add(Color.Purple);
+            colors.Add(Color.Orange);
         }
 
         public override void Update(GameTime gameTime)
@@ -67,11 +71,11 @@ namespace Peggle
                 }
                 else if (typeToCreate == typeof(PlayerInput))
                 {
-                    shooters.Add(new Shooter(colors[selectedColorIndex], PlayerInput.getInstance()));
+                    shooters.Add(new Shooter(colors[selectedColorIndex], PlayerInput.getInstance(), "Player " + (shooters.Count + 1)));
                 }
                 else if (typeToCreate == typeof(AI))
                 {
-                    shooters.Add(new Shooter(colors[selectedColorIndex], new AI()));
+                    shooters.Add(new Shooter(colors[selectedColorIndex], new AI(), "AI " + (shooters.Count + 1)));
                 }
                 
             }
@@ -137,18 +141,7 @@ namespace Peggle
 
             foreach (Shooter shooter in shooters)
             {
-                String nameLabel = "";
-
-                Type shooterType = shooter.GetType();
-                Debug.WriteLine(shooter.getControllerType());
-                if(shooter.getControllerType() == typeof(PlayerInput))
-                {
-                    nameLabel = "Player " + playerIndex;
-                }
-                else if (shooter.getControllerType() == typeof(AI))
-                {
-                    nameLabel = "AI " + playerIndex;
-                }
+                String nameLabel = shooter.shooterName;
 
                 float drawPositionX = (viewport.Width / 2) - (dh.font.MeasureString(nameLabel).X / 2);
                 dh.sb.DrawString(dh.font, nameLabel, new Vector2(drawPositionX, drawPositionY), shooter.color);

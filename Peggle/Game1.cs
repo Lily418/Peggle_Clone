@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Networking;
 using Helper;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -31,6 +32,7 @@ namespace Peggle
             Content.RootDirectory = "Content";
             cm = Content;
 
+            NetworkInterface.startRecivingPackets();
             
         }
 

@@ -49,11 +49,10 @@ namespace Peggle
             foreach (Shooter shooter in shooters)
             {
                 shooterQueue.Enqueue(shooter);
-                String labelString = "Player "+ shooterNumber +":";
-                Game1.addGameComponent(new Score(shooter, new Vector2(scoreX, scoreY), labelString));
+                Game1.addGameComponent(new Score(shooter, new Vector2(scoreX, scoreY), shooter.shooterName));
 
                 shooterNumber++;
-                scoreY += DrawHelper.getInstance().font.MeasureString(labelString).Y / Game1.graphics.GraphicsDevice.Viewport.Height;
+                scoreY += DrawHelper.getInstance().font.MeasureString(shooter.shooterName).Y / Game1.graphics.GraphicsDevice.Viewport.Height;
             }
 
 

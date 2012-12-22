@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Helper;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -44,7 +45,7 @@ namespace Peggle
             float x = viewport.Width  * drawRatio.X;
             float y = viewport.Height * drawRatio.Y;
 
-            dh.sb.DrawString(dh.font, label + score , new Vector2(x,y) , Color.Wheat);
+            dh.sb.DrawString(dh.font, label +" "+ score , new Vector2(x,y) , Color.Wheat);
 
             dh.sb.End();
 

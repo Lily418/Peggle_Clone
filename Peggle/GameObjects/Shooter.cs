@@ -20,19 +20,24 @@ namespace Peggle
 
         public float aimingAngle { private set; get; }
         public Color color { private set; get; }
+        public String shooterName { private set; get; }
         Rectangle basePosition = new Rectangle(210, 0, 80, 20);
         IShooterController shooterController;
         Ball ball = null;
 
         public List<Target> targets { private set; get; }
 
-        public Shooter(Color color, IShooterController controller) : base(Game1.game)
+        public Shooter(Color color, IShooterController controller, String name) : base(Game1.game)
         {
-            aimingAngle = MathHelper.PiOver2;
             this.color = color;
+            this.shooterName = name;
             this.shooterController = controller;
+
+            aimingAngle = MathHelper.PiOver2;
+            
             EventHandlers.ballFallen += ballFallenEventHandler;
             EventHandlers.turnChange += turnChangeEventHandler;
+
             targets = new List<Target>();
         }
 
@@ -142,7 +147,7 @@ namespace Peggle
 
         public Shooter clone()
         {
-            return new Shooter(color, shooterController);
+            return new Shooter(color, shooterController, shooterName);
         }
 
         public Type getControllerType()

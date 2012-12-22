@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Helper;
 
 namespace Peggle
 {
-    public class TurnManager : GameComponent
+    public class TurnManager : DrawableGameComponent
     {
         Shooter activeShooter;
         Queue<Shooter> shooterQueue = new Queue<Shooter>(2);
@@ -58,6 +59,17 @@ namespace Peggle
         public int noOfPlayers()
         {
             return shooterQueue.Count + 1;
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            DrawHelper dh = DrawHelper.getInstance();
+
+            dh.sb.Begin();
+
+            dh.sb.DrawString(dh.font, "Current Player: " + activeShooter.shooterName, new Vector2(10, 570), Color.White);
+
+            dh.sb.End();
         }
     }
 }
