@@ -1,0 +1,206 @@
+<level>
+	<CircleTarget>
+		<Position>105,180,20</Position>
+	</CircleTarget>
+	<CircleTarget>
+		<Position>180,180,20</Position>
+	</CircleTarget>
+		<CircleTarget>
+		<Position>280,180,20</Position>
+	</CircleTarget>
+	<CircleTarget>
+		<Position>355,180,20</Position>
+	</CircleTarget>
+	
+	<CircleTarget>
+		<Position>200,280,20</Position>
+	</CircleTarget>
+		<CircleTarget>
+		<Position>260,280,20</Position>
+	</CircleTarget>
+
+	
+	
+	
+	
+<!--Top Left Curve 'Chunk' -->
+	
+	<CurveTarget>
+		<UpperCurve>
+			<p0>-2, 200</p0>
+			<p1>20,235</p1>
+			<p2>50,260</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>-2, 220</p0>
+			<p1>20,248</p1>
+			<p2>50,275</p2>
+		</LowerCurve>
+	</CurveTarget>
+	
+	<CurveTarget>
+		<UpperCurve>
+			<p0>50, 260</p0>
+			<p1>100,290</p1>
+			<p2>100,290</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>50, 275</p0>
+			<p1>100,305</p1>
+			<p2>95,300</p2>
+		</LowerCurve>
+	</CurveTarget>
+<!-- /Top Left Curve 'Chunk' -->
+
+<!--Bottom Left Curve 'Chunk' -->
+
+	<CurveTarget>
+		<UpperCurve>
+			<p0>-2, 350</p0>
+			<p1>20,385</p1>
+			<p2>50,410</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>-2, 370</p0>
+			<p1>20,405</p1>
+			<p2>50,425</p2>
+		</LowerCurve>
+	</CurveTarget>
+	
+		<CurveTarget>
+		<UpperCurve>
+			<p0>50, 410</p0>
+			<p1>100,440</p1>
+			<p2>100,440</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>50, 425</p0>
+			<p1>100,455</p1>
+			<p2>95,450</p2>
+		</LowerCurve>
+	</CurveTarget>
+<!-- /Bottom Left Curve 'Chunk' -->
+
+<!--Top Right Curve 'Chunk' -->
+	<CurveTarget>
+		<UpperCurve>
+			<p0>450, 260</p0>
+			<p1>480,235</p1>
+			<p2>500,200</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>450,275</p0>
+			<p1>480,255</p1>
+			<p2>500,220</p2>
+		</LowerCurve>
+	</CurveTarget>
+	
+	<CurveTarget>
+		<UpperCurve>
+			<p0>400, 290</p0>
+			<p1>425, 275</p1>
+			<p2>450, 260</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>405,300</p0>
+			<p1>423,288</p1>
+			<p2>450,275</p2>
+		</LowerCurve>
+	</CurveTarget>
+<!-- /Top Left Curve 'Chunk' -->
+
+<!--Bottom Right Curve 'Chunk' -->
+	<CurveTarget>
+		<UpperCurve>
+			<p0>450, 410</p0>
+			<p1>480,385</p1>
+			<p2>500,350</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>450,425</p0>
+			<p1>480,405</p1>
+			<p2>500,370</p2>
+		</LowerCurve>
+	</CurveTarget>
+	
+	<CurveTarget>
+		<UpperCurve>
+			<p0>400, 440</p0>
+			<p1>400,440</p1>
+			<p2>450,410</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>405,450</p0>
+			<p1>400,455</p1>
+			<p2>450,425</p2>
+		</LowerCurve>
+	</CurveTarget>
+<!-- /Bottom Left Curve 'Chunk' -->
+
+<!-- Lower Curve -->
+
+<!-- Left Hand Side -->
+	<CurveTarget>
+		<UpperCurve>
+			<p0>110, 525</p0>
+			<p1>130,505</p1>
+			<p2>167,495</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>110, 535</p0>
+			<p1>130,515</p1>
+			<p2>167,505</p2>
+		</LowerCurve>
+	</CurveTarget>
+	
+	<CurveTarget>
+		<UpperCurve>
+			<p0>167,495</p0>
+			<p1>223,480</p1>
+			<p2>223,485</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>167,505</p0>
+			<p1>223,490</p1>
+			<p2>223,493</p2>
+		</LowerCurve>
+	</CurveTarget>
+	
+	
+	<!-- /Left Hand Side -->
+	
+	<!-- Right Hand Side -->
+
+	<CurveTarget>
+		<UpperCurve>
+			<p0>277,485</p0>
+			<p1>305,480</p1>
+			<p2>333,495</p2>
+		</UpperCurve>
+		<LowerCurve>
+			<p0>277,493</p0>
+			<p1>305,490</p1>
+			<p2>333,505</p2>
+		</LowerCurve>
+	</CurveTarget>
+	
+	<CurveTarget>
+		<UpperCurve>
+			<p0>333,495</p0>
+			<p1>370,505</p1>
+			<p2>390, 525</p2>
+		</UpperCurve>
+	
+
+	<LowerCurve>
+			<p0>333,505</p0>
+			<p1>370,515</p1>
+			<p2>390, 535</p2>
+		</LowerCurve>
+	</CurveTarget>
+
+	<!-- /Right Hand Side -->
+	
+	<!-- /Lower Curve -->
+
+</level>
