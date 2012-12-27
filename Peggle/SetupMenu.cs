@@ -6,25 +6,30 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Helper;
 using System.Diagnostics;
+using Networking;
 
 namespace Peggle
 {
     class SetupMenu : DrawableGameComponent
     {
         int selectedShooterIndex = 0;
-        List<KeyValuePair<String, Type>> shooterTypes = new List<KeyValuePair<String, Type>>();
+        List<KeyValuePair<String, MenuOptions>> shooterTypes = new List<KeyValuePair<String, MenuOptions>>();
         List<Shooter> shooters = new List<Shooter>();
 
         int selectedColorIndex = 0;
         List<Color> colors = new List<Color>();
 
+
+        List<System.Net.IPAddress> playerRequests = new List<System.Net.IPAddress>();
+
         public SetupMenu()
             : base(Game1.game)
         {
-            shooterTypes.Add(new KeyValuePair<string, Type>("Local Player", typeof(PlayerInput)));
-            shooterTypes.Add(new KeyValuePair<string, Type>("AI",           typeof(AI)));
-            shooterTypes.Add(new KeyValuePair<string, Type>("Start Game",   null));
-
+            shooterTypes.Add(new KeyValuePair<string, MenuOptions>("Local Player", MenuOptions.PlayerInput));
+            shooterTypes.Add(new KeyValuePair<string, MenuOptions>("AI",           MenuOptions.AI));
+            shooterTypes.Add(new KeyValuePair<string, MenuOptions>("Add Network Player", MenuOptions.NetworkPlayer));
+            shooterTypes.Add(new KeyValuePair<string, MenuOptions>("Enter Client Mode", MenuOptions.ClientMode));
+            shooterTypes.Add(new KeyValuePair<string, MenuOptions>("Start Game",   MenuOptions.StartGame));
             
 
             colors.Add(Color.Red);
@@ -33,6 +38,14 @@ namespace Peggle
             colors.Add(Color.Yellow);
             colors.Add(Color.Purple);
             colors.Add(Color.Orange);
+
+            PacketEvents.playerRequestResponse += playerRequestResponseEventHandler;
+
+        }
+
+        enum MenuOptions
+        {
+            PlayerInput, AI, ClientMode, StartGame, NetworkPlayer
         }
 
         public override void Update(GameTime gameTime)
@@ -62,22 +75,40 @@ namespace Peggle
 
             if (keyboardButtons.keyPresses[Keys.Enter] == KeyboardInput.KeyboardActions.Pressed)
             {
-                Type typeToCreate = shooterTypes[selectedShooterIndex].Value;
+                switch (shooterTypes[selectedShooterIndex].Value)
+                {
+                    case MenuOptions.StartGame:
+                        Game1.setLevelManager(new LevelStateManager(shooters));
+                        Game1.levelStateManager.loadLevel();
+                        break;
 
-                if (typeToCreate == null)
-                {
-                    Game1.setLevelManager(new LevelStateManager(shooters));
-                    Game1.levelStateManager.loadLevel();
-                }
-                else if (typeToCreate == typeof(PlayerInput))
-                {
-                    shooters.Add(new Shooter(colors[selectedColorIndex], PlayerInput.getInstance(), "Player " + (shooters.Count + 1)));
-                }
-                else if (typeToCreate == typeof(AI))
-                {
-                    shooters.Add(new Shooter(colors[selectedColorIndex], new AI(), "AI " + (shooters.Count + 1)));
+                    case MenuOptions.PlayerInput:
+                        shooters.Add(new Shooter(colors[selectedColorIndex], PlayerInput.getInstance(), "Player " + (shooters.Count + 1)));
+                        break;
+
+                    case MenuOptions.AI:
+                        shooters.Add(new Shooter(colors[selectedColorIndex], new AI(), "AI " + (shooters.Count + 1)));
+                        break;
+                    case MenuOptions.ClientMode:
+                         Game1.addGameComponent(new ClientMode());
+                        break;
+
+                    case MenuOptions.NetworkPlayer:
+                        NetworkPlayerOptions networkPlayerOptions;
+                        Game1.addGameComponent(networkPlayerOptions = new NetworkPlayerOptions());
+
+                        break;
+
                 }
                 
+            }
+        }
+
+        public void playerRequestResponseEventHandler(object sender, PlayerRequestResponseArgs e)
+        {
+            if (playerRequests.Contains(e.ip))
+            {
+
             }
         }
 
@@ -91,7 +122,7 @@ namespace Peggle
             
             float y = 50;
             int index = 0;
-            foreach (KeyValuePair<String, Type> shooterType in shooterTypes)
+            foreach (KeyValuePair<String, MenuOptions> shooterType in shooterTypes)
             {
                 float x = (viewport.Width / 2) - (dh.font.MeasureString(shooterType.Key).X / 2);
 
