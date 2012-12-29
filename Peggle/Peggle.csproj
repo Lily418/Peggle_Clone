@@ -30,7 +30,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://canoe-englandwestmidlands.org.uk/Peggle/</UpdateUrl>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -116,9 +116,11 @@
     <Compile Include="GameObjects\CircularTarget.cs" />
     <Compile Include="GameObjects\CurveTarget.cs" />
     <Compile Include="GameObjects\IShooterController.cs" />
+    <Compile Include="GameObjects\NetworkShooter.cs" />
     <Compile Include="GameObjects\PlayerInputShooterController.cs" />
     <Compile Include="GameObjects\Score.cs" />
     <Compile Include="GameObjects\Shooter.cs" />
+    <Compile Include="GameObjects\ShooterControllerHelper.cs" />
     <Compile Include="GameObjects\ShooterInstructions.cs" />
     <Compile Include="GameObjects\Target.cs" />
     <Compile Include="Geometry\Circle.cs" />
@@ -145,11 +147,16 @@
     <Compile Include="LevelLoader.cs" />
     <Compile Include="LevelStateManager.cs" />
     <Compile Include="Networking\ClientMode.cs" />
+    <Compile Include="Networking\ClientNotify.cs" />
+    <Compile Include="Networking\PlayerRequest.cs" />
     <Compile Include="Networking\NetworkInterface.cs" />
     <Compile Include="Networking\NetworkPlayerOptions.cs" />
     <Compile Include="Networking\Packet.cs" />
     <Compile Include="Networking\PacketEvents.cs" />
-    <Compile Include="Networking\PlayerRequest.cs" />
+    <Compile Include="Networking\PlayerRequestResponse.cs" />
+    <Compile Include="Networking\SetupPacket.cs" />
+    <Compile Include="Networking\TargetAnglePacket.cs" />
+    <Compile Include="Networking\WaitingMode.cs" />
     <Compile Include="Physics\CollisionDetection.cs" />
     <Compile Include="Physics\CollisionResolver.cs" />
     <Compile Include="Physics\IEntityPhysics.cs" />

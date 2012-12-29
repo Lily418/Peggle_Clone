@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -10,16 +11,9 @@ namespace Peggle
         /// </summary>
         static void Main(string[] args)
         {
-            try
-            {
-                using (Game1 game = new Game1())
-                    game.Run();
-            }
-
-            catch (Exception e)
-            {
-                System.Windows.Forms.MessageBox.Show(e.ToString());
-            }
+            Debugger.Launch();
+            using (Game1 game = new Game1())
+                game.Run();
         }
     }
 #endif

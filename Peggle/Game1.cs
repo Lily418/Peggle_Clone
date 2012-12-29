@@ -47,8 +47,15 @@ namespace Peggle
             //levelStateManager.loadLevel();
 
             addGameComponent(new SetupMenu());
+
+            NetworkInterface.startRecivingPackets();
             
             base.Initialize();
+        }
+
+        protected override void UnloadContent()
+        {
+            NetworkInterface.shutdown();
         }
 
         protected override void Update(GameTime gameTime)

@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Helper;
+using Networking;
+using System.Net;
 
 #if DEBUG
 using Microsoft.Xna.Framework.Input;
@@ -13,6 +15,10 @@ namespace Peggle
 {
     public class Shooter : DrawableGameComponent, IShallowClone<Shooter>
     {
+        static uint shootersCreated = 0;
+
+        public uint identifier { private set; get; }
+
         const int PIPE_HEIGHT_MULTIPLER = 4;
         const int PIPE_WIDTH_DIVISOR = 4;
         public const float MIN_ROTATION = MathHelper.PiOver2 - (MathHelper.Pi / 3);
@@ -22,13 +28,16 @@ namespace Peggle
         public Color color { private set; get; }
         public String shooterName { private set; get; }
         Rectangle basePosition = new Rectangle(210, 0, 80, 20);
-        IShooterController shooterController;
+        public IShooterController shooterController;
         Ball ball = null;
 
         public List<Target> targets { private set; get; }
 
-        public Shooter(Color color, IShooterController controller, String name) : base(Game1.game)
+        public IPAddress server;
+
+        public Shooter(Color color, IShooterController controller, String name, IPAddress server = null) : base(Game1.game)
         {
+            this.server = server;
             this.color = color;
             this.shooterName = name;
             this.shooterController = controller;
@@ -39,6 +48,8 @@ namespace Peggle
             EventHandlers.turnChange += turnChangeEventHandler;
 
             targets = new List<Target>();
+
+            identifier = shootersCreated++;
         }
 
         public bool processInput(GameTime gameTime)
@@ -62,7 +73,14 @@ namespace Peggle
 
                 if (nextInstruction.fireBall)
                 {
-                    //aimingAngle = 0.8377577f;
+                    foreach (Shooter shooter in Game1.levelStateManager.currentLevel.shooters)
+                    {
+                        if(shooter.server != null)
+                        {
+                            NetworkInterface.send(new TargetAnglePacket(identifier, aimingAngle), shooter.server);
+                        }
+                    }
+
                     ball = new Ball(this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
                     return true;

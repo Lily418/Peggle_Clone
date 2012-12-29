@@ -13,12 +13,14 @@ namespace Peggle
 {
     class NetworkPlayerOptions : DrawableGameComponent
     {
+        SetupMenu parent;
         IPAddress ipAddress;
         String ip = "";
         TimeSpan invalidIp = TimeSpan.Zero;
 
-        public NetworkPlayerOptions() : base(Game1.game)
+        public NetworkPlayerOptions(SetupMenu parent) : base(Game1.game)
         {
+            this.parent = parent;
             Dialog.gainControl(this);
         }
 
@@ -62,9 +64,8 @@ namespace Peggle
 
                 if (ipAddress != null && ipAddress.ToString() == ip)
                 {
+                    parent.playerRequests.Add(ipAddress);
                     NetworkInterface.send(new PlayerRequest(), ipAddress);
-
-
                     Game1.removeGameComponent(this);
                     Dialog.returnControl(this);
                 }

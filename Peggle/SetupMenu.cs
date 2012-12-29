@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Helper;
 using System.Diagnostics;
 using Networking;
+using System.Threading;
 
 namespace Peggle
 {
@@ -20,7 +21,7 @@ namespace Peggle
         List<Color> colors = new List<Color>();
 
 
-        List<System.Net.IPAddress> playerRequests = new List<System.Net.IPAddress>();
+        public List<System.Net.IPAddress> playerRequests = new List<System.Net.IPAddress>();
 
         public SetupMenu()
             : base(Game1.game)
@@ -78,6 +79,20 @@ namespace Peggle
                 switch (shooterTypes[selectedShooterIndex].Value)
                 {
                     case MenuOptions.StartGame:
+                        
+                        while (playerRequests.Count > 0)
+                        {
+                            Thread.Sleep(1000);
+                        }
+
+                        for (int i = 0; i < shooters.Count; i++)
+                        {
+                            if (shooters[i].getControllerType() == typeof(NetworkShooter))
+                            {
+                                NetworkInterface.send(new SetupPacket(shooters, shooters[i]), ((NetworkShooter)shooters[i].shooterController).ipAddress);
+                            }
+                        }
+
                         Game1.setLevelManager(new LevelStateManager(shooters));
                         Game1.levelStateManager.loadLevel();
                         break;
@@ -90,12 +105,13 @@ namespace Peggle
                         shooters.Add(new Shooter(colors[selectedColorIndex], new AI(), "AI " + (shooters.Count + 1)));
                         break;
                     case MenuOptions.ClientMode:
+                        Game1.removeGameComponent(this);
                          Game1.addGameComponent(new ClientMode());
                         break;
 
                     case MenuOptions.NetworkPlayer:
                         NetworkPlayerOptions networkPlayerOptions;
-                        Game1.addGameComponent(networkPlayerOptions = new NetworkPlayerOptions());
+                        Game1.addGameComponent(networkPlayerOptions = new NetworkPlayerOptions(this));
 
                         break;
 
@@ -106,9 +122,12 @@ namespace Peggle
 
         public void playerRequestResponseEventHandler(object sender, PlayerRequestResponseArgs e)
         {
-            if (playerRequests.Contains(e.ip))
+            if (playerRequests.Contains(e.ip) && e.answer)
             {
-
+                Shooter newShooter = new Shooter(Color.Red, null, "Network Player");
+                newShooter.shooterController = new NetworkShooter(e.ip, newShooter.identifier);
+                shooters.Add(newShooter);
+                playerRequests.Remove(e.ip);
             }
         }
 
@@ -167,8 +186,7 @@ namespace Peggle
                 index++;
             }
 
-            int playerIndex = 1;
-            float drawPositionY = 150;
+            float drawPositionY = 200;
 
             foreach (Shooter shooter in shooters)
             {
@@ -176,7 +194,6 @@ namespace Peggle
 
                 float drawPositionX = (viewport.Width / 2) - (dh.font.MeasureString(nameLabel).X / 2);
                 dh.sb.DrawString(dh.font, nameLabel, new Vector2(drawPositionX, drawPositionY), shooter.color);
-                playerIndex++;
                 drawPositionY += dh.font.MeasureString(nameLabel).Y;
             }
 

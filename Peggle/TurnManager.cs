@@ -8,7 +8,7 @@ namespace Peggle
     public class TurnManager : DrawableGameComponent
     {
         Shooter activeShooter;
-        Queue<Shooter> shooterQueue = new Queue<Shooter>(2);
+        Queue<Shooter> shooterQueue = new Queue<Shooter>();
         public int turnCount { private set; get; }
 
         public TurnManager(Queue<Shooter> shooters) : base (Game1.game)

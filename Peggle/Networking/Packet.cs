@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Networking
 {
-    abstract class Packet
+    public abstract class Packet
     {
         protected String data;
 

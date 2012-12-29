@@ -12,14 +12,12 @@ namespace Peggle
 {
     class ClientMode : DrawableGameComponent
     {
-        IPAddress server;
         List<KeyValuePair<IPAddress, String>> requests = new List<KeyValuePair<IPAddress, String>>();
 
         public ClientMode()
             : base(Game1.game)
         {
             PacketEvents.playerRequest += playerRequestEventHandler;
-            NetworkInterface.startRecivingPackets();
             Dialog.gainControl(this);
         }
 
@@ -37,7 +35,7 @@ namespace Peggle
             {
                 dh.sb.DrawString(dh.font, "Connection From " + requests[0].Value, new Vector2(10, 10), Color.White);
                 dh.sb.DrawString(dh.font, "Accept - Enter  ",                     new Vector2(10, 40), Color.White);
-                dh.sb.DrawString(dh.font, "Reject - Esc    " + requests[0].Value, new Vector2(10, 60), Color.White);
+                dh.sb.DrawString(dh.font, "Reject - Esc    ", new Vector2(10, 60), Color.White);
             }
 
             dh.sb.End();
@@ -52,7 +50,7 @@ namespace Peggle
                 {
                     NetworkInterface.send(new PlayerRequestResponse(true), requests[0].Key);
                     Game1.removeGameComponent(this);
-                    Game1.addGameComponent(new WaitingMode());
+                    Game1.addGameComponent(new WaitingMode(requests[0].Key));
                 }
                 else if (keyboardButtons.keyPresses[Keys.Escape] == KeyboardInput.KeyboardActions.Pressed)
                 {

@@ -42,23 +42,7 @@ namespace Peggle
             }
             else
             {
-                float difference = (float)targetPosition - shooter.aimingAngle;
-
-                if (Math.Abs(difference) < MOVEMENT_SPEED)
-                {
-                    return new ShooterInstructions(difference, false);
-                }
-                else
-                {
-                    if (difference > 0)
-                    {
-                        return new ShooterInstructions(MOVEMENT_SPEED, false);
-                    }
-                    else
-                    {
-                        return new ShooterInstructions(-MOVEMENT_SPEED, false);
-                    }
-                }
+                return ShooterControllerHelper.towardsTargetAngle((float)targetPosition, shooter.aimingAngle);
             }
             
         }
