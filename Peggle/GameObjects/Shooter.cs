@@ -34,8 +34,10 @@ namespace Peggle
         public List<Target> targets { private set; get; }
 
         public IPAddress server;
+        public List<IPAddress> clients = new List<IPAddress>();
 
-        public Shooter(Color color, IShooterController controller, String name, IPAddress server = null) : base(Game1.game)
+        public Shooter(Color color, IShooterController controller, String name, IPAddress server = null)
+            : base(Game1.game)
         {
             this.server = server;
             this.color = color;
@@ -43,7 +45,7 @@ namespace Peggle
             this.shooterController = controller;
 
             aimingAngle = MathHelper.PiOver2;
-            
+
             EventHandlers.ballFallen += ballFallenEventHandler;
             EventHandlers.turnChange += turnChangeEventHandler;
 
@@ -54,13 +56,13 @@ namespace Peggle
 
         public bool processInput(GameTime gameTime)
         {
-            
+
 #if DEBUG
             KeyboardState currentKeyboardState = Keyboard.GetState();
-                if (currentKeyboardState.IsKeyDown(Keys.Q))
-                {
-                    Debug.WriteLine("Shooter Angle:" + aimingAngle);
-                }
+            if (currentKeyboardState.IsKeyDown(Keys.Q))
+            {
+                Debug.WriteLine("Shooter Angle:" + aimingAngle);
+            }
 
 #endif
 
@@ -68,23 +70,25 @@ namespace Peggle
             {
                 ShooterInstructions nextInstruction = shooterController.getShooterInstructions(gameTime, this);
                 aimingAngle += nextInstruction.movementDirection;
-                
-                aimingAngle = MathHelper.Clamp(aimingAngle, MIN_ROTATION, MAX_ROTATION);
 
                 if (nextInstruction.fireBall)
                 {
-                    foreach (Shooter shooter in Game1.levelStateManager.currentLevel.shooters)
+                    if (server != null)
                     {
-                        if(shooter.server != null)
-                        {
-                            NetworkInterface.send(new TargetAnglePacket(identifier, aimingAngle), shooter.server);
-                        }
+                        NetworkInterface.send(new TargetAnglePacket(identifier, aimingAngle), server);
+                    }
+
+                    foreach (IPAddress client in clients)
+                    {
+                        NetworkInterface.send(new TargetAnglePacket(identifier, aimingAngle), client);
                     }
 
                     ball = new Ball(this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);
                     return true;
                 }
+
+                aimingAngle = MathHelper.Clamp(aimingAngle, MIN_ROTATION, MAX_ROTATION);
             }
 
             return false;
@@ -99,7 +103,7 @@ namespace Peggle
         }
 
         public override void Draw(GameTime gameTime)
-        {            
+        {
             DrawHelper draw = DrawHelper.getInstance();
 
             SpriteBatch sb = draw.sb;
@@ -107,7 +111,7 @@ namespace Peggle
 
             sb.Draw(draw.dummyTexture, basePosition, color);
 
-            int pipeWidth  = basePosition.Width / PIPE_WIDTH_DIVISOR;
+            int pipeWidth = basePosition.Width / PIPE_WIDTH_DIVISOR;
             int pipeHeight = basePosition.Height * PIPE_HEIGHT_MULTIPLER;
             Rectangle pipePosition = new Rectangle(basePosition.Center.X, basePosition.Y, pipeHeight, pipeWidth);
             sb.Draw(draw.dummyTexture, pipePosition, null, color, aimingAngle, new Vector2(0f, 0.5f), SpriteEffects.None, 0);
@@ -120,7 +124,7 @@ namespace Peggle
             Game1.removeGameComponent(ball);
             ball = null;
 
-            for(int i = 0; i < targets.Count; i++)
+            for (int i = 0; i < targets.Count; i++)
             {
                 if (targets[i].hit)
                 {

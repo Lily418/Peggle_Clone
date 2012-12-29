@@ -11,7 +11,7 @@ namespace Peggle
         /// </summary>
         static void Main(string[] args)
         {
-            Debugger.Launch();
+            //Debugger.Launch();
             using (Game1 game = new Game1())
                 game.Run();
         }

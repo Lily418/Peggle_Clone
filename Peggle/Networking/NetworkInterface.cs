@@ -44,6 +44,8 @@ namespace Networking
                     Byte[] receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
                     String[] packet = Encoding.ASCII.GetString(receiveBytes).Split(';');
 
+                    Debug.WriteLine(packet[1]);
+
                     if (checkChecksum(packet))
                     {
                         switch (packet[1])

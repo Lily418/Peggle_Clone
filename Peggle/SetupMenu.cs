@@ -8,6 +8,7 @@ using Helper;
 using System.Diagnostics;
 using Networking;
 using System.Threading;
+using System.Net;
 
 namespace Peggle
 {
@@ -85,11 +86,22 @@ namespace Peggle
                             Thread.Sleep(1000);
                         }
 
+
+                        List<IPAddress> clients = new List<IPAddress>();
                         for (int i = 0; i < shooters.Count; i++)
                         {
                             if (shooters[i].getControllerType() == typeof(NetworkShooter))
                             {
                                 NetworkInterface.send(new SetupPacket(shooters, shooters[i]), ((NetworkShooter)shooters[i].shooterController).ipAddress);
+                                clients.Add(((NetworkShooter)shooters[i].shooterController).ipAddress);
+                            }
+                        }
+
+                        foreach (Shooter shooter in shooters)
+                        {
+                            if (shooter.getControllerType() != typeof(NetworkShooter))
+                            {
+                                shooter.clients = clients;
                             }
                         }
 

@@ -33,6 +33,7 @@ namespace Networking
                 {
                     Shooter playerShooter;
                     shooters.Add(playerShooter = new Shooter(Color.Blue, PlayerInput.getInstance(), "Player"));
+                    playerShooter.server = serverIP;
                 }
             }
 

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using System.Net;
 using Networking;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -25,9 +26,10 @@ namespace Peggle
         {
             if (targetPosition != null)
             {
-                if (shooter.aimingAngle == targetPosition)
+                if (Math.Abs(shooter.aimingAngle - (float)targetPosition) < 0.005f)
                 {
                     targetPosition = null;
+                    Debug.WriteLine("Shoot");
                     return new ShooterInstructions(0.0f, true);
                 }
                 else
