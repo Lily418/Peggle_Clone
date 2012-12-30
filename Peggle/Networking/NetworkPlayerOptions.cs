@@ -32,12 +32,13 @@ namespace Peggle
             dh.sb.DrawString(dh.font, "IP:" + ip, new Vector2(180, 30), Color.White);
 
 
-            dh.sb.DrawString(dh.font, "Enter - Add Player", new Vector2(180, 60), Color.White);
-            dh.sb.DrawString(dh.font, "Esc - Cancel", new Vector2(180, 80), Color.White);
+            dh.sb.DrawString(dh.font, "Enter - Add Player", new Vector2(dh.centerX("Enter - Add Player"), 60), Color.White);
+            dh.sb.DrawString(dh.font, "Esc - Cancel",       new Vector2(dh.centerX("Esc - Cancel"),       80), Color.White);
 
             if (invalidIp > TimeSpan.Zero)
             {
-                dh.sb.DrawString(dh.font, "Invalid Ip", new Vector2(10, 50), Color.Red);
+                String invalidString = "Invalid Ip";
+                dh.sb.DrawString(dh.font, invalidString, new Vector2(dh.centerX(invalidString), 300), Color.Red);
             }
 
             dh.sb.End();
@@ -64,15 +65,28 @@ namespace Peggle
 
                 if (ipAddress != null && ipAddress.ToString() == ip)
                 {
-                    parent.playerRequests.Add(ipAddress);
-                    NetworkInterface.send(new PlayerRequest(), ipAddress);
-                    Game1.removeGameComponent(this);
-                    Dialog.returnControl(this);
+
+                    if (parent.playerRequests.Where(req => req.Key.Equals(ipAddress)).Count() == 0)
+                    {
+                        parent.playerRequests.Add(new KeyValuePair<System.Net.IPAddress, DateTime>(ipAddress, DateTime.Now));
+                        NetworkInterface.send(new PlayerRequest(), ipAddress);
+                        Game1.removeGameComponent(this);
+                        Dialog.returnControl(this);
+                    }
+                    else
+                    {
+                        new Alert("Request Already Sent", new Vector2(DrawHelper.getInstance().centerX("Request Already Sent"), 300), TimeSpan.FromSeconds(3), Color.Red);
+                    }
                 }
                 else
                 {
                     invalidIp = TimeSpan.FromSeconds(1);
                 }
+            }
+            else if (keyboardButtons.keyPresses[Keys.Escape] == KeyboardInput.KeyboardActions.Pressed)
+            {
+                Game1.removeGameComponent(this);
+                Dialog.returnControl(this);
             }
         }
 

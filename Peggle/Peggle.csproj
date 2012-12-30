@@ -108,6 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alert.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="GameObjects\EndLevelOverlay.cs" />
     <Compile Include="EventHandlers.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Networking\PlayerRequestResponse.cs" />
     <Compile Include="Networking\SetupPacket.cs" />
     <Compile Include="Networking\TargetAnglePacket.cs" />
+    <Compile Include="Networking\TimeoutInterface.cs" />
     <Compile Include="Networking\WaitingMode.cs" />
     <Compile Include="Physics\CollisionDetection.cs" />
     <Compile Include="Physics\CollisionResolver.cs" />

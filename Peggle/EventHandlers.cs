@@ -64,6 +64,7 @@ namespace Peggle
 
     public class LevelResetRequestArgs : EventArgs
     {
+        
     }
 
     public class TurnChangeArgs : EventArgs

@@ -82,9 +82,14 @@ namespace Networking
                         }
                     }
                 }
-                catch (SocketException)
+                catch (Exception e)
                 {
-
+                    //Exceptions can be caused on shutdown such as SocketException and Object Disposed.
+                    //I want to hide these exceptions from the user but other exceptions not caused on shutdown should be seen by debugger
+                    if (!(e is ThreadAbortException))
+                    {
+                        Debug.Assert(false, e.Message);
+                    }
                 }
                 
 

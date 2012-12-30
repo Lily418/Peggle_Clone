@@ -63,7 +63,7 @@ namespace Peggle
 
         public void playerRequestEventHandler(object sender, PlayerRequestArgs e)
         {
-            if (requests.Select(request => request.Key == e.ip) != null)
+            if (requests.Where(req => req.Key.Equals(e.ip)).Count() == 0)
             {
                 requests.Add(new KeyValuePair<IPAddress, String>(e.ip, e.machineName));
             }

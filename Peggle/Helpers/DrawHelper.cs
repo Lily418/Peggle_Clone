@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Peggle;
 
@@ -25,6 +26,12 @@ namespace Helper
         public static DrawHelper getInstance()
         {
             return instance ?? (instance = new DrawHelper());
+        }
+
+        public float centerX(String str)
+        {
+            Rectangle viewport = Game1.graphics.GraphicsDevice.Viewport.Bounds;
+            return (viewport.Width / 2) - (font.MeasureString(str).X / 2);
         }
     }
 }
