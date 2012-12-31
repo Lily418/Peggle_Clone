@@ -13,7 +13,7 @@ namespace Peggle
 
         public TurnManager(Queue<Shooter> shooters) : base (Game1.game)
         {
-            EventHandlers.ballFallen += ballFallenEventHandler;
+            EventHandlers.getInstance().ballFallen += ballFallenEventHandler;
 
             shooterQueue = shooters;
 
@@ -25,7 +25,7 @@ namespace Peggle
             try
             {
                 activeShooter = shooterQueue.Dequeue();
-                EventHandlers.raiseEvent(new TurnChangeArgs(activeShooter, null));
+                EventHandlers.getInstance().raiseEvent(new TurnChangeArgs(activeShooter, null));
             }
             catch (InvalidOperationException e)
             {
@@ -52,7 +52,7 @@ namespace Peggle
             shooterQueue.Enqueue(activeShooter);
             activeShooter = shooterQueue.Dequeue();
 
-            EventHandlers.raiseEvent(new TurnChangeArgs(activeShooter, deactivatedShooter));
+            EventHandlers.getInstance().raiseEvent(new TurnChangeArgs(activeShooter, deactivatedShooter));
             }
         }
 

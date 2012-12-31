@@ -9,7 +9,7 @@ namespace Peggle
         public CollisionResolver()
             : base(Game1.game)
         {
-            EventHandlers.collision += collisionEventHandler;
+            EventHandlers.getInstance().collision += collisionEventHandler;
         }
 
         public void collisionEventHandler(object sender, CollisionArgs e)

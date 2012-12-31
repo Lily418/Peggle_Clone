@@ -14,7 +14,7 @@ namespace Peggle
         public ShootSimulator(GameTime time, Shooter shooter, float aimAngle)
         {
             actionValue = 0;
-            EventHandlers.collision += collisionEventHandler;
+            EventHandlers.getInstance().collision += collisionEventHandler;
             simulatedBall = new Ball(null, shooter.calculateBallStartingLocation(aimAngle), aimAngle, true);
 
             Game1.addGameComponent(simulatedBall);
@@ -24,7 +24,7 @@ namespace Peggle
                 Game1.levelStateManager.currentLevel.physicsProcessor.Update(time);
             }
 
-            EventHandlers.collision -= collisionEventHandler;
+            EventHandlers.getInstance().collision -= collisionEventHandler;
             Game1.removeGameComponent(simulatedBall);
 
         }

@@ -31,7 +31,7 @@ namespace Peggle
         {
             if (ballFallen() && !isSimulation)
             {
-                EventHandlers.raiseEvent(new BallFallenArgs(this));
+                EventHandlers.getInstance().raiseEvent(new BallFallenArgs(this));
             }
         }
 

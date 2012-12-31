@@ -8,19 +8,25 @@ namespace Peggle
 {
     class EndLevelOverlay : DrawableGameComponent
     {
-        const String TITLE_TEXT  = "Game Over";
+        const String TITLE_TEXT = "Game Over";
         const String PROMPT_TEXT = "Press Enter To Continue";
 
-        public EndLevelOverlay() : base(Game1.game)
+        public EndLevelOverlay()
+            : base(Game1.game)
         {
         }
 
         public override void Update(GameTime gameTime)
         {
-            KeyboardState ks = Keyboard.GetState();
-            if (ks.IsKeyDown(Keys.Enter))
+            KeyboardInput.KeyboardButtons keyboardButtons = KeyboardInput.getInstance().buttonStates;
+
+            if (keyboardButtons.keyPresses[Keys.Enter] == KeyboardInput.KeyboardActions.Pressed)
             {
-                EventHandlers.raiseEvent(new LevelResetRequestArgs());
+                EventHandlers.getInstance().raiseEvent(new LevelResetRequestArgs(EndRoundAction.Reset));
+            }
+            else if (keyboardButtons.keyPresses[Keys.Escape] == KeyboardInput.KeyboardActions.Pressed)
+            {
+                EventHandlers.getInstance().raiseEvent(new LevelResetRequestArgs(EndRoundAction.Menu));
             }
         }
 
@@ -41,7 +47,7 @@ namespace Peggle
 
             float labelX = background.X + background.Width * 0.1f;
             float labelY = background.Y + background.Height * 0.2f;
-            foreach(Score score in Game1.getComponents().OfType<Score>())
+            foreach (Score score in Game1.getComponents().OfType<Score>())
             {
                 dh.sb.DrawString(dh.font, score.label.PadRight(10) + " " + score.score, new Vector2(labelX, labelY), Color.White);
                 labelY += dh.font.MeasureString(score.label + " " + score.score).Y + 5f;

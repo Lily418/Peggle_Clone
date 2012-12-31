@@ -48,7 +48,7 @@ namespace Peggle
                 if ((penetration = circleCollision(movingEntityCircle, otherEntityCircle)) > 0)
                 {
                     float hitAngle = MyMathHelper.angleBetween(otherEntityCircle.origin, movingEntityCircle.origin);
-                    EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, hitAngle, penetration));
+                    EventHandlers.getInstance().raiseEvent(new CollisionArgs(moveableEntity, otherEntity, hitAngle, penetration));
                     return true;
                 }
             }
@@ -62,7 +62,7 @@ namespace Peggle
                     KeyValuePair<float?, float> collisionAngle;
                     if ((collisionAngle = quadCircleCollision(quad, movingEntityCircle)).Key != null)
                     {
-                        EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, otherEntity, (float)collisionAngle.Key, collisionAngle.Value));
+                        EventHandlers.getInstance().raiseEvent(new CollisionArgs(moveableEntity, otherEntity, (float)collisionAngle.Key, collisionAngle.Value));
                         return true;
                     }
                 }
@@ -79,12 +79,12 @@ namespace Peggle
         {
             if (moveableEntity.boundingBox().leftMostPoint() < 0)
             {
-                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.boundingBox().leftMostPoint())));
+                EventHandlers.getInstance().raiseEvent(new CollisionArgs(moveableEntity, null, MathHelper.Pi, MathHelper.Distance(0, moveableEntity.boundingBox().leftMostPoint())));
                 return true;
             }
             else if (moveableEntity.boundingBox().rightMostPoint() > Game1.graphics.GraphicsDevice.Viewport.Width)
             {
-                EventHandlers.raiseEvent(new CollisionArgs(moveableEntity, null, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.boundingBox().rightMostPoint())));
+                EventHandlers.getInstance().raiseEvent(new CollisionArgs(moveableEntity, null, 0, MathHelper.Distance(Game1.graphics.GraphicsDevice.Viewport.Width, moveableEntity.boundingBox().rightMostPoint())));
                 return true;
             }
             else

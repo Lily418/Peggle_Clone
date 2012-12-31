@@ -62,7 +62,6 @@ namespace Peggle
                 {
                     foreach (KeyValuePair<System.Net.IPAddress, DateTime> request in playerRequests)
                     {
-                        //Debug.WriteLine(playerRequests.Count);
                         if (DateTime.Now - request.Value > REQUEST_TIMEOUT)
                         {
                             Game1.addGameComponent(new Networking.TimeoutInterface(this, request));

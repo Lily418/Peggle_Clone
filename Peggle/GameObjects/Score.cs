@@ -20,7 +20,7 @@ namespace Peggle
             this.shooter = shooter;
             this.label = label;
             this.drawRatio = drawRatio;
-            EventHandlers.collision += collisionEventHandler;
+            EventHandlers.getInstance().collision += collisionEventHandler;
         }
 
         public void collisionEventHandler(object sender, CollisionArgs e)

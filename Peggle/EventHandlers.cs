@@ -2,15 +2,30 @@
 
 namespace Peggle
 {
-    static class EventHandlers
+    class EventHandlers
     {
-        public static EventHandler<CollisionArgs>  collision;
-        public static EventHandler<BallFallenArgs> ballFallen;
-        public static EventHandler<LevelResetRequestArgs> levelResetRequest;
-        public static EventHandler<TurnChangeArgs> turnChange;
+        private static EventHandlers instance;
 
+        public EventHandler<CollisionArgs>  collision;
+        public EventHandler<BallFallenArgs> ballFallen;
+        public EventHandler<LevelResetRequestArgs> levelResetRequest;
+        public EventHandler<TurnChangeArgs> turnChange;
 
-        public static void raiseEvent(EventArgs e)
+        public static EventHandlers getInstance()
+        {
+            return instance ?? (instance = new EventHandlers());
+        }
+
+        public static void resetEventHandlers()
+        {
+            instance = new EventHandlers();
+        }
+
+        private EventHandlers()
+        {
+        }
+
+        public void raiseEvent(EventArgs e)
         {
             if (e is CollisionArgs)
             {
@@ -64,7 +79,17 @@ namespace Peggle
 
     public class LevelResetRequestArgs : EventArgs
     {
-        
+        public EndRoundAction action;
+
+        public LevelResetRequestArgs(EndRoundAction action)
+        {
+            this.action = action;
+        }
+    }
+
+    public enum EndRoundAction
+    {
+        Reset, Menu
     }
 
     public class TurnChangeArgs : EventArgs

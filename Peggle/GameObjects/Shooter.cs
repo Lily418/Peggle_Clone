@@ -46,8 +46,8 @@ namespace Peggle
 
             aimingAngle = MathHelper.PiOver2;
 
-            EventHandlers.ballFallen += ballFallenEventHandler;
-            EventHandlers.turnChange += turnChangeEventHandler;
+            EventHandlers.getInstance().ballFallen += ballFallenEventHandler;
+            EventHandlers.getInstance().turnChange += turnChangeEventHandler;
 
             targets = new List<Target>();
 

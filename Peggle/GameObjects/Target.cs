@@ -13,8 +13,8 @@ namespace Peggle
         protected Target():base(Game1.game)
         {
             hit = false;
-            EventHandlers.collision  += collisionEventHandler;
-            EventHandlers.ballFallen += ballFallenEventHandler;
+            EventHandlers.getInstance().collision += collisionEventHandler;
+            EventHandlers.getInstance().ballFallen += ballFallenEventHandler;
             
         }
 
@@ -39,8 +39,8 @@ namespace Peggle
         {
             if (hit)
             {
-                EventHandlers.collision  -= collisionEventHandler;
-                EventHandlers.ballFallen -= ballFallenEventHandler;
+                EventHandlers.getInstance().collision -= collisionEventHandler;
+                EventHandlers.getInstance().ballFallen -= ballFallenEventHandler;
             }
         }
 

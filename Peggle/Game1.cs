@@ -19,8 +19,6 @@ namespace Peggle
 
         public static LevelStateManager levelStateManager {private set; get;}
 
-        //UDPConnection udpConnection = new UDPConnection("192.168.0.11");
-        //UDPConnection udpConnection = new UDPConnection("127.0.0.1");
 
         public Game1()
         {

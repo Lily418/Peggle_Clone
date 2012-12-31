@@ -9,24 +9,25 @@ namespace Peggle
 {
     public class LevelStateManager : DrawableGameComponent
     {
-
         public Level currentLevel { private set; get; }
         public int roundsRemaining   { private set; get; }
 
-        const int MAX_ROUNDS = 5;
+        const int MAX_ROUNDS = 2;
 
         public LevelStateManager(List<Shooter>shooters) : base (Game1.game)
         {
             roundsRemaining = MAX_ROUNDS;
-            EventHandlers.ballFallen += ballFallenEventHandler;
-            EventHandlers.levelResetRequest += levelResetRequestHander;
+            EventHandlers.getInstance().ballFallen += ballFallenEventHandler;
+            EventHandlers.getInstance().levelResetRequest += levelResetRequestHander;
             currentLevel = LevelLoader.loadXML(@"Content\level.xml", shooters);
         }
 
         public void ballFallenEventHandler(object sender, BallFallenArgs e)
         {
             int players = currentLevel.turnManager.noOfPlayers();
-            int turns = currentLevel.turnManager.turnCount;
+            int turns   = currentLevel.turnManager.turnCount;
+
+            Debug.WriteLine(players +" "+turns);
 
             if (turns % players == 0)
             {
@@ -51,8 +52,17 @@ namespace Peggle
 
         public void levelResetRequestHander(object sender, LevelResetRequestArgs e)
         {
-            roundsRemaining = MAX_ROUNDS;
-            loadLevel();
+            if (e.action == EndRoundAction.Reset)
+            {
+                roundsRemaining = MAX_ROUNDS;
+                loadLevel();
+            }
+            else if (e.action == EndRoundAction.Menu)
+            {
+                EventHandlers.resetEventHandlers();
+                Game1.clearGameComponents();
+                Game1.addGameComponent(new SetupMenu());
+            }
         }
 
         public void loadLevel()
