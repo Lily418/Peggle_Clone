@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Helper;
 using Networking;
 using System.Net;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -48,6 +49,7 @@ namespace Peggle
                 KeyboardInput.KeyboardButtons keyboardButtons = KeyboardInput.getInstance().buttonStates;
                 if (keyboardButtons.keyPresses[Keys.Enter] == KeyboardInput.KeyboardActions.Pressed)
                 {
+                    ConnectedTracker.addClient(requests[0].Key);
                     NetworkInterface.send(new PlayerRequestResponse(true), requests[0].Key);
                     Game1.removeGameComponent(this);
                     Game1.addGameComponent(new WaitingMode(requests[0].Key));

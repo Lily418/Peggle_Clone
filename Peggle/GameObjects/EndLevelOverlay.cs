@@ -27,6 +27,7 @@ namespace Peggle
             else if (keyboardButtons.keyPresses[Keys.Escape] == KeyboardInput.KeyboardActions.Pressed)
             {
                 EventHandlers.getInstance().raiseEvent(new LevelResetRequestArgs(EndRoundAction.Menu));
+                ConnectedTracker.inform();
             }
         }
 

@@ -66,9 +66,10 @@ namespace Peggle
                 if (ipAddress != null && ipAddress.ToString() == ip)
                 {
 
-                    if (parent.playerRequests.Where(req => req.Key.Equals(ipAddress)).Count() == 0)
+                    if (parent.playerRequests.Where(req => req.ip.Equals(ipAddress)).Count() == 0)
                     {
-                        parent.playerRequests.Add(new KeyValuePair<System.Net.IPAddress, DateTime>(ipAddress, DateTime.Now));
+                        ConnectedTracker.addClient(ipAddress);
+                        parent.playerRequests.Add(new PlayerRequestRecord(ipAddress, DateTime.Now));
                         NetworkInterface.send(new PlayerRequest(), ipAddress);
                         Game1.removeGameComponent(this);
                         Dialog.returnControl(this);

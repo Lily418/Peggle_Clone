@@ -14,11 +14,22 @@ namespace Networking
     {
         List<Shooter> shooters = new List<Shooter>();
         IPAddress serverIP;
+        DateTime lastSent = DateTime.Now;
         public WaitingMode(IPAddress serverIP) : base(Game1.game)
         {
             this.serverIP = serverIP;
             PacketEvents.setup += setupRequestEventHandler;
             Dialog.gainControl(this);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (DateTime.Now - lastSent > TimeSpan.FromSeconds(5))
+            {
+                NetworkInterface.send(new ResendRequestPacket(), serverIP);
+                lastSent = DateTime.Now;
+            }
+
         }
 
         public void setupRequestEventHandler(object sender, SetupArgs e)

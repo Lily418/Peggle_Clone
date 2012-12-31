@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using Helper;
 
-
 namespace Peggle
 {
     public class LevelStateManager : DrawableGameComponent
@@ -59,9 +58,7 @@ namespace Peggle
             }
             else if (e.action == EndRoundAction.Menu)
             {
-                EventHandlers.resetEventHandlers();
-                Game1.clearGameComponents();
-                Game1.addGameComponent(new SetupMenu());
+                NavigationHelper.goToMenu();
             }
         }
 

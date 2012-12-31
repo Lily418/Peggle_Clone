@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -18,6 +20,8 @@ namespace Peggle
         internal static KeyboardInput keyboardInput = KeyboardInput.getInstance();
 
         public static LevelStateManager levelStateManager {private set; get;}
+
+        ShutdownHandler shutdownHandler = new ShutdownHandler();
 
 
         public Game1()
@@ -51,8 +55,11 @@ namespace Peggle
             base.Initialize();
         }
 
-        protected override void UnloadContent()
+        protected override void OnExiting(Object sender, EventArgs args)
         {
+            base.OnExiting(sender, args);
+
+            ConnectedTracker.inform();
             NetworkInterface.shutdown();
         }
 

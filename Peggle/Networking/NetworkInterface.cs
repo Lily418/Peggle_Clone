@@ -17,8 +17,11 @@ namespace Networking
         static UdpClient udpClient = new UdpClient(DEFAULT_PORT);
         static Thread reciveThread = new Thread(new ThreadStart(receive));
 
+        static Dictionary<IPAddress, Packet> lastSent = new Dictionary<IPAddress, Packet>();
+
         public static void send(Packet packet, IPAddress address)
         {
+            lastSent[address] = packet;
             Byte[] sendBytes = Encoding.ASCII.GetBytes(packet.getPacket());
             udpClient.Send(sendBytes, sendBytes.Length, new IPEndPoint(address, DEFAULT_PORT));
         }
@@ -43,6 +46,8 @@ namespace Networking
                     IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, DEFAULT_PORT);
                     Byte[] receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
                     String[] packet = Encoding.ASCII.GetString(receiveBytes).Split(';');
+
+                    Console.WriteLine(Encoding.ASCII.GetString(receiveBytes));
 
                     Debug.WriteLine(packet[1]);
 
@@ -77,6 +82,18 @@ namespace Networking
                                 uint clientIdentifer = Convert.ToUInt32(dataSplit[1]);
 
                                 PacketEvents.raiseEvent(new SetupArgs(identfiers, clientIdentifer));
+                                break;
+
+                            case "ShutDownPacket":
+                                PacketEvents.raiseEvent(new ClientShutdownArgs(remoteIpEndPoint.Address));
+                                break;
+
+                            case "ResendRequestPacket":
+
+                                if (lastSent.Keys.Contains(remoteIpEndPoint.Address))
+                                {
+                                    send(lastSent[remoteIpEndPoint.Address], remoteIpEndPoint.Address);
+                                }
                                 break;
 
                         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Helper;
+using System.Diagnostics;
 
 namespace Peggle
 {
@@ -51,6 +52,7 @@ namespace Peggle
             Shooter deactivatedShooter = activeShooter;
             shooterQueue.Enqueue(activeShooter);
             activeShooter = shooterQueue.Dequeue();
+            Debug.WriteLine(activeShooter.identifier);
 
             EventHandlers.getInstance().raiseEvent(new TurnChangeArgs(activeShooter, deactivatedShooter));
             }

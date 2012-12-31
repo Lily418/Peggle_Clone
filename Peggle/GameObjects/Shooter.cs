@@ -73,6 +73,8 @@ namespace Peggle
 
                 if (nextInstruction.fireBall)
                 {
+                    Console.WriteLine("Fire Ball");
+
                     if (server != null)
                     {
                         NetworkInterface.send(new TargetAnglePacket(identifier, aimingAngle), server);
@@ -82,6 +84,8 @@ namespace Peggle
                     {
                         NetworkInterface.send(new TargetAnglePacket(identifier, aimingAngle), client);
                     }
+
+                    Console.WriteLine("Creating Ball");
 
                     ball = new Ball(this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);

@@ -12,6 +12,7 @@ namespace Networking
         public static EventHandler<PlayerRequestResponseArgs> playerRequestResponse;
         public static EventHandler<TargetAngleArgs> targetAngle;
         public static EventHandler<SetupArgs> setup;
+        public static EventHandler<ClientShutdownArgs> clientShutdown;
         
         public static void raiseEvent(EventArgs e)
         {
@@ -41,6 +42,13 @@ namespace Networking
                 if (setup != null)
                 {
                     setup("PacketEvents", (SetupArgs)e);
+                }
+            }
+            else if (e is ClientShutdownArgs)
+            {
+                if (clientShutdown != null)
+                {
+                    clientShutdown("PacketEvents", (ClientShutdownArgs)e);
                 }
             }
             else
@@ -95,6 +103,16 @@ namespace Networking
         {
             this.shooterIdentfiers = shooterIdentfiers;
             this.clientIdentfier = clientIdentfier;
+        }
+    }
+
+    public class ClientShutdownArgs : EventArgs
+    {
+        public IPAddress address;
+
+        public ClientShutdownArgs(IPAddress address)
+        {
+            this.address = address;
         }
     }
 }

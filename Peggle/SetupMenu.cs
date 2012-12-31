@@ -19,18 +19,20 @@ namespace Peggle
 
         int selectedShooterIndex = 0;
         List<KeyValuePair<String, MenuOptions>> shooterTypes = new List<KeyValuePair<String, MenuOptions>>();
-        List<Shooter> shooters = new List<Shooter>();
+        public List<Shooter> shooters { private set; get; }
 
         int selectedColorIndex = 0;
         List<Color> colors = new List<Color>();
 
-        public ConcurrentBag<KeyValuePair<System.Net.IPAddress, DateTime>> playerRequests = new ConcurrentBag<KeyValuePair<System.Net.IPAddress, DateTime>>();
+        public ConcurrentBag<PlayerRequestRecord> playerRequests = new ConcurrentBag<PlayerRequestRecord>();
 
         bool startGame = false;
 
         public SetupMenu()
             : base(Game1.game)
         {
+            shooters = new List<Shooter>();
+
             shooterTypes.Add(new KeyValuePair<string, MenuOptions>("Local Player", MenuOptions.PlayerInput));
             shooterTypes.Add(new KeyValuePair<string, MenuOptions>("AI",           MenuOptions.AI));
             shooterTypes.Add(new KeyValuePair<string, MenuOptions>("Add Network Player", MenuOptions.NetworkPlayer));
@@ -56,13 +58,22 @@ namespace Peggle
 
         public override void Update(GameTime gameTime)
         {
+            foreach (PlayerRequestRecord request in playerRequests)
+            {
+                if(DateTime.Now - request.lastResent > TimeSpan.FromSeconds(5))
+                {
+                    NetworkInterface.send(new PlayerRequest(), request.ip);
+                    request.lastResent = DateTime.Now;
+                }
+            }
+
             if (startGame)
             {
                 if (playerRequests.Count > 0)
                 {
-                    foreach (KeyValuePair<System.Net.IPAddress, DateTime> request in playerRequests)
+                    foreach (PlayerRequestRecord request in playerRequests)
                     {
-                        if (DateTime.Now - request.Value > REQUEST_TIMEOUT)
+                        if (DateTime.Now - request.firstSent > REQUEST_TIMEOUT)
                         {
                             Game1.addGameComponent(new Networking.TimeoutInterface(this, request));
                         }
@@ -160,8 +171,8 @@ namespace Peggle
 
         public void playerRequestResponseEventHandler(object sender, PlayerRequestResponseArgs e)
         {
-            IEnumerable<KeyValuePair<IPAddress, DateTime>> requests;
-            if ((requests = playerRequests.Where(req => req.Key.Equals(e.ip))) != null)
+            IEnumerable<PlayerRequestRecord> requests;
+            if ((requests = playerRequests.Where(req => req.ip.Equals(e.ip))) != null)
             {
                 if (e.answer)
                 {
@@ -169,19 +180,20 @@ namespace Peggle
                     newShooter.shooterController = new NetworkShooter(e.ip, newShooter.identifier);
                     shooters.Add(newShooter);
 
-                    foreach (KeyValuePair<IPAddress, DateTime> remove in requests)
+                    foreach (PlayerRequestRecord remove in requests)
                     {
-                        KeyValuePair<IPAddress, DateTime> copy = remove;
+                        PlayerRequestRecord copy = remove;
                         playerRequests.TryTake(out copy);
                     }
                 }
                 else
                 {
-                    foreach (KeyValuePair<IPAddress, DateTime> remove in requests)
+                    foreach (PlayerRequestRecord remove in requests)
                     {
-                        KeyValuePair<IPAddress, DateTime> copy = remove;
+                        PlayerRequestRecord copy = remove;
                         playerRequests.TryTake(out copy);
-                        new Alert(remove.Key + " rejected your request", new Vector2(10, 450), TimeSpan.FromSeconds(2), Color.Red);
+                        new Alert(remove.ip + " rejected your request", new Vector2(10, 450), TimeSpan.FromSeconds(2), Color.Red);
+                        ConnectedTracker.removeClient(remove.ip);
                     }
                 }
             }
