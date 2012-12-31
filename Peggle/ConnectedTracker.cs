@@ -32,5 +32,10 @@ namespace Peggle
                 NetworkInterface.send(new ShutDownPacket(), address);
             }
         }
+
+        public static bool contains(IPAddress address)
+        {
+            return connectedClients.Contains(address);
+        }
     }
 }

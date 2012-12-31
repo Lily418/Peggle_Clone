@@ -18,8 +18,11 @@ namespace Peggle
 
         public void shutdownEventHandler(object sender, ClientShutdownArgs e)
         {
-            NavigationHelper.goToMenu();
-            new Alert("Player Exited", new Vector2(DrawHelper.getInstance().centerX("Player Exited"), 450), TimeSpan.FromSeconds(5), Color.Red); 
+            if (ConnectedTracker.contains(e.address))
+            {
+                NavigationHelper.goToMenu();
+                new Alert("Player Exited", new Vector2(DrawHelper.getInstance().centerX("Player Exited"), 450), TimeSpan.FromSeconds(5), Color.Red);
+            }
         }
     }
 }

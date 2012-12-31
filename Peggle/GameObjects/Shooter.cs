@@ -36,7 +36,7 @@ namespace Peggle
         public IPAddress server;
         public List<IPAddress> clients = new List<IPAddress>();
 
-        public Shooter(Color color, IShooterController controller, String name, IPAddress server = null)
+        public Shooter(Color color, IShooterController controller, String name, IPAddress server = null, uint? identifer = null)
             : base(Game1.game)
         {
             this.server = server;
@@ -51,7 +51,14 @@ namespace Peggle
 
             targets = new List<Target>();
 
-            identifier = shootersCreated++;
+            if (identifer == null)
+            {
+                identifier = shootersCreated++;
+            }
+            else
+            {
+                this.identifier = (uint)identifer;
+            }
         }
 
         public bool processInput(GameTime gameTime)

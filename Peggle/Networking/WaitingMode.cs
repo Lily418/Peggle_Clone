@@ -38,15 +38,16 @@ namespace Networking
             {
                 if (identifier != e.clientIdentfier)
                 {
-                    shooters.Add(new Shooter(Color.Red, new NetworkShooter(serverIP, identifier), "Shooter 1"));
+                    shooters.Add(new Shooter(Color.Red, new NetworkShooter(serverIP, identifier), "Shooter 1 ", null, identifier));
                 }
                 else
                 {
-                    Shooter playerShooter;
-                    shooters.Add(playerShooter = new Shooter(Color.Blue, PlayerInput.getInstance(), "Player"));
-                    playerShooter.server = serverIP;
+                    shooters.Add(new Shooter(Color.Blue, PlayerInput.getInstance(), "Player ", serverIP, identifier));
                 }
             }
+
+            Game1.removeGameComponent(this);
+            Dialog.returnControl(this);
 
             Game1.setLevelManager(new LevelStateManager(shooters));
             Game1.levelStateManager.loadLevel();

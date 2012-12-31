@@ -14,10 +14,11 @@ namespace Networking
     static class NetworkInterface
     {
         const int DEFAULT_PORT = 10823;
-        static UdpClient udpClient = new UdpClient(DEFAULT_PORT);
+        static UdpClient udpClient;
         static Thread reciveThread = new Thread(new ThreadStart(receive));
 
         static Dictionary<IPAddress, Packet> lastSent = new Dictionary<IPAddress, Packet>();
+
 
         public static void send(Packet packet, IPAddress address)
         {
@@ -28,6 +29,14 @@ namespace Networking
 
         public static void startRecivingPackets()
         {
+            try
+            {
+                udpClient = new UdpClient(DEFAULT_PORT);
+            }
+            catch (SocketException)
+            {
+                System.Windows.Forms.MessageBox.Show("Could not bind port " + DEFAULT_PORT + " is another instance running? If not then there may be another program using this port");
+            }
             reciveThread.Start();
         }
 

@@ -29,7 +29,6 @@ namespace Peggle
                 if (Math.Abs(shooter.aimingAngle - (float)targetPosition) < 0.005f)
                 {
                     targetPosition = null;
-                    Debug.WriteLine("Shoot");
                     return new ShooterInstructions(0.0f, true);
                 }
                 else
@@ -45,8 +44,7 @@ namespace Peggle
 
         public void targetAngleEventHandler(object sender, TargetAngleArgs e)
         {
-            //TODO::Check these identifiers
-            Console.WriteLine("Identifiers " + e.identifer +" "+ identifier);
+            Console.WriteLine(e.identifer + " " + identifier);
 
             if (e.identifer == identifier)
             {
