@@ -5,7 +5,7 @@ using System.Text;
 using Peggle;
 using Microsoft.Xna.Framework;
 
-namespace Networking
+namespace Peggle.Networking
 {
     class SetupPacket : Packet
     {

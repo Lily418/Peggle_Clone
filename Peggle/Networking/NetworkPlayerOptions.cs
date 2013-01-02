@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework.Input;
 using Helper;
 using System.Diagnostics;
 using System.Net;
-using Networking;
+using Peggle;
 
-namespace Peggle
+namespace Peggle.Networking
 {
     class NetworkPlayerOptions : DrawableGameComponent
     {

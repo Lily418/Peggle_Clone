@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Networking;
+using Peggle.Networking;
 using Helper;
 using System.Diagnostics;
 

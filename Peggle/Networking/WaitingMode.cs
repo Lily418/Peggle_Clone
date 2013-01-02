@@ -8,7 +8,7 @@ using Helper;
 using System.Net;
 using System.Diagnostics;
 
-namespace Networking
+namespace Peggle.Networking
 {
     class WaitingMode : DrawableGameComponent
     {

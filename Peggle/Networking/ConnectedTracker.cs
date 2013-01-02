@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
-using Networking;
 
-namespace Peggle
+namespace Peggle.Networking
 {
     static class ConnectedTracker
     {

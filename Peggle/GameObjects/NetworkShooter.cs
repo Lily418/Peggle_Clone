@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Net;
-using Networking;
+using Peggle.Networking;
 using System.Diagnostics;
 
 namespace Peggle

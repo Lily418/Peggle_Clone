@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Networking;
+using Peggle.Networking;
 using System.Diagnostics;
 using Helper;
 
-namespace Peggle
+namespace Peggle.Networking
 {
     class ShutdownHandler
     {

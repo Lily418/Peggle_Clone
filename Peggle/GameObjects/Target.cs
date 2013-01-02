@@ -55,8 +55,6 @@ namespace Peggle
         }
 
         public abstract Shape boundingBox();
-       
 
-   
     }
 }

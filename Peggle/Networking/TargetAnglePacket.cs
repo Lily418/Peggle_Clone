@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Networking;
+using Peggle.Networking;
 
-namespace Networking
+namespace Peggle.Networking
 {
     public class TargetAnglePacket : Packet
     {

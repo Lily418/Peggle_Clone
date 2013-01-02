@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Helper;
+using Peggle.Networking;
 
 namespace Peggle
 {

@@ -10,7 +10,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Helper;
 
-namespace Networking
+namespace Peggle.Networking
 {
     static class NetworkInterface
     {

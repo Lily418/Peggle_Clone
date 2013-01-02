@@ -5,7 +5,7 @@ using System.Text;
 using System.Net;
 using Microsoft.Xna.Framework;
 
-namespace Networking
+namespace Peggle.Networking
 {
     class PacketEvents
     {

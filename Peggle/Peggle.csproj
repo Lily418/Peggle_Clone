@@ -112,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alert.cs" />
-    <Compile Include="ConnectedTracker.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="GameObjects\EndLevelOverlay.cs" />
     <Compile Include="EventHandlers.cs" />
@@ -120,18 +119,27 @@
     <Compile Include="GameObjects\Ball.cs" />
     <Compile Include="GameObjects\CircularTarget.cs" />
     <Compile Include="GameObjects\CurveTarget.cs" />
+    <Compile Include="GameObjects\IEntity.cs" />
     <Compile Include="GameObjects\IShooterController.cs" />
+    <Compile Include="GameObjects\Level.cs" />
+    <Compile Include="GameObjects\LevelLoader.cs" />
+    <Compile Include="GameObjects\LevelStateManager.cs" />
+    <Compile Include="GameObjects\NavigationHelper.cs" />
     <Compile Include="GameObjects\NetworkShooter.cs" />
     <Compile Include="GameObjects\PlayerInputShooterController.cs" />
     <Compile Include="GameObjects\Score.cs" />
+    <Compile Include="GameObjects\SetupMenu.cs" />
     <Compile Include="GameObjects\Shooter.cs" />
     <Compile Include="GameObjects\ShooterControllerHelper.cs" />
     <Compile Include="GameObjects\ShooterInstructions.cs" />
+    <Compile Include="GameObjects\ShootSimulator.cs" />
     <Compile Include="GameObjects\Target.cs" />
+    <Compile Include="GameObjects\TurnManager.cs" />
     <Compile Include="Geometry\Circle.cs" />
     <Compile Include="Geometry\Curve.cs" />
     <Compile Include="Geometry\CurvedBrick.cs" />
     <Compile Include="Geometry\Line.cs" />
+    <Compile Include="Geometry\PolarCoordinate.cs" />
     <Compile Include="Geometry\Quad.cs" />
     <Compile Include="Geometry\QuadCollection.cs" />
     <Compile Include="Geometry\Shape.cs" />
@@ -145,15 +153,10 @@
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\VectorComparer.cs" />
     <Compile Include="Helpers\VectorHelper.cs" />
-    <Compile Include="IEntity.cs" />
     <Compile Include="IShallowClone.cs" />
     <Compile Include="KeyboardInput.cs" />
-    <Compile Include="Level.cs" />
-    <Compile Include="LevelLoader.cs" />
-    <Compile Include="LevelStateManager.cs" />
-    <Compile Include="NavigationHelper.cs" />
     <Compile Include="Networking\ClientMode.cs" />
-    <Compile Include="Networking\ClientNotify.cs" />
+    <Compile Include="Networking\ConnectedTracker.cs" />
     <Compile Include="Networking\PlayerRequest.cs" />
     <Compile Include="Networking\NetworkInterface.cs" />
     <Compile Include="Networking\NetworkPlayerOptions.cs" />
@@ -173,14 +176,10 @@
     <Compile Include="Physics\IEntityPhysics.cs" />
     <Compile Include="Physics\PhysicsProcessing.cs" />
     <Compile Include="Physics\PhysicsSettings.cs" />
-    <Compile Include="PolarCoordinate.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="SetupMenu.cs" />
-    <Compile Include="ShootSimulator.cs" />
-    <Compile Include="TurnManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

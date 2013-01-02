@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Helper;
-using Networking;
+using Peggle.Networking;
 using System.Net;
 
 #if DEBUG

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Helper;
 using System.Diagnostics;
-using Networking;
+using Peggle.Networking;
 using System.Threading;
 using System.Net;
 using System.Collections.Concurrent;

@@ -5,11 +5,11 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Helper;
-using Networking;
+using Peggle;
 using System.Net;
 using System.Diagnostics;
 
-namespace Peggle
+namespace Peggle.Networking
 {
     class ClientMode : DrawableGameComponent
     {
