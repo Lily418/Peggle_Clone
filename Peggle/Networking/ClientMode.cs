@@ -31,6 +31,7 @@ namespace Peggle
             if (requests.Count == 0)
             {
                 dh.sb.DrawString(dh.font, "Waiting for Connection", new Vector2(10, 10), Color.White);
+                dh.sb.DrawString(dh.font, "Cancel - Esc", new Vector2(10, 30), Color.White);
             }
             else
             {
@@ -44,9 +45,10 @@ namespace Peggle
 
         public override void Update(GameTime gameTime)
         {
+            KeyboardInput.KeyboardButtons keyboardButtons = KeyboardInput.getInstance().buttonStates;
             if (requests.Count != 0)
             {
-                KeyboardInput.KeyboardButtons keyboardButtons = KeyboardInput.getInstance().buttonStates;
+               
                 if (keyboardButtons.keyPresses[Keys.Enter] == KeyboardInput.KeyboardActions.Pressed)
                 {
                     ConnectedTracker.addClient(requests[0].Key);
@@ -60,6 +62,13 @@ namespace Peggle
                     requests.RemoveAt(0);
                 }
 
+            }
+            else
+            {
+                if (keyboardButtons.keyPresses[Keys.Escape] == KeyboardInput.KeyboardActions.Pressed)
+                {
+                    NavigationHelper.goToMenu();
+                }
             }
         }
 

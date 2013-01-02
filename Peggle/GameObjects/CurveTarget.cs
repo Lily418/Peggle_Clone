@@ -12,9 +12,8 @@ namespace Peggle
         public CurveTarget(CurvedBrick position) : base()
         {
             this.position = position;
-            leftLine = Line.getLineFromPoints(position.upperCurve.p0, position.lowerCurve.p0);
+            leftLine  = Line.getLineFromPoints(position.upperCurve.p0, position.lowerCurve.p0);
             rightLine = Line.getLineFromPoints(position.upperCurve.p2, position.lowerCurve.p2);
-
         }
 
         public override void Draw(GameTime gameTime)

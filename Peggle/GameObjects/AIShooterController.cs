@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
-using System.Threading;
 using Helper;
 
 namespace Peggle
 {
     class AI : IShooterController
     {
-        //This number was choosen to make the amount of checks equal to the amount of positions the player can move into
         const int NO_SHOTS_SIMULATED = 20;
+        const float MOVEMENT_SPEED = 0.02f;
 
         float? targetPosition = null;
-        const float MOVEMENT_SPEED = 0.02f;
 
         readonly TimeSpan AiWait = TimeSpan.FromSeconds(0.5);
         TimeSpan currentWait = TimeSpan.Zero;
@@ -56,9 +54,7 @@ namespace Peggle
 
             for (float angle = Shooter.MIN_ROTATION; angle < Shooter.MAX_ROTATION; angle += interval)
             {
-                DateTime start = DateTime.Now;
                 possibleShots.enqueue(new KeyValuePair<int, float>(new ShootSimulator(currentElapsedTime, shooter, angle).actionValue, angle));
-                //Debug.WriteLine(angle + " " + (DateTime.Now - start));
             }
 
             List<KeyValuePair<int, float>> bestShots = possibleShots.getBaseStorage().FindAll(shot => shot.Key == possibleShots.last().Key);

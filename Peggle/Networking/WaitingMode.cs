@@ -14,7 +14,6 @@ namespace Networking
     {
         List<Shooter> shooters = new List<Shooter>();
         IPAddress serverIP;
-        DateTime lastSent = DateTime.Now;
         public WaitingMode(IPAddress serverIP) : base(Game1.game)
         {
             this.serverIP = serverIP;
@@ -22,27 +21,17 @@ namespace Networking
             Dialog.gainControl(this);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            if (DateTime.Now - lastSent > TimeSpan.FromSeconds(5))
-            {
-                NetworkInterface.send(new ResendRequestPacket(), serverIP);
-                lastSent = DateTime.Now;
-            }
-
-        }
-
         public void setupRequestEventHandler(object sender, SetupArgs e)
         {
-            foreach (uint identifier in e.shooterIdentfiers)
+            foreach (KeyValuePair<uint, Color> identifier in e.shooterIdentfiers)
             {
-                if (identifier != e.clientIdentfier)
+                if (identifier.Key != e.clientIdentfier)
                 {
-                    shooters.Add(new Shooter(Color.Red, new NetworkShooter(serverIP, identifier), "Shooter 1 ", null, identifier));
+                    shooters.Add(new Shooter(identifier.Value, new NetworkShooter(serverIP, identifier.Key), "Shooter " + identifier.Key, null, identifier.Key));
                 }
                 else
                 {
-                    shooters.Add(new Shooter(Color.Blue, PlayerInput.getInstance(), "Player ", serverIP, identifier));
+                    shooters.Add(new Shooter(identifier.Value, PlayerInput.getInstance(), "Player " , serverIP, identifier.Key));
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Helper;
 using System.Diagnostics;
 
@@ -21,7 +22,8 @@ namespace Peggle
             float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
 
 
-            newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8f), (MathHelper.Pi / 8f), RandomHelper.randomNormalDistributedFloat());
+            float randomFloat;
+            newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8f), (MathHelper.Pi / 8f), randomFloat = RandomHelper.randomNormalDistributedFloat());
 
             e.collidingObject.boundingBox().translate(new PolarCoordinate(e.penetration, newOrigin).toCartesian());
 

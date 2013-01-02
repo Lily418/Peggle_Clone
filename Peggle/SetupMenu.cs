@@ -145,11 +145,13 @@ namespace Peggle
                             break;
 
                         case MenuOptions.PlayerInput:
-                            shooters.Add(new Shooter(colors[selectedColorIndex], PlayerInput.getInstance(), "Player " + (shooters.Count + 1)));
+                            shooters.Add(new Shooter(colors[selectedColorIndex], PlayerInput.getInstance(), "Player "));
                             break;
 
                         case MenuOptions.AI:
-                            shooters.Add(new Shooter(colors[selectedColorIndex], new AI(), "AI " + (shooters.Count + 1)));
+                            Shooter shooter;
+                            shooters.Add(shooter = new Shooter(colors[selectedColorIndex], new AI(), "Shooter "));
+                            shooter.shooterName += shooter.identifier;
                             break;
                         case MenuOptions.ClientMode:
                             Game1.removeGameComponent(this);
@@ -176,7 +178,8 @@ namespace Peggle
             {
                 if (e.answer)
                 {
-                    Shooter newShooter = new Shooter(Color.Red, null, "Network Player");
+                    Shooter newShooter = new Shooter(Color.Red, null, "Shooter ");
+                    newShooter.shooterName += newShooter.identifier;
                     newShooter.shooterController = new NetworkShooter(e.ip, newShooter.identifier);
                     shooters.Add(newShooter);
 

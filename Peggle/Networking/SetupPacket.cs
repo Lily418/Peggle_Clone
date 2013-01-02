@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Peggle;
+using Microsoft.Xna.Framework;
 
 namespace Networking
 {
@@ -12,11 +13,16 @@ namespace Networking
         {
             foreach (Shooter shooter in shooters)
             {
-                data += shooter.identifier + ",";
+                data += shooter.identifier + "@" + colorToString(shooter.color) + ",";
             }
 
             data = data.TrimEnd(',');
             data += "#" + clientsShooter.identifier;
+        }
+
+        private String colorToString(Color color)
+        {
+            return color.R + "^" + color.G + "^" + color.B;
         }
 
         protected override string getType()

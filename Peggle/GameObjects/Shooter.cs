@@ -26,7 +26,7 @@ namespace Peggle
 
         public float aimingAngle { private set; get; }
         public Color color { private set; get; }
-        public String shooterName { private set; get; }
+        public String shooterName { set; get; }
         Rectangle basePosition = new Rectangle(210, 0, 80, 20);
         public IShooterController shooterController;
         Ball ball = null;
@@ -70,7 +70,6 @@ namespace Peggle
             {
                 Debug.WriteLine("Shooter Angle:" + aimingAngle);
             }
-
 #endif
 
             if (ball == null)
@@ -80,7 +79,6 @@ namespace Peggle
 
                 if (nextInstruction.fireBall)
                 {
-                    Console.WriteLine("Fire Ball");
 
                     if (server != null)
                     {
@@ -91,8 +89,6 @@ namespace Peggle
                     {
                         NetworkInterface.send(new TargetAnglePacket(identifier, aimingAngle), client);
                     }
-
-                    Console.WriteLine("Creating Ball");
 
                     ball = new Ball(this, calculateBallStartingLocation(aimingAngle), aimingAngle);
                     Game1.addGameComponent(ball);

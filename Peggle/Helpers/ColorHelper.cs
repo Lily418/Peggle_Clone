@@ -27,10 +27,12 @@ namespace Helper
             return newByte;
         }
 
-        public static Color parseColorString(String colorString)
+        public static Color parseColorString(String colorString, char split = ',')
         {
-            String[] splitString = colorString.Split(',');
+            String[] splitString = colorString.Split(split);
             return new Color(splitString[0].toByte(), splitString[1].toByte(), splitString[2].toByte());
         }
+
+        
     }
 }

@@ -15,7 +15,7 @@ namespace Peggle
 
         public override void Update(GameTime gameTime)
         {
-            const int LOOPS = 8;
+            const int LOOPS = 2;
             for (int i = 0; i < LOOPS; i++)
             {
                 //Gravity must be applied before collision check, otherwise gravity will cause entities to move inside other entites.
@@ -36,13 +36,6 @@ namespace Peggle
                     moveableEntity.boundingBox().translate(moveableEntity.velocity / LOOPS);
                 }
             }
-
-            
-
-            
-
-
         }
-
     }
 }

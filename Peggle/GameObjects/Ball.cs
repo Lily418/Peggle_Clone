@@ -22,9 +22,8 @@ namespace Peggle
             this.location = startingLocation;
 
             maxSpeed = PhysicsSettings.MAX_BALL_SPEED;
-            color = RandomHelper.randomBasicColor();
+            color    = RandomHelper.randomBasicColor();
             velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, angle).toCartesian();
-            //velocity = new PolarCoordinate(PhysicsSettings.MAX_BALL_SPEED, 1.76359f + MathHelper.PiOver2).toCartesian();
         }
 
         public override void Update(GameTime gameTime)
@@ -49,7 +48,6 @@ namespace Peggle
         {
             return location;
         }
-
 
         public bool enabled()
         {

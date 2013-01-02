@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Helper;
 
 namespace Networking
@@ -56,10 +57,6 @@ namespace Networking
                     Byte[] receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
                     String[] packet = Encoding.ASCII.GetString(receiveBytes).Split(';');
 
-                    Console.WriteLine(Encoding.ASCII.GetString(receiveBytes));
-
-                    Debug.WriteLine(packet[1]);
-
                     if (checkChecksum(packet))
                     {
                         switch (packet[1])
@@ -74,18 +71,18 @@ namespace Networking
 
                             case "TargetAnglePacket":
                                 String[] targetPacketSplit = packet[2].Split(',');
-                                Debug.WriteLine(packet[2]);
                                 PacketEvents.raiseEvent(new TargetAngleArgs(Convert.ToUInt32(targetPacketSplit[0]), Convert.ToSingle(targetPacketSplit[1])));
                                 break;
 
                             case "SetupPacket":
                                 String[] dataSplit = packet[2].Split('#');
-                                List<uint> identfiers = new List<uint>();
+                                var identfiers = new List<KeyValuePair<uint, Color>>();
                                 String[] identfierStrings = dataSplit[0].Split(',');
 
-                                foreach (String intString in identfierStrings)
+                                foreach (String str in identfierStrings)
                                 {
-                                    identfiers.Add(Convert.ToUInt32(intString));
+                                    String[] identiferSplit = str.Split('@');
+                                    identfiers.Add(new KeyValuePair<uint, Color>(Convert.ToUInt32(identiferSplit[0]), ColorHelper.parseColorString(identiferSplit[1], '^')));
                                 }
 
                                 uint clientIdentifer = Convert.ToUInt32(dataSplit[1]);

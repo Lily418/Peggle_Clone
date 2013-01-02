@@ -52,11 +52,5 @@ namespace Peggle
 
             return new ShooterInstructions(shooterMovement, fireBall);
         }
-
-
-
     }
-
-
-
 }

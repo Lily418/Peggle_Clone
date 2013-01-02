@@ -48,6 +48,7 @@ namespace Peggle
 
             float labelX = background.X + background.Width * 0.1f;
             float labelY = background.Y + background.Height * 0.2f;
+
             foreach (Score score in Game1.getComponents().OfType<Score>())
             {
                 dh.sb.DrawString(dh.font, score.label.PadRight(10) + " " + score.score, new Vector2(labelX, labelY), Color.White);

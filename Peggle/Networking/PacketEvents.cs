@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
+using Microsoft.Xna.Framework;
 
 namespace Networking
 {
@@ -96,10 +97,10 @@ namespace Networking
 
     public class SetupArgs : EventArgs
     {
-        public List<uint> shooterIdentfiers;
+        public List<KeyValuePair<uint, Color>> shooterIdentfiers;
         public uint clientIdentfier;
 
-        public SetupArgs(List<uint> shooterIdentfiers, uint clientIdentfier)
+        public SetupArgs(List<KeyValuePair<uint, Color>> shooterIdentfiers, uint clientIdentfier)
         {
             this.shooterIdentfiers = shooterIdentfiers;
             this.clientIdentfier = clientIdentfier;

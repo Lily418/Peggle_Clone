@@ -44,8 +44,6 @@ namespace Peggle
 
         public void targetAngleEventHandler(object sender, TargetAngleArgs e)
         {
-            Console.WriteLine(e.identifer + " " + identifier);
-
             if (e.identifer == identifier)
             {
                 targetPosition = e.angle;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ namespace Peggle
 
         public LevelStateManager(List<Shooter>shooters) : base (Game1.game)
         {
+            RandomHelper.bounceRandom = new Random(0);
             roundsRemaining = MAX_ROUNDS;
             EventHandlers.getInstance().ballFallen += ballFallenEventHandler;
             EventHandlers.getInstance().levelResetRequest += levelResetRequestHander;
@@ -25,8 +27,6 @@ namespace Peggle
         {
             int players = currentLevel.turnManager.noOfPlayers();
             int turns   = currentLevel.turnManager.turnCount;
-
-            Debug.WriteLine(players +" "+turns);
 
             if (turns % players == 0)
             {
@@ -53,6 +53,7 @@ namespace Peggle
         {
             if (e.action == EndRoundAction.Reset)
             {
+                RandomHelper.bounceRandom = new Random(0);
                 roundsRemaining = MAX_ROUNDS;
                 loadLevel();
             }

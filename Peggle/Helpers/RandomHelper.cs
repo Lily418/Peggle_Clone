@@ -6,8 +6,8 @@ namespace Helper
 {
     static class RandomHelper
     {
-        readonly static Random random = new Random();
-        readonly static Random bounceRandom = new Random(0);
+        readonly static Random random       = new Random();
+        public static Random bounceRandom = new Random(0);
 
         public static Random getRandom()
         {
