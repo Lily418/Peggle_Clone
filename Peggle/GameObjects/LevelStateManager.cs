@@ -12,11 +12,10 @@ namespace Peggle
         public Level currentLevel { private set; get; }
         public int roundsRemaining   { private set; get; }
 
-        const int MAX_ROUNDS = 2;
+        const int MAX_ROUNDS = 3;
 
         public LevelStateManager(List<Shooter>shooters) : base (Game1.game)
         {
-            RandomHelper.bounceRandom = new Random(0);
             roundsRemaining = MAX_ROUNDS;
             EventHandlers.getInstance().ballFallen += ballFallenEventHandler;
             EventHandlers.getInstance().levelResetRequest += levelResetRequestHander;
@@ -53,7 +52,6 @@ namespace Peggle
         {
             if (e.action == EndRoundAction.Reset)
             {
-                RandomHelper.bounceRandom = new Random(0);
                 roundsRemaining = MAX_ROUNDS;
                 loadLevel();
             }

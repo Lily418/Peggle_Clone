@@ -7,7 +7,6 @@ namespace Helper
     static class RandomHelper
     {
         readonly static Random random       = new Random();
-        public static Random bounceRandom = new Random(0);
 
         public static Random getRandom()
         {
@@ -32,7 +31,7 @@ namespace Helper
 
         public static float randomNormalDistributedFloat()
         {
-            int distributionSubset = bounceRandom.Next(100);
+            int distributionSubset = random.Next(100);
 
             if (distributionSubset < 2)                  
             {
@@ -81,7 +80,7 @@ namespace Helper
 
         public static float randomFloat(float min, float max)
         {
-            return (float)bounceRandom.NextDouble() * (max - min) + min;
+            return (float)random.NextDouble() * (max - min) + min;
         }
 
         

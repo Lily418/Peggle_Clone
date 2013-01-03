@@ -58,10 +58,12 @@ namespace Peggle
 
         public override void Update(GameTime gameTime)
         {
+           
             foreach (PlayerRequestRecord request in playerRequests)
             {
                 if(DateTime.Now - request.lastResent > TimeSpan.FromSeconds(5))
                 {
+                    Debug.WriteLine("Resending");
                     NetworkInterface.send(new PlayerRequest(), request.ip);
                     request.lastResent = DateTime.Now;
                 }

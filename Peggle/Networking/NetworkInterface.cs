@@ -57,6 +57,8 @@ namespace Peggle.Networking
                     Byte[] receiveBytes = udpClient.Receive(ref remoteIpEndPoint);
                     String[] packet = Encoding.ASCII.GetString(receiveBytes).Split(';');
 
+                    Debug.WriteLine(packet[0] + packet[1] + packet[2]);
+
                     if (checkChecksum(packet))
                     {
                         switch (packet[1])

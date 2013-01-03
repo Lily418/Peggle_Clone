@@ -21,10 +21,6 @@ namespace Peggle
 
             float newOrigin = bounceAngle(collidingObjectPolar.origin, e.hitObjectAngle);
 
-
-            float randomFloat;
-            newOrigin += MyMathHelper.shiftRange(-(MathHelper.Pi / 8f), (MathHelper.Pi / 8f), randomFloat = RandomHelper.randomNormalDistributedFloat());
-
             e.collidingObject.boundingBox().translate(new PolarCoordinate(e.penetration, newOrigin).toCartesian());
 
             float newRadius = collidingObjectPolar.radius;

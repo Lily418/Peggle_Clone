@@ -8,7 +8,7 @@ namespace Peggle
 {
     class AI : IShooterController
     {
-        const int NO_SHOTS_SIMULATED = 20;
+        const int NO_SHOTS_SIMULATED = 60;
         const float MOVEMENT_SPEED = 0.02f;
 
         float? targetPosition = null;
